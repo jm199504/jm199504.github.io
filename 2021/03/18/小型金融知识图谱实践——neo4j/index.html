@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>小型金融知识图谱实践——neo4j | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="概述：小型金融知识图谱实践——neo4j">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小型金融知识图谱实践——neo4j">
+<meta property="og:url" content="http://example.com/2021/03/18/%E5%B0%8F%E5%9E%8B%E9%87%91%E8%9E%8D%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E5%AE%9E%E8%B7%B5%E2%80%94%E2%80%94neo4j/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="概述：小型金融知识图谱实践——neo4j">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://img.shields.io/static/v1?label=Author&message=jm199504&color=green">
+<meta property="og:image" content="https://img.shields.io/static/v1?label=Languages&message=python3.6+&color=orange">
+<meta property="og:image" content="https://img.shields.io/static/v1?label=LastUpdateTime&message=2021.03.14+&color=lightgrey">
+<meta property="og:image" content="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/basic_info.png?raw=true">
+<meta property="og:image" content="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/holders.png?raw=true">
+<meta property="og:image" content="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/concept.png?raw=true">
+<meta property="og:image" content="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/notices.png?raw=true">
+<meta property="og:image" content="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/news.png?raw=true">
+<meta property="og:image" content="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/concept_list.png?raw=true">
+<meta property="og:image" content="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/szsh.png?raw=true">
+<meta property="og:image" content="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/price.png?raw=true">
+<meta property="og:image" content="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/pcc.png?raw=true">
+<meta property="og:image" content="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/create_node.png?raw=true">
+<meta property="og:image" content="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/create_releationship.png?raw=true">
+<meta property="og:image" content="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/corr_node.png?raw=true">
+<meta property="og:image" content="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/corr_node_with_return.png?raw=true">
+<meta property="og:image" content="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/nodes_pcc.png?raw=true">
+<meta property="og:image" content="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/aaa.png?raw=true">
+<meta property="og:image" content="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/cn.png?raw=true">
+<meta property="og:image" content="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/ra.png?raw=true">
+<meta property="og:image" content="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/tn.png?raw=true">
+<meta property="article:published_time" content="2021-03-18T10:55:30.000Z">
+<meta property="article:modified_time" content="2021-04-02T01:57:38.837Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.shields.io/static/v1?label=Author&message=jm199504&color=green">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-小型金融知识图谱实践——neo4j" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/18/%E5%B0%8F%E5%9E%8B%E9%87%91%E8%9E%8D%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E5%AE%9E%E8%B7%B5%E2%80%94%E2%80%94neo4j/" class="article-date">
+  <time class="dt-published" datetime="2021-03-18T10:55:30.000Z" itemprop="datePublished">2021-03-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Study/">Study</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      小型金融知识图谱实践——neo4j
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>概述：小型金融知识图谱实践——neo4j</p>
+<span id="more"></span>
+
+<h2 id="小型金融知识图谱实践——neo4j"><a href="#小型金融知识图谱实践——neo4j" class="headerlink" title="小型金融知识图谱实践——neo4j"></a>小型金融知识图谱实践——neo4j</h2><p><img src="https://img.shields.io/static/v1?label=Author&message=jm199504&color=green" alt="author"><br><img src="https://img.shields.io/static/v1?label=Languages&message=python3.6+&color=orange" alt="language"><br><img src="https://img.shields.io/static/v1?label=LastUpdateTime&message=2021.03.14+&color=lightgrey" alt="lastupdatetime"></p>
+<h2 id="1-知识图谱存储方式"><a href="#1-知识图谱存储方式" class="headerlink" title="1. 知识图谱存储方式"></a>1. 知识图谱存储方式</h2><p>知识图谱存储方式主要包含资源描述框架(Resource Description Framework，RDF)和图数据库（Graph Database）。</p>
+<h3 id="1-1-资源描述框架特性"><a href="#1-1-资源描述框架特性" class="headerlink" title="1.1 资源描述框架特性"></a>1.1 资源描述框架特性</h3><ul>
+<li>存储为三元组（Triple）</li>
+<li>标准的推理引擎</li>
+<li>W3C标准</li>
+<li>易于发布数据</li>
+<li>多数为学术界场景</li>
+</ul>
+<h3 id="1-2-图数据库特性"><a href="#1-2-图数据库特性" class="headerlink" title="1.2 图数据库特性"></a>1.2 图数据库特性</h3><ul>
+<li>节点和关系均可以包含属性</li>
+<li>没有标准的推理引擎</li>
+<li>图的遍历效率高</li>
+<li>事务管理</li>
+<li>多数为工业界场景</li>
+</ul>
+<hr>
+<h2 id="2-图数据库neo4j"><a href="#2-图数据库neo4j" class="headerlink" title="2. 图数据库neo4j"></a>2. 图数据库neo4j</h2><p>neo4j是一款NoSQL图数据库，具备高性能的读写可扩展性，基于高效的图形查询语言<code>Cypher</code>，更多介绍可访问<a target="_blank" rel="noopener" href="https://neo4j.com/">neo4j官网</a>，官网还提供了<a target="_blank" rel="noopener" href="https://neo4j.com/sandbox/">Online Sandbox</a>实现快速上手体验。</p>
+<h3 id="2-1-软件下载"><a href="#2-1-软件下载" class="headerlink" title="2.1 软件下载"></a>2.1 软件下载</h3><p>下载链接：<a target="_blank" rel="noopener" href="https://neo4j.com/download-center/">https://neo4j.com/download-center/</a></p>
+<h3 id="2-2-启动登录"><a href="#2-2-启动登录" class="headerlink" title="2.2 启动登录"></a>2.2 启动登录</h3><ul>
+<li>进入neo4j目录</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd neo4j&#x2F;bin</span><br><span class="line">.&#x2F;neo4j start</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>启动成功，终端会提示：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Starting Neo4j.Started neo4j (pid 30914). It is available at http:&#x2F;&#x2F;localhost:7474&#x2F; There may be a short delay until the server is ready.</span><br></pre></td></tr></table></figure>
+
+<p>（1）访问页面：<a target="_blank" rel="noopener" href="http://localhost:7474/">http://localhost:7474</a></p>
+<p>（2）初始账户和密码均为<code>neo4j</code>（<code>host</code>类型选择<code>bolt</code>）</p>
+<p>（3）输入旧密码并输入新密码：启动前注意本地已安装<code>jdk</code>（建议安装<code>jdk</code>版本11）：<a target="_blank" rel="noopener" href="https://www.oracle.com/java/technologies/javase-downloads.html">https://www.oracle.com/java/technologies/javase-downloads.html</a></p>
+<h3 id="2-3-可能遇到问题及解决方法"><a href="#2-3-可能遇到问题及解决方法" class="headerlink" title="2.3 可能遇到问题及解决方法"></a>2.3 可能遇到问题及解决方法</h3><ul>
+<li>问题：完成安装JDK1.8.0_261后，在启动neo4j过程中出现了以下问题：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Unable to find any JVMs matching version &quot;11&quot;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>解决方案：提示安装<code>jdk 11 version</code>，于是下载了<code>jdk-11.0.8</code>，<code>Mac OS</code>可通过<code>ls -la /Library/Java/JavaVirtualMachines/</code>查看已安装的<code>jdk</code>及版本信息。</li>
+</ul>
+<hr>
+<h2 id="3-知识图谱数据准备"><a href="#3-知识图谱数据准备" class="headerlink" title="3. 知识图谱数据准备"></a>3. 知识图谱数据准备</h2><h3 id="3-1-数据接口"><a href="#3-1-数据接口" class="headerlink" title="3.1 数据接口"></a>3.1 数据接口</h3><p>免费开源金融数据接口：<br>Tip: Tushare免费账号可能无法拉取数据，可参考issues提供的股票数据获取方法: <a target="_blank" rel="noopener" href="https://github.com/jm199504/Financial-Knowledge-Graphs/issues/2#issuecomment-801732782">https://github.com/jm199504/Financial-Knowledge-Graphs/issues/2#issuecomment-801732782</a></p>
+<h4 id="3-1-1-Tushare"><a href="#3-1-1-Tushare" class="headerlink" title="3.1.1 Tushare"></a>3.1.1 Tushare</h4><p>官网链接：<a target="_blank" rel="noopener" href="http://www.tushare.org/">http://www.tushare.org/</a></p>
+<h4 id="3-1-2-JointQuant"><a href="#3-1-2-JointQuant" class="headerlink" title="3.1.2 JointQuant"></a>3.1.2 JointQuant</h4><p>官网链接：<a target="_blank" rel="noopener" href="https://www.joinquant.com/">https://www.joinquant.com/</a></p>
+<h4 id="3-1-3-导入模块"><a href="#3-1-3-导入模块" class="headerlink" title="3.1.3 导入模块"></a>3.1.3 导入模块</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tushare <span class="keyword">as</span> ts  <span class="comment"># 参考Tushare官网提供的安装方式</span></span><br><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="comment"># 以下pro_api token可能已过期，可自行前往申请或者使用免费版本</span></span><br><span class="line">pro = ts.pro_api(<span class="string">&#x27;4340a981b3102106757287c11833fc14e310c4bacf8275f067c9b82d&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-2-数据预处理"><a href="#3-2-数据预处理" class="headerlink" title="3.2 数据预处理"></a>3.2 数据预处理</h3><h4 id="3-2-1-股票基本信息"><a href="#3-2-1-股票基本信息" class="headerlink" title="3.2.1 股票基本信息"></a>3.2.1 股票基本信息</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">stock_basic = pro.stock_basic(list_status=<span class="string">&#x27;L&#x27;</span>, fields=<span class="string">&#x27;ts_code, symbol, name, industry&#x27;</span>)</span><br><span class="line"><span class="comment"># 重命名行，便于后面导入neo4j</span></span><br><span class="line">basic_rename = &#123;<span class="string">&#x27;ts_code&#x27;</span>: <span class="string">&#x27;TS代码&#x27;</span>, <span class="string">&#x27;symbol&#x27;</span>: <span class="string">&#x27;股票代码&#x27;</span>, <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;股票名称&#x27;</span>, <span class="string">&#x27;industry&#x27;</span>: <span class="string">&#x27;行业&#x27;</span>&#125;</span><br><span class="line">stock_basic.rename(columns=basic_rename, inplace=<span class="literal">True</span>)</span><br><span class="line"><span class="comment"># 保存为stock_basic.csv</span></span><br><span class="line">stock_basic.to_csv(<span class="string">&#x27;financial_data\\stock_basic.csv&#x27;</span>, encoding=<span class="string">&#x27;gbk&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/basic_info.png?raw=true"></p>
+<h4 id="3-2-2-股票持有股东信息"><a href="#3-2-2-股票持有股东信息" class="headerlink" title="3.2.2 股票持有股东信息"></a>3.2.2 股票持有股东信息</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">holders = pd.DataFrame(columns=(<span class="string">&#x27;ts_code&#x27;</span>, <span class="string">&#x27;ann_date&#x27;</span>, <span class="string">&#x27;end_date&#x27;</span>, <span class="string">&#x27;holder_name&#x27;</span>, <span class="string">&#x27;hold_amount&#x27;</span>, <span class="string">&#x27;hold_ratio&#x27;</span>))</span><br><span class="line"><span class="comment"># 获取一年内所有上市股票股东信息（可以获取一个报告期的）</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3610</span>):</span><br><span class="line">   code = stock_basic[<span class="string">&#x27;TS代码&#x27;</span>].values[i]</span><br><span class="line">   holders = pro.top10_holders(ts_code=code, start_date=<span class="string">&#x27;20180101&#x27;</span>, end_date=<span class="string">&#x27;20181231&#x27;</span>)</span><br><span class="line">   holders = holders.append(holders)</span><br><span class="line">   <span class="keyword">if</span> i % <span class="number">600</span> == <span class="number">0</span>:</span><br><span class="line">       <span class="built_in">print</span>(i)</span><br><span class="line">   time.sleep(<span class="number">0.4</span>)<span class="comment"># 数据接口限制</span></span><br><span class="line"><span class="comment"># 保存为stock_holders.csv</span></span><br><span class="line">holders.to_csv(<span class="string">&#x27;financial_data\\stock_holders.csv&#x27;</span>, encoding=<span class="string">&#x27;gbk&#x27;</span>)</span><br><span class="line">holders = pro.holders(ts_code=<span class="string">&#x27;000001.SZ&#x27;</span>, start_date=<span class="string">&#x27;20180101&#x27;</span>, end_date=<span class="string">&#x27;20181231&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/holders.png?raw=true"></p>
+<h4 id="3-2-3-股票概念信息"><a href="#3-2-3-股票概念信息" class="headerlink" title="3.2.3 股票概念信息"></a>3.2.3 股票概念信息</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">concept_details = pd.DataFrame(columns=(<span class="string">&#x27;id&#x27;</span>, <span class="string">&#x27;concept_name&#x27;</span>, <span class="string">&#x27;ts_code&#x27;</span>, <span class="string">&#x27;name&#x27;</span>))</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">358</span>):</span><br><span class="line">   <span class="built_in">id</span> = <span class="string">&#x27;TS&#x27;</span> + <span class="built_in">str</span>(i)</span><br><span class="line">   concept_detail = pro.concept_detail(<span class="built_in">id</span>=<span class="built_in">id</span>)</span><br><span class="line">   concept_details = concept_details.append(concept_detail)</span><br><span class="line">   time.sleep(<span class="number">0.4</span>)</span><br><span class="line"><span class="comment"># 保存为concept_detail.csv</span></span><br><span class="line">concept_details.to_csv(<span class="string">&#x27;financial_data\\stock_concept.csv&#x27;</span>, encoding=<span class="string">&#x27;gbk&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/concept.png?raw=true" style="zoom:67%;"/>
+
+<h4 id="3-2-4-股票公告信息"><a href="#3-2-4-股票公告信息" class="headerlink" title="3.2.4 股票公告信息"></a>3.2.4 股票公告信息</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3610</span>):</span><br><span class="line">   code = stock_basic[<span class="string">&#x27;TS代码&#x27;</span>].values[i]</span><br><span class="line">   notices = pro.anns(ts_code=code, start_date=<span class="string">&#x27;20180101&#x27;</span>, end_date=<span class="string">&#x27;20181231&#x27;</span>, year=<span class="string">&#x27;2018&#x27;</span>)</span><br><span class="line">   notices.to_csv(<span class="string">&quot;financial_data\\notices\\&quot;</span>+<span class="built_in">str</span>(code)+<span class="string">&quot;.csv&quot;</span>,encoding=<span class="string">&#x27;utf_8_sig&#x27;</span>,index=<span class="literal">False</span>)</span><br><span class="line">notices = pro.anns(ts_code=<span class="string">&#x27;000001.SZ&#x27;</span>, start_date=<span class="string">&#x27;20180101&#x27;</span>, end_date=<span class="string">&#x27;20181231&#x27;</span>, year=<span class="string">&#x27;2018&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/notices.png?raw=true"></p>
+<h4 id="3-2-5-财经新闻信息"><a href="#3-2-5-财经新闻信息" class="headerlink" title="3.2.5 财经新闻信息"></a>3.2.5 财经新闻信息</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">news = pro.news(src=<span class="string">&#x27;sina&#x27;</span>, start_date=<span class="string">&#x27;20180101&#x27;</span>, end_date=<span class="string">&#x27;20181231&#x27;</span>)</span><br><span class="line">news.to_csv(<span class="string">&quot;financial_data\\news.csv&quot;</span>,encoding=<span class="string">&#x27;utf_8_sig&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/news.png?raw=true"></p>
+<h4 id="3-2-6-概念信息"><a href="#3-2-6-概念信息" class="headerlink" title="3.2.6 概念信息"></a>3.2.6 概念信息</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">concept = pro.concept()</span><br><span class="line">concept.to_csv(<span class="string">&#x27;financial_data\\concept.csv&#x27;</span>, encoding=<span class="string">&#x27;gbk&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/concept_list.png?raw=true"></p>
+<h4 id="3-2-7-沪股通和深股通成分信息"><a href="#3-2-7-沪股通和深股通成分信息" class="headerlink" title="3.2.7 沪股通和深股通成分信息"></a>3.2.7 沪股通和深股通成分信息</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#获取沪股通成分</span></span><br><span class="line">sh = pro.hs_const(hs_type=<span class="string">&#x27;SH&#x27;</span>)</span><br><span class="line">sh.to_csv(<span class="string">&quot;financial_data\\sh.csv&quot;</span>,index=<span class="literal">False</span>)</span><br><span class="line"><span class="comment">#获取深股通成分</span></span><br><span class="line">sz = pro.hs_const(hs_type=<span class="string">&#x27;SZ&#x27;</span>)</span><br><span class="line">sz.to_csv(<span class="string">&quot;financial_data\\sz.csv&quot;</span>,index=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/szsh.png?raw=true"></p>
+<h4 id="3-2-8-股票价格信息"><a href="#3-2-8-股票价格信息" class="headerlink" title="3.2.8 股票价格信息"></a>3.2.8 股票价格信息</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3610</span>):</span><br><span class="line">   code = stock_basic[<span class="string">&#x27;TS代码&#x27;</span>].values[i]</span><br><span class="line">   price = pro.query(<span class="string">&#x27;daily&#x27;</span>, ts_code=code, start_date=<span class="string">&#x27;20180101&#x27;</span>, end_date=<span class="string">&#x27;20181231&#x27;</span>)</span><br><span class="line">   price.to_csv(<span class="string">&quot;financial_data\\price\\&quot;</span>+<span class="built_in">str</span>(code)+<span class="string">&quot;.csv&quot;</span>,index=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/price.png?raw=true"></p>
+<h4 id="3-2-9-使用免费接口获取股票数据"><a href="#3-2-9-使用免费接口获取股票数据" class="headerlink" title="3.2.9 使用免费接口获取股票数据"></a>3.2.9 使用免费接口获取股票数据</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tushare <span class="keyword">as</span> ts</span><br><span class="line"><span class="comment"># 基本面信息</span></span><br><span class="line">df = ts.get_stock_basics()</span><br><span class="line"><span class="comment"># 公告信息</span></span><br><span class="line">ts.get_notices(<span class="string">&quot;000001&quot;</span>)</span><br><span class="line"><span class="comment"># 新浪股吧</span></span><br><span class="line">ts.guba_sina()</span><br><span class="line"><span class="comment"># 历史价格数据</span></span><br><span class="line">ts.get_hist_data(<span class="string">&quot;000001&quot;</span>)</span><br><span class="line"><span class="comment"># 历史价格数据（周粒度）</span></span><br><span class="line">ts.get_hist_data(<span class="string">&quot;000001&quot;</span>,ktype=<span class="string">&quot;w&quot;</span>)</span><br><span class="line"><span class="comment"># 历史价格数据（1分钟粒度）</span></span><br><span class="line">ts.get_hist_data(<span class="string">&quot;000001&quot;</span>,ktype=<span class="string">&quot;m&quot;</span>)</span><br><span class="line"><span class="comment"># 历史价格数据（5分钟粒度）</span></span><br><span class="line">ts.get_hist_data(<span class="string">&quot;000001&quot;</span>,ktype=<span class="string">&quot;5&quot;</span>)</span><br><span class="line"><span class="comment"># 指数数据（sh上证指数;sz深圳成指;hs300沪深300;sz50上证50;zxb中小板指数;cyb创业板指数）</span></span><br><span class="line">ts.get_hist_data(<span class="string">&quot;cyb&quot;</span>)</span><br><span class="line"><span class="comment"># 宏观数据(居民消费指数)</span></span><br><span class="line">ts.get_cpi()</span><br><span class="line"><span class="comment"># 获取分笔数据</span></span><br><span class="line">ts.get_tick_data(<span class="string">&#x27;000001&#x27;</span>, date=<span class="string">&#x27;2018-10-08&#x27;</span>, src=<span class="string">&#x27;tt&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-3-数据预处理"><a href="#3-3-数据预处理" class="headerlink" title="3.3 数据预处理"></a>3.3 数据预处理</h3><h4 id="3-3-1-统计股票的交易日量众数"><a href="#3-3-1-统计股票的交易日量众数" class="headerlink" title="3.3.1 统计股票的交易日量众数"></a>3.3.1 统计股票的交易日量众数</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">yaxis = <span class="built_in">list</span>()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> listdir:</span><br><span class="line">    stock = pd.read_csv(<span class="string">&quot;financial_data\\price_logreturn\\&quot;</span>+i)</span><br><span class="line">    yaxis.append(<span class="built_in">len</span>(stock[<span class="string">&#x27;logreturn&#x27;</span>]))</span><br><span class="line">counts = np.bincount(yaxis)</span><br><span class="line"></span><br><span class="line">np.argmax(counts)</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="3-3-2-计算股票对数收益"><a href="#3-3-2-计算股票对数收益" class="headerlink" title="3.3.2 计算股票对数收益"></a>3.3.2 计算股票对数收益</h4><p>股票对数收益及皮尔逊相关系数的计算公式：</p>
+<p><img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/pcc.png?raw=true"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line">listdir = os.listdir(<span class="string">&quot;financial_data\\price&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> l <span class="keyword">in</span> listdir:</span><br><span class="line">   stock = pd.read_csv(<span class="string">&#x27;financial_data\\price\\&#x27;</span>+l)</span><br><span class="line">   stock[<span class="string">&#x27;index&#x27;</span>] = [<span class="number">1</span>]* <span class="built_in">len</span>(stock[<span class="string">&#x27;close&#x27;</span>])</span><br><span class="line">   stock[<span class="string">&#x27;next_close&#x27;</span>] = stock.groupby(<span class="string">&#x27;index&#x27;</span>)[<span class="string">&#x27;close&#x27;</span>].shift(-<span class="number">1</span>)</span><br><span class="line">   stock = stock.drop(index=stock.index[-<span class="number">1</span>])</span><br><span class="line">   logreturn = <span class="built_in">list</span>()</span><br><span class="line">   <span class="keyword">for</span> i <span class="keyword">in</span> stock.index:</span><br><span class="line">       logreturn.append(math.log(stock[<span class="string">&#x27;next_close&#x27;</span>][i]/stock[<span class="string">&#x27;close&#x27;</span>][i]))</span><br><span class="line">   stock[<span class="string">&#x27;logreturn&#x27;</span>] = logreturn</span><br><span class="line">   stock.to_csv(<span class="string">&quot;financial_data\\price_logreturn\\&quot;</span>+l,index=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="3-3-3-股票间对数收益率相关系数"><a href="#3-3-3-股票间对数收益率相关系数" class="headerlink" title="3.3.3 股票间对数收益率相关系数"></a>3.3.3 股票间对数收益率相关系数</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> sqrt</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">multipl</span>(<span class="params">a,b</span>):</span></span><br><span class="line">   sumofab=<span class="number">0.0</span></span><br><span class="line">   <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(a)):</span><br><span class="line">       temp=a[i]*b[i]</span><br><span class="line">       sumofab+=temp</span><br><span class="line">   <span class="keyword">return</span> sumofab</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">corrcoef</span>(<span class="params">x,y</span>):</span></span><br><span class="line">   n=<span class="built_in">len</span>(x)</span><br><span class="line">   <span class="comment">#求和</span></span><br><span class="line">   sum1=<span class="built_in">sum</span>(x)</span><br><span class="line">   sum2=<span class="built_in">sum</span>(y)</span><br><span class="line">   <span class="comment">#求乘积之和</span></span><br><span class="line">   sumofxy=multipl(x,y)</span><br><span class="line">   <span class="comment">#求平方和</span></span><br><span class="line">   sumofx2 = <span class="built_in">sum</span>([<span class="built_in">pow</span>(i,<span class="number">2</span>) <span class="keyword">for</span> i <span class="keyword">in</span> x])</span><br><span class="line">   sumofy2 = <span class="built_in">sum</span>([<span class="built_in">pow</span>(j,<span class="number">2</span>) <span class="keyword">for</span> j <span class="keyword">in</span> y])</span><br><span class="line">   num=sumofxy-(<span class="built_in">float</span>(sum1)*<span class="built_in">float</span>(sum2)/n)</span><br><span class="line">   <span class="comment">#计算皮尔逊相关系数</span></span><br><span class="line">   den=sqrt((sumofx2-<span class="built_in">float</span>(sum1**<span class="number">2</span>)/n)*(sumofy2-<span class="built_in">float</span>(sum2**<span class="number">2</span>)/n))</span><br><span class="line">   <span class="keyword">return</span> num/den</span><br></pre></td></tr></table></figure>
+
+<p>由于原始数据达百万条，为节省计算量仅选取前300个股票进行关联性分析</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">listdir = os.listdir(<span class="string">&quot;financial_data\\300stock_logreturn&quot;</span>)</span><br><span class="line">s1 = <span class="built_in">list</span>()</span><br><span class="line">s2 = <span class="built_in">list</span>()</span><br><span class="line">corr = <span class="built_in">list</span>()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> listdir:</span><br><span class="line">   <span class="keyword">for</span> j <span class="keyword">in</span> listdir:</span><br><span class="line">       stocka = pd.read_csv(<span class="string">&quot;financial_data\\300stock_logreturn\\&quot;</span>+i)</span><br><span class="line">       stockb = pd.read_csv(<span class="string">&quot;financial_data\\300stock_logreturn\\&quot;</span>+j)</span><br><span class="line">       <span class="keyword">if</span> <span class="built_in">len</span>(stocka[<span class="string">&#x27;logreturn&#x27;</span>]) == <span class="number">242</span> <span class="keyword">and</span> <span class="built_in">len</span>(stockb[<span class="string">&#x27;logreturn&#x27;</span>]) == <span class="number">242</span>:</span><br><span class="line">           s1.append(<span class="built_in">str</span>(i)[:<span class="number">10</span>])</span><br><span class="line">           s2.append(<span class="built_in">str</span>(j)[:<span class="number">10</span>])</span><br><span class="line">           corr.append(corrcoef(stocka[<span class="string">&#x27;logreturn&#x27;</span>],stockb[<span class="string">&#x27;logreturn&#x27;</span>]))</span><br><span class="line">           <span class="built_in">print</span>(<span class="built_in">str</span>(i)[:<span class="number">10</span>],<span class="built_in">str</span>(j)[:<span class="number">10</span>],corrcoef(stocka[<span class="string">&#x27;logreturn&#x27;</span>],stockb[<span class="string">&#x27;logreturn&#x27;</span>]))</span><br><span class="line">corrdf = pd.DataFrame()</span><br><span class="line">corrdf[<span class="string">&#x27;s1&#x27;</span>] = s1</span><br><span class="line">corrdf[<span class="string">&#x27;s2&#x27;</span>] = s2</span><br><span class="line">corrdf[<span class="string">&#x27;corr&#x27;</span>] = corr</span><br><span class="line">corrdf.to_csv(<span class="string">&quot;financial_data\\corr.csv&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-搭建金融知识图谱"><a href="#4-搭建金融知识图谱" class="headerlink" title="4 搭建金融知识图谱"></a>4 搭建金融知识图谱</h2><p>安装第三方库</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install py2neo</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-1-基于python连接"><a href="#4-1-基于python连接" class="headerlink" title="4.1 基于python连接"></a>4.1 基于python连接</h3><p>具体代码可参考3.1 python操作neo4j-连接</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pandas <span class="keyword">import</span> DataFrame</span><br><span class="line"><span class="keyword">from</span> py2neo <span class="keyword">import</span> Graph,Node,Relationship,NodeMatcher</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="comment"># 连接Neo4j数据库</span></span><br><span class="line">graph = Graph(<span class="string">&#x27;http://localhost:7474/db/data/&#x27;</span>,username=<span class="string">&#x27;neo4j&#x27;</span>,password=<span class="string">&#x27;neo4j&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-读取数据"><a href="#4-2-读取数据" class="headerlink" title="4.2 读取数据"></a>4.2 读取数据</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">stock = pd.read_csv(<span class="string">&#x27;stock_basic.csv&#x27;</span>,encoding=<span class="string">&quot;gbk&quot;</span>)</span><br><span class="line">holder = pd.read_csv(<span class="string">&#x27;holders.csv&#x27;</span>)</span><br><span class="line">concept_num = pd.read_csv(<span class="string">&#x27;concept.csv&#x27;</span>)</span><br><span class="line">concept = pd.read_csv(<span class="string">&#x27;stock_concept.csv&#x27;</span>)</span><br><span class="line">sh = pd.read_csv(<span class="string">&#x27;sh.csv&#x27;</span>)</span><br><span class="line">sz = pd.read_csv(<span class="string">&#x27;sz.csv&#x27;</span>)</span><br><span class="line">corr = pd.read_csv(<span class="string">&#x27;corr.csv&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-3-填充和去重"><a href="#4-3-填充和去重" class="headerlink" title="4.3 填充和去重"></a>4.3 填充和去重</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">stock[<span class="string">&#x27;行业&#x27;</span>] = stock[<span class="string">&#x27;行业&#x27;</span>].fillna(<span class="string">&#x27;未知&#x27;</span>)</span><br><span class="line">holder = holder.drop_duplicates(subset=<span class="literal">None</span>, keep=<span class="string">&#x27;first&#x27;</span>, inplace=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-4-创建实体"><a href="#4-4-创建实体" class="headerlink" title="4.4 创建实体"></a>4.4 创建实体</h3><p>概念、股票、股东、股通</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">sz = Node(<span class="string">&#x27;深股通&#x27;</span>,名字=<span class="string">&#x27;深股通&#x27;</span>)</span><br><span class="line">graph.create(sz)  </span><br><span class="line"></span><br><span class="line">sh = Node(<span class="string">&#x27;沪股通&#x27;</span>,名字=<span class="string">&#x27;沪股通&#x27;</span>)</span><br><span class="line">graph.create(sh)  </span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> concept_num.values:</span><br><span class="line">   a = Node(<span class="string">&#x27;概念&#x27;</span>,概念代码=i[<span class="number">1</span>],概念名称=i[<span class="number">2</span>])</span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&#x27;概念代码:&#x27;</span>+<span class="built_in">str</span>(i[<span class="number">1</span>]),<span class="string">&#x27;概念名称:&#x27;</span>+<span class="built_in">str</span>(i[<span class="number">2</span>]))</span><br><span class="line">   graph.create(a)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> stock.values:</span><br><span class="line">   a = Node(<span class="string">&#x27;股票&#x27;</span>,TS代码=i[<span class="number">1</span>],股票名称=i[<span class="number">3</span>],行业=i[<span class="number">4</span>])</span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&#x27;TS代码:&#x27;</span>+<span class="built_in">str</span>(i[<span class="number">1</span>]),<span class="string">&#x27;股票名称:&#x27;</span>+<span class="built_in">str</span>(i[<span class="number">3</span>]),<span class="string">&#x27;行业:&#x27;</span>+<span class="built_in">str</span>(i[<span class="number">4</span>]))</span><br><span class="line">   graph.create(a)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> holder.values:</span><br><span class="line">   a = Node(<span class="string">&#x27;股东&#x27;</span>,TS代码=i[<span class="number">0</span>],股东名称=i[<span class="number">1</span>],持股数量=i[<span class="number">2</span>],持股比例=i[<span class="number">3</span>])</span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&#x27;TS代码:&#x27;</span>+<span class="built_in">str</span>(i[<span class="number">0</span>]),<span class="string">&#x27;股东名称:&#x27;</span>+<span class="built_in">str</span>(i[<span class="number">1</span>]),<span class="string">&#x27;持股数量:&#x27;</span>+<span class="built_in">str</span>(i[<span class="number">2</span>]))</span><br><span class="line">   graph.create(a)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/create_node.png?raw=true"></p>
+<h3 id="4-5-创建关系"><a href="#4-5-创建关系" class="headerlink" title="4.5 创建关系"></a>4.5 创建关系</h3><p>股票-股东、股票-概念、股票-公告、股票-股通</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">matcher = NodeMatcher(graph)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> holder.values:    </span><br><span class="line">   a = matcher.match(<span class="string">&quot;股票&quot;</span>,TS代码=i[<span class="number">0</span>]).first()</span><br><span class="line">   b = matcher.match(<span class="string">&quot;股东&quot;</span>,TS代码=i[<span class="number">0</span>])</span><br><span class="line">   <span class="keyword">for</span> j <span class="keyword">in</span> b:</span><br><span class="line">       r = Relationship(j,<span class="string">&#x27;参股&#x27;</span>,a)</span><br><span class="line">       graph.create(r)</span><br><span class="line">       <span class="built_in">print</span>(<span class="string">&#x27;TS&#x27;</span>,<span class="built_in">str</span>(i[<span class="number">0</span>]))</span><br><span class="line">           </span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> concept.values:</span><br><span class="line">   a = matcher.match(<span class="string">&quot;股票&quot;</span>,TS代码=i[<span class="number">3</span>]).first()</span><br><span class="line">   b = matcher.match(<span class="string">&quot;概念&quot;</span>,概念代码=i[<span class="number">1</span>]).first()</span><br><span class="line">   <span class="keyword">if</span> a == <span class="literal">None</span> <span class="keyword">or</span> b == <span class="literal">None</span>:</span><br><span class="line">       <span class="keyword">continue</span></span><br><span class="line">   r = Relationship(a,<span class="string">&#x27;概念属于&#x27;</span>,b)</span><br><span class="line">   graph.create(r)</span><br><span class="line"></span><br><span class="line">noticesdir = os.listdir(<span class="string">&quot;notices\\&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> n <span class="keyword">in</span> noticesdir:</span><br><span class="line">   notice = pd.read_csv(<span class="string">&quot;notices\\&quot;</span>+n,encoding=<span class="string">&quot;utf_8_sig&quot;</span>)</span><br><span class="line">   notice[<span class="string">&#x27;content&#x27;</span>] = notice[<span class="string">&#x27;content&#x27;</span>].fillna(<span class="string">&#x27;空白&#x27;</span>)</span><br><span class="line">   <span class="keyword">for</span> i <span class="keyword">in</span> notice.values:</span><br><span class="line">       a = matcher.match(<span class="string">&quot;股票&quot;</span>,TS代码=i[<span class="number">0</span>]).first()</span><br><span class="line">       b = Node(<span class="string">&#x27;公告&#x27;</span>,日期=i[<span class="number">1</span>],标题=i[<span class="number">2</span>],内容=i[<span class="number">3</span>])</span><br><span class="line">       graph.create(b)</span><br><span class="line">       r = Relationship(a,<span class="string">&#x27;发布公告&#x27;</span>,b)</span><br><span class="line">       graph.create(r)</span><br><span class="line">       <span class="built_in">print</span>(<span class="built_in">str</span>(i[<span class="number">0</span>]))</span><br><span class="line">       </span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> sz.values:</span><br><span class="line">   a = matcher.match(<span class="string">&quot;股票&quot;</span>,TS代码=i[<span class="number">0</span>]).first()</span><br><span class="line">   b = matcher.match(<span class="string">&quot;深股通&quot;</span>).first()</span><br><span class="line">   r = Relationship(a,<span class="string">&#x27;成分股属于&#x27;</span>,b)</span><br><span class="line">   graph.create(r)</span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&#x27;TS代码:&#x27;</span>+<span class="built_in">str</span>(i[<span class="number">1</span>]),<span class="string">&#x27;--深股通&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> sh.values:</span><br><span class="line">   a = matcher.match(<span class="string">&quot;股票&quot;</span>,TS代码=i[<span class="number">0</span>]).first()</span><br><span class="line">   b = matcher.match(<span class="string">&quot;沪股通&quot;</span>).first()</span><br><span class="line">   r = Relationship(a,<span class="string">&#x27;成分股属于&#x27;</span>,b)</span><br><span class="line">   graph.create(r)</span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&#x27;TS代码:&#x27;</span>+<span class="built_in">str</span>(i[<span class="number">1</span>]),<span class="string">&#x27;--沪股通&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 构建股票间关联</span></span><br><span class="line">corr = pd.read_csv(<span class="string">&quot;corr.csv&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> corr.values:</span><br><span class="line">   a = matcher.match(<span class="string">&quot;股票&quot;</span>,TS代码=i[<span class="number">1</span>][:-<span class="number">1</span>]).first()</span><br><span class="line">   b = matcher.match(<span class="string">&quot;股票&quot;</span>,TS代码=i[<span class="number">2</span>][:-<span class="number">1</span>]).first()</span><br><span class="line">   r = Relationship(a,<span class="built_in">str</span>(i[<span class="number">3</span>]),b)</span><br><span class="line">   graph.create(r)</span><br><span class="line">   <span class="built_in">print</span>(i)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/create_releationship.png?raw=true"></p>
+<h2 id="5-数据可视化查询"><a href="#5-数据可视化查询" class="headerlink" title="5 数据可视化查询"></a>5 数据可视化查询</h2><p>基于Crypher语言，以平安银行为例进行可视化查询。</p>
+<h3 id="5-1-查看所有关联实体"><a href="#5-1-查看所有关联实体" class="headerlink" title="5.1 查看所有关联实体"></a>5.1 查看所有关联实体</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">match p&#x3D;(m)-[]-&gt;(n) where m.股票名称&#x3D;&quot;平安银行&quot; or n.股票名称&#x3D;&quot;平安银行&quot; return p;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/corr_node.png?raw=true"></p>
+<h3 id="5-2-限制显示数量"><a href="#5-2-限制显示数量" class="headerlink" title="5.2 限制显示数量"></a>5.2 限制显示数量</h3><p>计算股票间对数收益率的相关系数后，查看与平安银行股票相关联的实体</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">match p&#x3D;(m)-[]-&gt;(n) where m.股票名称&#x3D;&quot;平安银行&quot; or n.股票名称&#x3D;&quot;平安银行&quot; return p limit 300;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/corr_node_with_return.png?raw=true"></p>
+<h3 id="5-3-指定股票间对数收益率相关系数"><a href="#5-3-指定股票间对数收益率相关系数" class="headerlink" title="5.3 指定股票间对数收益率相关系数"></a>5.3 指定股票间对数收益率相关系数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">match p&#x3D;(m)-[]-&gt;(n) where m.股票名称&#x3D;&quot;平安银行&quot; and n.股票名称&#x3D;&quot;万科A&quot; return p;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/nodes_pcc.png?raw=true"></p>
+<h2 id="6-neo4j-图算法"><a href="#6-neo4j-图算法" class="headerlink" title="6 neo4j 图算法"></a>6 neo4j 图算法</h2><h3 id="6-1-中心度算法-Centralities"><a href="#6-1-中心度算法-Centralities" class="headerlink" title="6.1.中心度算法(Centralities)"></a>6.1.中心度算法(Centralities)</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://neo4j.com/docs/graph-algorithms/current/algorithms/page-rank/">PageRank(页面排名)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://neo4j.com/docs/graph-algorithms/current/algorithms/article-rank/">ArticleRank(文章排名)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://neo4j.com/docs/graph-algorithms/current/algorithms/betweenness-centrality/">Betweenness Centrality (中介中心度)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://neo4j.com/docs/graph-algorithms/current/algorithms/closeness-centrality/">Closeness Centrality (接近中心度)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://neo4j.com/docs/graph-algorithms/current/algorithms/harmonic-centrality/">Harmonic Centrality(谐波中心度)</a></p>
+</li>
+</ul>
+<h3 id="6-2-社区检测算法-Community-detection"><a href="#6-2-社区检测算法-Community-detection" class="headerlink" title="6.2 社区检测算法(Community detection)"></a>6.2 社区检测算法(Community detection)</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://neo4j.com/docs/graph-data-science/current/algorithms/louvain/">Louvain (鲁汶算法)</a></li>
+<li>[Label Propagation (标签传播)](<a target="_blank" rel="noopener" href="https://neo4j.com/docs/graph-algorithms/current/algorithms/label-propagation/">Label Propagation</a>)</li>
+<li>[Connected Components (连通组件)](<a target="_blank" rel="noopener" href="https://neo4j.com/docs/graph-algorithms/current/algorithms/connected-components/">Connected Components</a>)</li>
+<li>[Strongly Connected Components (强连通组件)](<a target="_blank" rel="noopener" href="https://neo4j.com/docs/graph-algorithms/current/algorithms/strongly-connected-components/">Strongly Connected Components </a>)</li>
+<li>[Triangle Counting / Clustering Coefficient (三角计数/聚类系数)](<a target="_blank" rel="noopener" href="https://neo4j.com/docs/graph-algorithms/current/algorithms/triangle-counting-clustering-coefficient/">Triangle Counting / Clustering Coefficient</a>)</li>
+</ul>
+<h3 id="6-3-路径搜索算法-Path-finding"><a href="#6-3-路径搜索算法-Path-finding" class="headerlink" title="6.3 路径搜索算法(Path finding)"></a>6.3 路径搜索算法(Path finding)</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://neo4j.com/docs/graph-algorithms/current/algorithms/minimum-weight-spanning-tree/">Minimum Weight Spanning Tree (最小权重生成树)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://neo4j.com/docs/graph-algorithms/current/algorithms/shortest-path/">Shortest Path (最短路径)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://neo4j.com/docs/graph-algorithms/current/algorithms/single-source-shortest-path/">Single Source Shortest Path (单源最短路径)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://neo4j.com/docs/graph-algorithms/current/algorithms/all-pairs-shortest-path/">All Pairs Shortest Path (全顶点对最短路径)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://neo4j.com/docs/graph-algorithms/current/algorithms/a_star/">A*(A星)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://neo4j.com/docs/graph-algorithms/current/algorithms/yen-s-k-shortest-path/">Yen’s K-shortest Paths(Yen-K最短路径)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://neo4j.com/docs/graph-algorithms/current/algorithms/random-walk/">Random Walk (随机游走)</a></p>
+</li>
+</ul>
+<h3 id="6-4-相似性算法-Similarity"><a href="#6-4-相似性算法-Similarity" class="headerlink" title="6.4 相似性算法(Similarity)"></a>6.4 相似性算法(Similarity)</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://neo4j.com/docs/graph-algorithms/current/algorithms/similarity-jaccard/">Jaccard Similarity (Jaccard相似度)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://neo4j.com/docs/graph-algorithms/current/algorithms/similarity-cosine/">Cosine Similarity (余弦相似度)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://neo4j.com/docs/graph-algorithms/current/algorithms/similarity-pearson/">Pearson Similarity (Pearson相似度)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://neo4j.com/docs/graph-algorithms/current/algorithms/similarity-euclidean/">Euclidean Distance (欧氏距离)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://neo4j.com/docs/graph-algorithms/current/algorithms/similarity-overlap/">Overlap Similarity (重叠相似度)</a></p>
+</li>
+</ul>
+<h3 id="6-5-链接预测-Link-Prediction"><a href="#6-5-链接预测-Link-Prediction" class="headerlink" title="6.5 链接预测(Link Prediction)"></a>6.5 链接预测(Link Prediction)</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://neo4j.com/docs/graph-algorithms/current/algorithms/linkprediction-adamic-adar/">Adamic Adar(AA)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://neo4j.com/docs/graph-algorithms/current/algorithms/linkprediction-common-neighbors/">Common Neighbors(共同近邻)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://neo4j.com/docs/graph-algorithms/current/algorithms/linkprediction-preferential-attachment/">Preferential Attachment(优先连接)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://neo4j.com/docs/graph-algorithms/current/algorithms/linkprediction-resource-allocation/">Resource Allocation(资源分配)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://neo4j.com/docs/graph-algorithms/current/algorithms/linkprediction-same-community/">Same Community(共同社区)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://neo4j.com/docs/graph-algorithms/current/algorithms/linkprediction-total-neighbors/">Total Neighbors(近邻总数)</a></p>
+</li>
+</ul>
+<h3 id="6-6-预处理算法-Preprocessing"><a href="#6-6-预处理算法-Preprocessing" class="headerlink" title="6.6 预处理算法(Preprocessing)"></a>6.6 预处理算法(Preprocessing)</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://neo4j.com/docs/graph-algorithms/current/algorithms/one-hot-encoding/">One Hot Encoding(独热编码)</a></li>
+</ul>
+<h3 id="6-7-算法库安装及导入方法"><a href="#6-7-算法库安装及导入方法" class="headerlink" title="6.7 算法库安装及导入方法"></a>6.7 算法库安装及导入方法</h3><p>以Windows OS为例，neo4j的算法库并非在安装包中提供，而需要下载算法包：</p>
+<p>（1）下载<code>graph-algorithms-algo-3.5.4.0.jar</code></p>
+<p>（2）将<code>graph-algorithms-algo-3.5.4.0.jar</code>移动至neo4j数据库根目录下的<code>plugin</code>中</p>
+<p>（3）修改neo4j数据库目录的<code>conf</code>中<code>neo4j.conf</code>，添加以下配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dbms.security.procedures.unrestricted&#x3D;algo.*</span><br></pre></td></tr></table></figure>
+
+<p>（4）使用以下命令查看所有算法列表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CALL algo.list()</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-8-算法实践——链路预测"><a href="#6-8-算法实践——链路预测" class="headerlink" title="6.8 算法实践——链路预测"></a>6.8 算法实践——链路预测</h3><h4 id="6-8-1-Aaamic-Adar-algorithm"><a href="#6-8-1-Aaamic-Adar-algorithm" class="headerlink" title="6.8.1 Aaamic Adar algorithm"></a>6.8.1 Aaamic Adar algorithm</h4><p>主要基于判断相邻的两个节点之间的亲密程度作为评判标准，2003年由Lada Adamic 和 Eytan Adar在 <a target="_blank" rel="noopener" href="https://www.sciencedirect.com/science/article/abs/pii/S0378873303000091?via=ihub">Friends and neighbors on the Web</a> 提出，其中节点亲密度的计算公式如下：</p>
+<p><img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/aaa.png?raw=true"></p>
+<p>其中<code>N(u)</code>表示与节点u相邻的节点集合，若<code>A(x,y)</code>表示节点x和节点y不相邻，而该值若越大则紧密度为高。</p>
+<p>AAA 算法 cypher 代码参考：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">MERGE (zhen:Person &#123;name: &quot;Zhen&quot;&#125;)</span><br><span class="line">MERGE (praveena:Person &#123;name: &quot;Praveena&quot;&#125;)</span><br><span class="line">MERGE (michael:Person &#123;name: &quot;Michael&quot;&#125;)</span><br><span class="line">MERGE (arya:Person &#123;name: &quot;Arya&quot;&#125;)</span><br><span class="line">MERGE (karin:Person &#123;name: &quot;Karin&quot;&#125;)</span><br><span class="line"></span><br><span class="line">MERGE (zhen)-[:FRIENDS]-(arya)</span><br><span class="line">MERGE (zhen)-[:FRIENDS]-(praveena)</span><br><span class="line">MERGE (praveena)-[:WORKS_WITH]-(karin)</span><br><span class="line">MERGE (praveena)-[:FRIENDS]-(michael)</span><br><span class="line">MERGE (michael)-[:WORKS_WITH]-(karin)</span><br><span class="line">MERGE (arya)-[:FRIENDS]-(karin)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 计算 Michael 和 Karin 之间的亲密度</span><br><span class="line">MATCH (p1:Person &#123;name: &#39;Michael&#39;&#125;)</span><br><span class="line">MATCH (p2:Person &#123;name: &#39;Karin&#39;&#125;)</span><br><span class="line">RETURN algo.linkprediction.adamicAdar(p1, p2) AS score</span><br><span class="line">&#x2F;&#x2F; score: 0.910349</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 基于好友关系计算 Michael 和 Karin 之间的亲密度</span><br><span class="line">MATCH (p1:Person &#123;name: &#39;Michael&#39;&#125;)</span><br><span class="line">MATCH (p2:Person &#123;name: &#39;Karin&#39;&#125;)</span><br><span class="line">RETURN algo.linkprediction.adamicAdar(p1, p2, &#123;relationshipQuery: &quot;FRIENDS&quot;&#125;) AS score</span><br><span class="line">&#x2F;&#x2F; score: 0.0                                                </span><br></pre></td></tr></table></figure>
+
+<h4 id="6-8-2-Common-Neighbors"><a href="#6-8-2-Common-Neighbors" class="headerlink" title="6.8.2 Common Neighbors"></a>6.8.2 Common Neighbors</h4><p>基于节点之间共同近邻数量计算，计算公式如下：</p>
+<p><img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/cn.png?raw=true"></p>
+<p>其中N(x)表示与节点x相邻的节点集合，共同近邻表示两个集合的交集，若CN(x,y)值越高，表示节点x和节点y的亲密度越高。</p>
+<p>Common Neighbors算法 cypher 代码参考：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MATCH (p1:Person &#123;name: &#39;Michael&#39;&#125;)</span><br><span class="line">MATCH (p2:Person &#123;name: &#39;Karin&#39;&#125;)</span><br><span class="line">RETURN algo.linkprediction.commonNeighbors(p1, p2) AS score</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="6-8-3-Resource-Allocation"><a href="#6-8-3-Resource-Allocation" class="headerlink" title="6.8.3 Resource Allocation"></a>6.8.3 Resource Allocation</h4><p>资源分配算法，计算公式如下：</p>
+<p><img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/ra.png?raw=true"></p>
+<p>其中<code>N(u)</code>是与节点<code>u</code>相邻的节点集合，RA(x,y)越高表明节点x和节点y的亲密度越大。</p>
+<p>Resource Allocation算法 cypher 代码参考：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MATCH (p1:Person &#123;name: &#39;Michael&#39;&#125;)</span><br><span class="line">MATCH (p2:Person &#123;name: &#39;Karin&#39;&#125;)</span><br><span class="line">RETURN algo.linkprediction.resourceAllocation(p1, p2) AS score</span><br></pre></td></tr></table></figure>
+
+<h4 id="6-8-4-Total-Neighbors"><a href="#6-8-4-Total-Neighbors" class="headerlink" title="6.8.4 Total Neighbors"></a>6.8.4 Total Neighbors</h4><p>指的是相邻节点之间的邻居总数，计算公式如下：</p>
+<p><img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/tn.png?raw=true"></p>
+<p>其中<code>N(u)</code>是与节点<code>u</code>相邻的节点集合。</p>
+<p>Total Neighbors算法 cypher 代码参考：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MATCH (p1:Person &#123;name: &#39;Michael&#39;&#125;)</span><br><span class="line">MATCH (p2:Person &#123;name: &#39;Karin&#39;&#125;)</span><br><span class="line">RETURN algo.linkprediction.totalNeighbors(p1, p2) AS score</span><br></pre></td></tr></table></figure>
+
+<p>官网文档&gt;链路算法&gt;介绍：<a target="_blank" rel="noopener" href="https://neo4j.com/docs/graph-algorithms/3.5/labs-algorithms/linkprediction/">https://neo4j.com/docs/graph-algorithms/3.5/labs-algorithms/linkprediction/</a></p>
+<hr>
+<h3 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h3><ul>
+<li>部分中文翻译待勘正，请以官网介绍及英文名为准</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/18/%E5%B0%8F%E5%9E%8B%E9%87%91%E8%9E%8D%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E5%AE%9E%E8%B7%B5%E2%80%94%E2%80%94neo4j/" data-id="ckmznvdvl000ai1td997dg9qh" data-title="小型金融知识图谱实践——neo4j" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/03/24/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94unittest/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          日常笔记——unittest
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/09/17/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%B9%B3%E5%8F%B0%E5%AE%9E%E8%B7%B5%E2%80%94%E2%80%94Google%20Colaboratory/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">深度学习平台实践——Google Colaboratory</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Go/">Go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Notes/">Notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Others/">Others</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Study/">Study</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Testing/">Testing</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tools/">Tools</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/idea/">idea</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/04/01/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94k8s/">日常笔记——k8s</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/01/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/01/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Python/">Python function / package</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/31/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Elasticsearch/">日常笔记——Elasticsearch</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/25/%E6%9C%AC%E5%9C%B0%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E7%BB%9F%E8%AE%A1%E5%B7%A5%E5%85%B7%E2%80%94%E2%80%94Coverage/">本地单元测试统计工具——Coverage</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

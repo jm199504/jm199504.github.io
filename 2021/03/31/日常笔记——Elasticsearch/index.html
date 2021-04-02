@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>日常笔记——Elasticsearch | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="概述：日常笔记——Elasticsearch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="日常笔记——Elasticsearch">
+<meta property="og:url" content="http://example.com/2021/03/31/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Elasticsearch/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="概述：日常笔记——Elasticsearch">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-03-31T11:35:15.846Z">
+<meta property="article:modified_time" content="2021-04-02T01:50:40.474Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-日常笔记——Elasticsearch" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/31/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Elasticsearch/" class="article-date">
+  <time class="dt-published" datetime="2021-03-31T11:35:15.846Z" itemprop="datePublished">2021-03-31</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Notes/">Notes</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      日常笔记——Elasticsearch
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>概述：日常笔记——Elasticsearch</p>
+<span id="more"></span>
+
+<h1 id="Elasticsearch"><a href="#Elasticsearch" class="headerlink" title="Elasticsearch"></a>Elasticsearch</h1><h2 id="1-install"><a href="#1-install" class="headerlink" title="1.install"></a>1.install</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install elasticsearch</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-version"><a href="#2-version" class="headerlink" title="2.version"></a>2.version</h2><p>查看ES版本信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">elasticsearch --version</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-启动"><a href="#3-启动" class="headerlink" title="3.启动"></a>3.启动</h2><p>ES的默认端口是9200，访问：localhost:9200</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">elasticsearch</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-install-kibana"><a href="#4-install-kibana" class="headerlink" title="4.install kibana"></a>4.install kibana</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install kibana</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-启动"><a href="#5-启动" class="headerlink" title="5.启动"></a>5.启动</h2><p>访问：localhost:5601</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kibana</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-概念"><a href="#6-概念" class="headerlink" title="6.概念"></a>6.概念</h2><p>Elastic 本质上是一个分布式数据库，允许多台服务器协同工作，每台服务器可以运行多个 Elastic 实例。</p>
+<p>单个 Elastic 实例称为一个节点（node）。一组节点构成一个集群（cluster）。</p>
+<h2 id="查看节点的Index"><a href="#查看节点的Index" class="headerlink" title="查看节点的Index"></a>查看节点的Index</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -X GET &#39;http:&#x2F;&#x2F;localhost:9200&#x2F;_cat&#x2F;indices?v&#39;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/31/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Elasticsearch/" data-id="ckmznvdv10000i1tdaon9a0a7" data-title="日常笔记——Elasticsearch" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/04/01/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Python/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Python function / package
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/03/25/%E6%9C%AC%E5%9C%B0%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E7%BB%9F%E8%AE%A1%E5%B7%A5%E5%85%B7%E2%80%94%E2%80%94Coverage/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">本地单元测试统计工具——Coverage</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Go/">Go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Notes/">Notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Others/">Others</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Study/">Study</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Testing/">Testing</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tools/">Tools</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/idea/">idea</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/04/01/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94k8s/">日常笔记——k8s</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/01/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/01/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Python/">Python function / package</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/31/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Elasticsearch/">日常笔记——Elasticsearch</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/25/%E6%9C%AC%E5%9C%B0%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E7%BB%9F%E8%AE%A1%E5%B7%A5%E5%85%B7%E2%80%94%E2%80%94Coverage/">本地单元测试统计工具——Coverage</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

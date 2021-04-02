@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>日常笔记——unittest | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="概述：日常笔记——unittest">
+<meta property="og:type" content="article">
+<meta property="og:title" content="日常笔记——unittest">
+<meta property="og:url" content="http://example.com/2021/03/24/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94unittest/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="概述：日常笔记——unittest">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-03-24T07:04:31.147Z">
+<meta property="article:modified_time" content="2021-04-02T02:01:04.469Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-日常笔记——unittest" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/24/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94unittest/" class="article-date">
+  <time class="dt-published" datetime="2021-03-24T07:04:31.147Z" itemprop="datePublished">2021-03-24</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Notes/">Notes</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      日常笔记——unittest
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>概述：日常笔记——unittest</p>
+<span id="more"></span>
+
+<h1 id="unittest"><a href="#unittest" class="headerlink" title="unittest"></a>unittest</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>支持测试自动化，配置共享和关机代码测试。支持将测试样例聚合到测试集中，并将测试与报告框架独立。</p>
+<p>unittest是一个单元测试框架，是Python编程的单元测试框架。</p>
+<p>unittest支持测试自动化，共享测试用例中的初始化和关闭退出代码，在unittest中最小单元是test，也就是一个测试用例。要了解unittest单元测试框架，先来了解以下几个重要的概念。</p>
+<h2 id="用例编写"><a href="#用例编写" class="headerlink" title="用例编写"></a>用例编写</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> unittest</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestStringMethods</span>(<span class="params">unittest.TestCase</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_upper</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.assertEqual(<span class="string">&#x27;foo&#x27;</span>.upper(), <span class="string">&#x27;FOO&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_isupper</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.assertTrue(<span class="string">&#x27;FOO&#x27;</span>.isupper())</span><br><span class="line">        self.assertFalse(<span class="string">&#x27;Foo&#x27;</span>.isupper())</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_split</span>(<span class="params">self</span>):</span></span><br><span class="line">        s = <span class="string">&#x27;hello world&#x27;</span></span><br><span class="line">        self.assertEqual(s.split(), [<span class="string">&#x27;hello&#x27;</span>, <span class="string">&#x27;world&#x27;</span>])</span><br><span class="line">        <span class="comment"># check that s.split fails when the separator is not a string</span></span><br><span class="line">        <span class="keyword">with</span> self.assertRaises(TypeError):</span><br><span class="line">            s.split(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    unittest.main()</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>需继承unittest.TestCase 测试用例类</p>
+</li>
+<li><p>在 test_upper 测试中，使用 assertEqual 检查是否是预期值</p>
+</li>
+<li><p>在 test_isupper 测试中，使用 assertTrue 或 assertFalse 验证是否符合条件</p>
+</li>
+<li><p>在 test_split 测试中，使用 assertRaises 验证是否抛出一个特定异常</p>
+</li>
+</ul>
+<h2 id="测试夹具"><a href="#测试夹具" class="headerlink" title="测试夹具"></a>测试夹具</h2><p>测试夹具包含测试前置（setUp）和清理（tearDown）方法。</p>
+<p>测试前置方法 <code>setUp</code>来做一些准备工作，比如建立数据库连接。它会在用例执行前被测试框架自动调用。</p>
+<p>测试清理方法 <code>tearDown()</code> 用来做一些清理工作，比如断开数据库连接。它会在用例执行完成（包括失败的情况）后被测试框架自动调用。</p>
+<p>测试前置和清理方法可以有不同的执行级别。</p>
+<ul>
+<li>生效级别：测试方法</li>
+</ul>
+<p>如果我们希望每个测试方法之前前后分别执行测试前置和清理方法，那么需要在测试类中定义好 <code>setUp()]</code>和 <code>tearDown()</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyTestCase</span>(<span class="params">unittest.TestCase</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">setUp</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">tearDown</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>生效级别：测试类</li>
+</ul>
+<p>如果我们希望单个测试类中只执行一次前置方法，再执行该测试类中的所有测试，最后执行一次清理方法，那么需要在测试类中定义好 <code>setUpClass() </code>和<code> tearDownClass()</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyTestCase</span>(<span class="params">unittest.TestCase</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">setUpClass</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">tearDownClass</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>生效级别：测试模块</li>
+</ul>
+<p>如果我们希望单个测试模块中只执行一次前置方法，再执行该模块中所有测试类的所有测试，最后执行一次清理方法，那么需要在测试模块中定义好<code> setUpModule()</code>和 <code>tearDownModule()</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">setUpModule</span>():</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">tearDownModule</span>():</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="跳过测试-预计失败"><a href="#跳过测试-预计失败" class="headerlink" title="跳过测试/预计失败"></a>跳过测试/预计失败</h2><ul>
+<li>通过<code>skip</code>装饰器或<code>SkipTest</code>直接跳过测试</li>
+<li>通过<code>skipIf</code>或<code>skipUnless</code>按条件跳过或不跳过测试</li>
+<li>通过 <code>expectedFailure </code>预计测试失败</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyTestCase</span>(<span class="params">unittest.TestCase</span>):</span></span><br><span class="line"></span><br><span class="line"><span class="meta">    @unittest.skip(<span class="params"><span class="string">&quot;直接跳过&quot;</span></span>)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_nothing</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.fail(<span class="string">&quot;shouldn&#x27;t happen&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">    @unittest.skipIf(<span class="params">mylib.__version__ &lt; (<span class="params"><span class="number">1</span>, <span class="number">3</span></span>),</span></span></span><br><span class="line"><span class="meta"><span class="params">                     <span class="string">&quot;满足条件跳过&quot;</span></span>)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_format</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="comment"># Tests that work for only a certain version of the library.</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="meta">    @unittest.skipUnless(<span class="params">sys.platform.startswith(<span class="params"><span class="string">&quot;win&quot;</span></span>), <span class="string">&quot;满足条件不跳过&quot;</span></span>)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_windows_support</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="comment"># windows specific testing code</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_maybe_skipped</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> external_resource_available():</span><br><span class="line">            self.skipTest(<span class="string">&quot;跳过&quot;</span>)</span><br><span class="line">        <span class="comment"># test code that depends on the external resource</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="meta">    @unittest.expectedFailure</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_fail</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.assertEqual(<span class="number">1</span>, <span class="number">0</span>, <span class="string">&quot;这个目前是失败的&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="子测试"><a href="#子测试" class="headerlink" title="子测试"></a>子测试</h2><p>在一个测试方法中传入不同的参数来测试同一段逻辑，但它将被视作一个测试，但是如果使用了子测试，就能被视作 N（即为参数的个数）个测试。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NumbersTest</span>(<span class="params">unittest.TestCase</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_even</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        Test that numbers between 0 and 5 are all even.</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="number">6</span>):</span><br><span class="line">            <span class="keyword">with</span> self.subTest(i=i):</span><br><span class="line">                self.assertEqual(i % <span class="number">2</span>, <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<p>示例中使用了 <code>with self.subTest(i=i)</code> 的方式定义子测试，这种情况下，即使单个子测试执行失败，也不会影响后续子测试的执行。</p>
+<h2 id="测试结果输出"><a href="#测试结果输出" class="headerlink" title="测试结果输出"></a>测试结果输出</h2><ul>
+<li><p>在调用测试脚本时添加 <code>-v</code> 参数使<code>unittest.main()</code>显示更为详细的信息</p>
+</li>
+<li><p>可以使用第三方库（HtmlTestRunner）生成HTML格式报告 <a target="_blank" rel="noopener" href="https://github.com/oldani/HtmlTestRunner#usage">HtmlTestRunner-Github文档说明</a></p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> HtmlTestRunner</span><br><span class="line">...</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    unittest.main(testRunner=HtmlTestRunner.HTMLTestRunner())</span><br></pre></td></tr></table></figure>
+
+<h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h2><p>第三方单元测试框架：nose 和 nose2</p>
+<h2 id="ssh"><a href="#ssh" class="headerlink" title="ssh"></a>ssh</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd .&#x2F;~ssh</span><br><span class="line">cat id_rsa.pub</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试固件（test-fixture）"><a href="#测试固件（test-fixture）" class="headerlink" title="测试固件（test fixture）"></a>测试固件（test fixture）</h2><p>一个测试固件包括两部分，执行测试代码之前的准备部分和测试结束之后的清扫代码。这两部分一般用函数setUp()和tearDown()表示。这里举例以下，例如要测试百度搜索selenium这个场景，我们的测试固件可以这样写，setUp()里写打开浏览器，浏览器最大化，和打开百度首页等脚本代码；在tearDown（）里写结束搜索后，退出并关闭浏览器的代码。</p>
+<h2 id="测试用例（test-case）"><a href="#测试用例（test-case）" class="headerlink" title="测试用例（test case）"></a>测试用例（test case）</h2><p>unittest中管理的最小单元是测试用例，一个测试用例，包括测试固件，和具体测试业务的函数或者方法。一个测试用例中，测试固件可以不写，但是至少有一个已test开头的函数。unittest会自动化识别test开头的函数是测试代码，如果你写的函数不是test开头，unittest是不会执行这个函数里面的脚本的，这个千万要记住，所有的测试函数都要test开头，记住是小写的哦。</p>
+<h2 id="测试套件-（test-suite）"><a href="#测试套件-（test-suite）" class="headerlink" title="测试套件 （test suite）"></a>测试套件 （test suite）</h2><p>很简单，就是很多测试用例的集合，叫测试套件，一个测试套件可以随意管理多个测试用例。如果测试用例比作单个学生，测试套件就是好像是班级的概念。</p>
+<h2 id="测试执行器-（test-runner）"><a href="#测试执行器-（test-runner）" class="headerlink" title="测试执行器 （test runner）"></a>测试执行器 （test runner）</h2><p>test runner是一个用来执行加载测试用例，并执行用例，且提供测试输出的一个组建。它可以加载test case或者test suite进行执行测试任务。</p>
+<p>POM Page Object Model 页面对象模型，解决前端UI变化频繁造成自动化测试，将页面元素和业务逻辑和测试脚本分离出来到两个不同类文件。ClassA只写页面元素定位，和业务逻辑代码操作的封装，ClassB只写测试脚本，不关心如何元素定位，只写调用ClassA的代码去覆盖不同的测试场景。如果前端页面发生变化，只需要修改ClassA的元素定位，而不需要去修改ClassB中的测试脚本代码。</p>
+<h2 id="POM优点"><a href="#POM优点" class="headerlink" title="POM优点"></a>POM优点</h2><ol>
+<li><p>把web ui对象仓库从测试脚本分离，业务代码和测试脚本分离。</p>
+</li>
+<li><p>每一个页面对应一个页面类，页面的元素写到这个页面类中。</p>
+</li>
+<li><p>页面类主要包括该页面的元素定位，和和这些元素相关的业务操作代码封装的方法。</p>
+</li>
+<li><p>代码复用，从而减少测试脚本代码量。</p>
+</li>
+<li><p>层次清晰，同时支持多个编写自动化脚本开发，例如每个人写哪几个页面，不影响他人。</p>
+</li>
+<li><p>建议页面类和业务逻辑方法都给一个有意义的名称，方便他人快速编写脚本和维护脚本。</p>
+</li>
+</ol>
+<h2 id="自动生成测试脚本-Playwright"><a href="#自动生成测试脚本-Playwright" class="headerlink" title="自动生成测试脚本 Playwright"></a>自动生成测试脚本 Playwright</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pip install playwright</span><br><span class="line"></span><br><span class="line">python -m playwright install</span><br><span class="line"></span><br><span class="line">python -m playwright codegen</span><br></pre></td></tr></table></figure>
+
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/24/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94unittest/" data-id="ckmznvdv90001i1td004s2fke" data-title="日常笔记——unittest" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/03/25/%E6%9C%AC%E5%9C%B0%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E7%BB%9F%E8%AE%A1%E5%B7%A5%E5%85%B7%E2%80%94%E2%80%94Coverage/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          本地单元测试统计工具——Coverage
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/03/18/%E5%B0%8F%E5%9E%8B%E9%87%91%E8%9E%8D%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E5%AE%9E%E8%B7%B5%E2%80%94%E2%80%94neo4j/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">小型金融知识图谱实践——neo4j</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Go/">Go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Notes/">Notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Others/">Others</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Study/">Study</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Testing/">Testing</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tools/">Tools</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/idea/">idea</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/04/01/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94k8s/">日常笔记——k8s</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/01/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/01/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Python/">Python function / package</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/31/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Elasticsearch/">日常笔记——Elasticsearch</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/25/%E6%9C%AC%E5%9C%B0%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E7%BB%9F%E8%AE%A1%E5%B7%A5%E5%85%B7%E2%80%94%E2%80%94Coverage/">本地单元测试统计工具——Coverage</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
