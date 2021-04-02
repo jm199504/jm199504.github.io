@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   
   
-  <title>日常问题——Flask开启局域网访问 | Jimmy&#39;s blog</title>
+  <title>日常笔记——urljoin | Jimmy&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="概述：日常问题——flask开启局域网访问">
+  <meta name="description" content="概述：日常笔记——urljoin">
 <meta property="og:type" content="article">
-<meta property="og:title" content="日常问题——Flask开启局域网访问">
-<meta property="og:url" content="http://example.com/2020/09/17/%E6%97%A5%E5%B8%B8%E9%97%AE%E9%A2%98%E2%80%94%E2%80%94Flask%E5%BC%80%E5%90%AF%E5%B1%80%E5%9F%9F%E7%BD%91%E8%AE%BF%E9%97%AE/index.html">
+<meta property="og:title" content="日常笔记——urljoin">
+<meta property="og:url" content="http://example.com/2021/04/02/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94urljoin/index.html">
 <meta property="og:site_name" content="Jimmy&#39;s blog">
-<meta property="og:description" content="概述：日常问题——flask开启局域网访问">
+<meta property="og:description" content="概述：日常笔记——urljoin">
 <meta property="og:locale">
-<meta property="article:published_time" content="2020-09-17T15:21:12.787Z">
-<meta property="article:modified_time" content="2021-04-01T05:14:15.296Z">
+<meta property="article:published_time" content="2021-04-02T02:22:57.275Z">
+<meta property="article:modified_time" content="2021-04-02T02:40:17.944Z">
 <meta property="article:author" content="Jimmy Guo">
 <meta name="twitter:card" content="summary">
   
@@ -73,14 +73,14 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-日常问题——Flask开启局域网访问" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-日常笔记——urljoin" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2020/09/17/%E6%97%A5%E5%B8%B8%E9%97%AE%E9%A2%98%E2%80%94%E2%80%94Flask%E5%BC%80%E5%90%AF%E5%B1%80%E5%9F%9F%E7%BD%91%E8%AE%BF%E9%97%AE/" class="article-date">
-  <time class="dt-published" datetime="2020-09-17T15:21:12.787Z" itemprop="datePublished">2020-09-17</time>
+    <a href="/2021/04/02/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94urljoin/" class="article-date">
+  <time class="dt-published" datetime="2021-04-02T02:22:57.275Z" itemprop="datePublished">2021-04-02</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/Tools/">Tools</a>
+    <a class="article-category-link" href="/categories/Testing/">Testing</a>
   </div>
 
   </div>
@@ -91,7 +91,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      日常问题——Flask开启局域网访问
+      日常笔记——urljoin
     </h1>
   
 
@@ -99,23 +99,23 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>概述：日常问题——flask开启局域网访问</p>
+        <p>概述：日常笔记——urljoin</p>
 <span id="more"></span>
 
-<h2 id="方法1"><a href="#方法1" class="headerlink" title="方法1"></a>方法1</h2><p>主函数中设置</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    app.run(host=<span class="string">&#x27;0.0.0.0&#x27;</span>, port=<span class="number">5001</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="urljoin"><a href="#urljoin" class="headerlink" title="urljoin"></a>urljoin</h2><p>通过举例查看规律，第一个参数为base，将至少保留至.com之前（若url不为空则base部分以/结尾），根据第二个参数url来填补，若url部分不包含/则直接替换或者补充至base后续，若url部分包含/则直接填补至base后续。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.parse <span class="keyword">import</span> urljoin</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(urljoin(<span class="string">&quot;http://www.chachabei.com/folder/currentpage.html&quot;</span>, <span class="string">&quot;anotherpage.html&quot;</span>))</span><br><span class="line"><span class="comment"># &#x27;http://www.chachabei.com/folder/anotherpage.html&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(urljoin(<span class="string">&quot;http://www.chachabei.com/folder/currentpage.html&quot;</span>, <span class="string">&quot;/anotherpage.html&quot;</span>))</span><br><span class="line"><span class="comment"># &#x27;http://www.chachabei.com/anotherpage.html&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(urljoin(<span class="string">&quot;http://www.chachabei.com/folder/currentpage.html&quot;</span>, <span class="string">&quot;folder2/anotherpage.html&quot;</span>))</span><br><span class="line"><span class="comment"># &#x27;http://www.chachabei.com/folder/folder2/anotherpage.html&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(urljoin(<span class="string">&quot;http://www.chachabei.com/folder/currentpage.html&quot;</span>, <span class="string">&quot;/folder2/anotherpage.html&quot;</span>))</span><br><span class="line"><span class="comment"># &#x27;http://www.chachabei.com/folder2/anotherpage.html&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(urljoin(<span class="string">&quot;http://www.chachabei.com/abc/folder/currentpage.html&quot;</span>, <span class="string">&quot;/folder2/anotherpage.html&quot;</span>))</span><br><span class="line"><span class="comment"># &#x27;http://www.chachabei.com/folder2/anotherpage.html&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(urljoin(<span class="string">&quot;http://www.chachabei.com/abc/folder/currentpage.html&quot;</span>, <span class="string">&quot;../anotherpage.html&quot;</span>))</span><br><span class="line"><span class="comment"># &#x27;http://www.chachabei.com/abc/anotherpage.html&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(urljoin(<span class="string">&quot;&quot;</span>, <span class="string">&quot;../anotherpage.html&quot;</span>))</span><br><span class="line"><span class="comment"># anotherpage.html</span></span><br></pre></td></tr></table></figure>
 
-<p>上述方法可能并不生效，例如在控制台依然显示</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Running on http:&#x2F;&#x2F;127.0.0.1:5000&#x2F;</span><br></pre></td></tr></table></figure>
 
-<h2 id="方法2"><a href="#方法2" class="headerlink" title="方法2"></a>方法2</h2><p>在<code>app.py</code>的Configuration（右上角的小绿button）中设置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Additional options: --host&#x3D;0.0.0.0 --port&#x3D;5001</span><br></pre></td></tr></table></figure>
+
+
+
+
 
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/09/17/%E6%97%A5%E5%B8%B8%E9%97%AE%E9%A2%98%E2%80%94%E2%80%94Flask%E5%BC%80%E5%90%AF%E5%B1%80%E5%9F%9F%E7%BD%91%E8%AE%BF%E9%97%AE/" data-id="ckmzn8pws000pj2td053d4qed" data-title="日常问题——Flask开启局域网访问" class="article-share-link">Teilen</a>
+      <a data-url="http://example.com/2021/04/02/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94urljoin/" data-id="ckmzwr06t0000irtd27gfdbwm" data-title="日常笔记——urljoin" class="article-share-link">Teilen</a>
       
       
       
@@ -125,15 +125,11 @@
     
 <nav id="article-nav">
   
-    <a href="/2020/09/17/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94git/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Neuer</strong>
-      <div class="article-nav-title">
-        
-          日常笔记——git
-        
-      </div>
-    </a>
   
+    <a href="/2021/04/01/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94k8s/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">日常笔记——k8s</div>
+    </a>
   
 </nav>
 
