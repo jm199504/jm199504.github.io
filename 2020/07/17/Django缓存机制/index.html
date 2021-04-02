@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Django缓存机制介绍 | Jimmy&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="概述：Django缓存机制介绍">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django缓存机制介绍">
+<meta property="og:url" content="http://example.com/2020/07/17/Django%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/index.html">
+<meta property="og:site_name" content="Jimmy&#39;s blog">
+<meta property="og:description" content="概述：Django缓存机制介绍">
+<meta property="og:locale">
+<meta property="og:image" content="http://example.com/Users/junmingguo/Downloads/%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/Users/junmingguo/Documents/first.png">
+<meta property="article:published_time" content="2020-07-17T02:51:14.141Z">
+<meta property="article:modified_time" content="2021-04-02T15:10:45.575Z">
+<meta property="article:author" content="Jimmy Guo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/Users/junmingguo/Downloads/%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E5%9B%BE.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Jimmy's blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jimmy&#39;s blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Django缓存机制" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/07/17/Django%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/" class="article-date">
+  <time class="dt-published" datetime="2020-07-17T02:51:14.141Z" itemprop="datePublished">2020-07-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Django/">Django</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Django缓存机制介绍
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>概述：Django缓存机制介绍</p>
+<span id="more"></span>
+
+<h2 id="Django缓存机制介绍"><a href="#Django缓存机制介绍" class="headerlink" title="Django缓存机制介绍"></a>Django缓存机制介绍</h2><h3 id="1-什么是缓存"><a href="#1-什么是缓存" class="headerlink" title="1.什么是缓存"></a>1.什么是缓存</h3><p>缓存是一类可以更快地读取数据的介质统称，亦指其它可以加快数据读取的存储方式，通常用来存储临时数据，常用介质的是读取速度很快的内存。一般来说从数据库多次把所需要的数据提取出来，要比从内存或者硬盘等一次读出来付出的成本大很多。对于中大型网站而言，使用缓存减少对数据库的访问次数可以提升网站性能。</p>
+<h3 id="2-为什么使用缓存"><a href="#2-为什么使用缓存" class="headerlink" title="2.为什么使用缓存"></a>2.为什么使用缓存</h3><p>以Django为例，当用户请求到达视图（View）后，视图会先从数据库提取数据放到模板中进行动态渲染，渲染后的结果就是用户看到的网页。如果用户每次请求都从数据库提取数据并渲染，将极大降低性能，不仅服务器压力大，而且客户端也无法即时获得响应。如果能将渲染后的结果放到速度更快的缓存中，每次有请求过来，先检查缓存中是否有对应的资源，如果有，直接从缓存中取出来返回响应，节省取数据和渲染的时间，不仅能大大提高系统性能，还能提高用户体验。</p>
+<p>缓存的优势：降低服务器负载、避免重复计算工作、提升系统性能</p>
+<h3 id="3-Django缓存机制架构图"><a href="#3-Django缓存机制架构图" class="headerlink" title="3.Django缓存机制架构图"></a>3.Django缓存机制架构图</h3><p><img src="/Users/junmingguo/Downloads/%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E5%9B%BE.png" alt="系统架构图"></p>
+<h3 id="4-缓存方式"><a href="#4-缓存方式" class="headerlink" title="4.缓存方式"></a>4.缓存方式</h3><h4 id="1-开发调试"><a href="#1-开发调试" class="headerlink" title="(1).开发调试"></a>(1).开发调试</h4><p>Dummy caching (for development) ，假缓存，仅开发过程中使用，以调试缓存接口，数据并没有真正缓存。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CACHES &#x3D; &#123;</span><br><span class="line">    &#39;default&#39;: &#123;</span><br><span class="line">        &#39;BACKEND&#39;: &#39;django.core.cache.backends.dummy.DummyCache&#39;,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-本地内存缓存"><a href="#2-本地内存缓存" class="headerlink" title="(2).本地内存缓存"></a>(2).本地内存缓存</h4><p>Local-memory caching，使用系统内存缓存。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CACHES = &#123;</span><br><span class="line">    <span class="string">&#x27;default&#x27;</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;BACKEND&#x27;</span>: <span class="string">&#x27;django.core.cache.backends.locmem.LocMemCache&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;LOCATION&#x27;</span>: <span class="string">&#x27;unique-snowflake&#x27;</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-文件系统缓存"><a href="#3-文件系统缓存" class="headerlink" title="(3).文件系统缓存"></a>(3).文件系统缓存</h4><p>Filesystem caching，文件系统缓存，将缓存会把键值存储到独立的文件。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CACHES = &#123;</span><br><span class="line">    <span class="string">&#x27;default&#x27;</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;BACKEND&#x27;</span>: <span class="string">&#x27;django.core.cache.backends.filebased.FileBasedCache&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;LOCATION&#x27;</span>: <span class="string">&#x27;/var/tmp/django_cache&#x27;</span>,</span><br><span class="line">        <span class="comment">#&#x27;LOCATION&#x27;: &#x27;c:/foo/bar&#x27;,#绝对路径</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-数据库缓存"><a href="#4-数据库缓存" class="headerlink" title="(4).数据库缓存"></a>(4).数据库缓存</h4><p>Database caching，数据库缓存，这个指把数据缓存到数据表。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CACHES = &#123;</span><br><span class="line">    <span class="string">&#x27;default&#x27;</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;BACKEND&#x27;</span>: <span class="string">&#x27;django.core.cache.backends.db.DatabaseCache&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;LOCATION&#x27;</span>: <span class="string">&#x27;my_cache_table&#x27;</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>（预先准备）创建数据缓存表：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage.py createcachetable [my_cache_table_name]</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-Memcache缓存"><a href="#5-Memcache缓存" class="headerlink" title="(5).Memcache缓存"></a>(5).Memcache缓存</h4><p>Memcached，完全基于内存的缓存服务器，是Django本地支持的最快速，最高效的高速缓存类型，最初开发用于处理LiveJournal.com的高负载，随后由Danga Interactive开源，Facebook和维基百科等网站使用它来减少数据库访问并显着提高网站性能。它用于动态Web应用以减轻数据库负载从而显著提供网站性能，也是django中到目前为止最有效率的可用缓存。</p>
+<p>特性：本身不支持持久化，不支持分布式。</p>
+<p>缺点：缓存的数据存储在内存中，当服务器崩溃会导致数据丢失。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用IP和端口连接远端单个Memcache服务器</span></span><br><span class="line">CACHES = &#123;</span><br><span class="line">    <span class="string">&#x27;default&#x27;</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;BACKEND&#x27;</span>: <span class="string">&#x27;django.core.cache.backends.memcached.MemcachedCache&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;LOCATION&#x27;</span>: <span class="string">&#x27;10.10.10.10:11211&#x27;</span>,  <span class="comment"># 远端Memcache服务器IP和端口</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用本地socket文件（Unix套接字文件）连接本地Memcache服务器</span></span><br><span class="line">CACHES = &#123;</span><br><span class="line">    <span class="string">&#x27;default&#x27;</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;BACKEND&#x27;</span>: <span class="string">&#x27;django.core.cache.backends.memcached.MemcachedCache&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;LOCATION&#x27;</span>: <span class="string">&#x27;unix:/tmp/memcached.sock&#x27;</span>,  <span class="comment"># 本地socket文件</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;   </span><br><span class="line"></span><br><span class="line"><span class="comment"># 连接远端多个Memcache服务器，做分布式缓存</span></span><br><span class="line">CACHES = &#123;</span><br><span class="line">    <span class="string">&#x27;default&#x27;</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;BACKEND&#x27;</span>: <span class="string">&#x27;django.core.cache.backends.memcached.MemcachedCache&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;LOCATION&#x27;</span>: [</span><br><span class="line">            (<span class="string">&#x27;10.10.10.10:11211&#x27;</span>, <span class="number">10</span>),  <span class="comment"># 设置远端Memcache服务器IP和端口以及优先级</span></span><br><span class="line">            (<span class="string">&#x27;10.10.10.11:11211&#x27;</span>, <span class="number">20</span>),</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># pylibmc模块的使用方法同上面相同，仅需修改BACKEND</span></span><br><span class="line"><span class="string">&#x27;BACKEND&#x27;</span>: <span class="string">&#x27;django.core.cache.backends.memcached.PyLibMCCache&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="6-自定义缓存"><a href="#6-自定义缓存" class="headerlink" title="(6).自定义缓存"></a>(6).自定义缓存</h4><p>Using a custom cache backend，自定义缓存后端，比如使用Redis。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CACHES = &#123;</span><br><span class="line">    <span class="string">&#x27;default&#x27;</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;BACKEND&#x27;</span>: <span class="string">&#x27;path.to.backend&#x27;</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缓存（Cache）其它参数</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>参数关键字</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TIMEOUT</td>
+<td></td>
+<td>用于缓存的默认超时时间（以秒为单位），默认是300秒，当值为0将导致密钥立即过期（实际上“不缓存”）</td>
+</tr>
+<tr>
+<td>OPTIONS</td>
+<td>MAX_ENTRIES</td>
+<td>缓存允许的最大条目数，超过这个数则旧值会被删除，默认是300。</td>
+</tr>
+<tr>
+<td>OPTIONS</td>
+<td>CULL_FREQUENCY</td>
+<td>当达到MAX_ENTRIES时被删除的条目比例，实际比率是1/CULL_FREQUENCY，默认是3。</td>
+</tr>
+<tr>
+<td>OPTIONS</td>
+<td>KEY_PREFIX</td>
+<td>缓存key的前缀，默认为空。</td>
+</tr>
+<tr>
+<td>OPTIONS</td>
+<td>VERSION</td>
+<td>缓存key的版本，默认为1。</td>
+</tr>
+<tr>
+<td>OPTIONS</td>
+<td>KEY_FUNCTION</td>
+<td>生成key点函数。</td>
+</tr>
+</tbody></table>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 示例</span></span><br><span class="line">CACHES = &#123;</span><br><span class="line">    <span class="string">&#x27;default&#x27;</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;BACKEND&#x27;</span>: <span class="string">&#x27;django.core.cache.backends.filebased.FileBasedCache&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;LOCATION&#x27;</span>: os.path.join(BASE_DIR, <span class="string">&quot;cache&quot;</span>),</span><br><span class="line">        <span class="string">&#x27;TIMEOUT&#x27;</span>: <span class="number">300</span>,</span><br><span class="line">        <span class="string">&#x27;OPTIONS&#x27;</span>:&#123;</span><br><span class="line">            <span class="string">&#x27;MAX_ENTRIES&#x27;</span>: <span class="number">300</span>,</span><br><span class="line">            <span class="string">&#x27;CULL_FREQUENCY&#x27;</span>: <span class="number">3</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">&#x27;KEY_PREFIX&#x27;</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;VERSION&#x27;</span>: <span class="number">1</span>,</span><br><span class="line">        <span class="string">&#x27;KEY_FUNCTION&#x27;</span>: function,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="5-缓存粒度"><a href="#5-缓存粒度" class="headerlink" title="5.缓存粒度"></a>5.缓存粒度</h3><h4 id="1-Per-site-cache"><a href="#1-Per-site-cache" class="headerlink" title="(1).Per-site cache"></a>(1).Per-site cache</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">MIDDLEWARE = [</span><br><span class="line">    <span class="string">&#x27;django.middleware.cache.UpdateCacheMiddleware&#x27;</span>,  <span class="comment"># 第一个</span></span><br><span class="line">    <span class="comment"># 其他中间件...</span></span><br><span class="line">    <span class="string">&#x27;django.middleware.cache.FetchFromCacheMiddleware&#x27;</span>,  <span class="comment"># 最后一个</span></span><br><span class="line">    ]</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-Per-view-cache"><a href="#2-Per-view-cache" class="headerlink" title="(2).Per-view cache"></a>(2).Per-view cache</h4><p><code>views.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.views.decorators.cache <span class="keyword">import</span> cache_page</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="meta">@cache_page(<span class="params"><span class="number">10</span></span>)  </span><span class="comment"># 缓存10秒</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cache</span>(<span class="params">req</span>):</span></span><br><span class="line">    time_now = time.time()</span><br><span class="line">    <span class="keyword">return</span> render(req, <span class="string">&quot;cache.html&quot;</span>, <span class="built_in">locals</span>())</span><br></pre></td></tr></table></figure>
+
+<p><code>cache.html</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">&quot;en&quot;</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=<span class="string">&quot;UTF-8&quot;</span>&gt;</span><br><span class="line">    &lt;title&gt;Title&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&#123;&#123; time_now &#125;&#125;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-Template-fragment-caching"><a href="#3-Template-fragment-caching" class="headerlink" title="(3).Template fragment caching"></a>(3).Template fragment caching</h4><p><code>views.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cache2</span>(<span class="params">req</span>):</span></span><br><span class="line">    time_now = time.time()</span><br><span class="line">    <span class="keyword">return</span> render(req, <span class="string">&quot;cache2.html&quot;</span>, <span class="built_in">locals</span>())</span><br></pre></td></tr></table></figure>
+
+<p><code>cache.html</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;% load cache %&#125;</span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">&quot;en&quot;</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=<span class="string">&quot;UTF-8&quot;</span>&gt;</span><br><span class="line">    &lt;title&gt;Title&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &#123;&#123; time_now  &#125;&#125;</span><br><span class="line">    &lt;hr&gt;</span><br><span class="line">    &#123;% cache <span class="number">5</span> k1 %&#125;</span><br><span class="line">        &#123;&#123; time_now  &#125;&#125;</span><br><span class="line">    &#123;% endcache %&#125;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">其中&#123;% cache cache_time cache_key %&#125; cache_value &#123;% endcache %&#125;中，cache_value为填入的缓存内容，cache_time是缓存的时间，以秒为单位。</span><br></pre></td></tr></table></figure>
+<h4 id="4-Low-level-cache-API"><a href="#4-Low-level-cache-API" class="headerlink" title="(4).Low-level cache API"></a>(4).Low-level cache API</h4><p>缓存修改较少的变量，包括：字符串、字典、模型对象等</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.core.cache <span class="keyword">import</span> cache</span><br><span class="line">cache.<span class="built_in">set</span>(key, value) <span class="comment"># 写入</span></span><br><span class="line">myname = cache.get(<span class="string">&quot;myname&quot;</span>) <span class="comment">#  读取</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="5-Downstream-cache"><a href="#5-Downstream-cache" class="headerlink" title="(5).Downstream cache"></a>(5).Downstream cache</h4><p>在用户请求抵达网站时预先进行缓存，例如ISP（互联网服务提供商）会缓存部分页面数据，该种方式可以极大地提升效率，但是存在一定的危险，由于部分页面内容信息存在敏感数据（基于身份验等），若盲目地保存页面数据可能暴露给其他访问者，不过可以通过设置来限制缓存机制对指定的页面数据的缓存。</p>
+<h3 id="6-Redis相关操作"><a href="#6-Redis相关操作" class="headerlink" title="6.Redis相关操作"></a>6.Redis相关操作</h3><h4 id="（1）下载-amp-安装"><a href="#（1）下载-amp-安装" class="headerlink" title="（1）下载&amp;安装"></a>（1）下载&amp;安装</h4><p>a.下载</p>
+<p><a target="_blank" rel="noopener" href="https://redis.io/download">https://redis.io/download</a></p>
+<p>b.安装</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 启动终端</span><br><span class="line">tar -zxvf redis-<span class="number">6</span>.<span class="number">0</span>.<span class="number">5</span>.tar.gz</span><br><span class="line">sudo cp -rf redis-<span class="number">6</span>.<span class="number">0</span>.<span class="number">5</span> /usr/local/</span><br><span class="line"><span class="built_in">cd</span> /usr/local/redis-<span class="number">6</span>.<span class="number">0</span>.<span class="number">5</span></span><br><span class="line">sudo make test</span><br><span class="line">sudo make install</span><br><span class="line">sudo <span class="built_in">mkdir</span> bin etc db</span><br><span class="line">sudo cp src/mkreleasehdr.sh src/redis-benchmark src/redis-check-rdb src/redis-cli src/redis-server bin/</span><br></pre></td></tr></table></figure>
+
+<h4 id="（2）启动服务-amp-客户端"><a href="#（2）启动服务-amp-客户端" class="headerlink" title="（2）启动服务&amp;客户端"></a>（2）启动服务&amp;客户端</h4><p>a.启动服务：<code>redis-server</code></p>
+<p>b.启动客户端：<code>redis-cli</code>（需要重新开启一个新的命令行窗口）</p>
+<h4 id="（3）查看Redis信息状态"><a href="#（3）查看Redis信息状态" class="headerlink" title="（3）查看Redis信息状态"></a>（3）查看Redis信息状态</h4><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">info</span><br></pre></td></tr></table></figure>
+
+<p>包含以下信息：</p>
+<ul>
+<li><p><code>server</code>：服务器信息；</p>
+</li>
+<li><p><code>clients</code>：已连接客户端信息；</p>
+</li>
+<li><p><code>memory</code>：内存信息；</p>
+</li>
+<li><p><code>persistence</code>：持久化信息；</p>
+</li>
+<li><p><code>stats</code>：一般统计信息</p>
+</li>
+<li><p><code>replication</code>：主/从复制信息</p>
+</li>
+<li><p><code>CPU</code>： CPU 的计算量统计信息</p>
+</li>
+<li><p><code>cluster</code>：集群相关信息</p>
+</li>
+<li><p><code>keyspace</code>：数据库相关的统计信息</p>
+</li>
+</ul>
+<h4 id="（4）支持的五种数据类型及操作"><a href="#（4）支持的五种数据类型及操作" class="headerlink" title="（4）支持的五种数据类型及操作"></a>（4）支持的五种数据类型及操作</h4><ul>
+<li>string（字符串）</li>
+<li>hash（哈希）</li>
+<li>list（列表）</li>
+<li>set（集合）</li>
+<li>zset（有序集合）</li>
+</ul>
+<h4 id="（5）官方命令帮助文档"><a href="#（5）官方命令帮助文档" class="headerlink" title="（5）官方命令帮助文档"></a>（5）官方命令帮助文档</h4><ul>
+<li><p><code>keys *</code> ：查看所有key的内容</p>
+</li>
+<li><p><code>exists key</code>：查看key是否存在</p>
+</li>
+<li><p><code>flushall</code>：清空所有信息</p>
+</li>
+<li><p>……</p>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://redis.io/commands">https://redis.io/commands</a></p>
+<h4 id="（6）python连接redis"><a href="#（6）python连接redis" class="headerlink" title="（6）python连接redis"></a>（6）python连接redis</h4><p>a.安装</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install redis</span><br></pre></td></tr></table></figure>
+
+<p>b.传统连接</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> redis</span><br><span class="line">conn=redis.Redis(host=<span class="string">&#x27;127.0.0.1&#x27;</span>,port=<span class="number">6379</span>,password=<span class="string">&#x27;pwd&#x27;</span>) </span><br><span class="line">conn.<span class="built_in">set</span>(<span class="string">&#x27;name&#x27;</span>,<span class="string">&#x27;jimmy&#x27;</span>)</span><br><span class="line">name=conn.get(<span class="string">&#x27;name&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(name) </span><br></pre></td></tr></table></figure>
+
+<p>c.连接池连接</p>
+<p><code>redis_pool.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> redis</span><br><span class="line">pool = redis.ConnectionPool(host=<span class="string">&#x27;127.0.0.1&#x27;</span>, port=<span class="number">6379</span>, password=<span class="string">&#x27;pwd&#x27;</span>, max_connections=<span class="number">1000</span>)</span><br></pre></td></tr></table></figure>
+
+<p><code>file.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"><span class="keyword">from</span> redis_pool <span class="keyword">import</span> pool</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    key=<span class="built_in">input</span>(<span class="string">&quot;请输入key:&quot;</span>)</span><br><span class="line">    val=<span class="built_in">input</span>(<span class="string">&quot;请输入val:&quot;</span>)</span><br><span class="line">    conn = redis.Redis(connection_pool=pool)</span><br><span class="line">    conn.<span class="built_in">set</span>(key, val)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 管道（以原子性方式实现一次请求指定多个命令）</span></span><br><span class="line">pipe = r.pipeline(transaction=<span class="literal">True</span>)</span><br><span class="line">pipe.<span class="built_in">set</span>(<span class="string">&#x27;name&#x27;</span>,<span class="string">&#x27;ale&#x27;</span>)</span><br><span class="line">pipe.<span class="built_in">set</span>(<span class="string">&#x27;role&#x27;</span>,<span class="string">&#x27;ab&#x27;</span>)</span><br><span class="line">pipe.execute()</span><br></pre></td></tr></table></figure>
+
+<h4 id="（7）基本命令"><a href="#（7）基本命令" class="headerlink" title="（7）基本命令"></a>（7）基本命令</h4><p>keys - 查看所有key的内容</p>
+<p>exists key - 查看key是否存在</p>
+<p>set key value - 设置key的内容</p>
+<p>get key - 获取key的内容</p>
+<p>flushall - 清空所有信息</p>
+<h4 id="（8）可视化工具"><a href="#（8）可视化工具" class="headerlink" title="（8）可视化工具"></a>（8）可视化工具</h4><ul>
+<li>medis-gui-for-redis <a target="_blank" rel="noopener" href="https://apps.apple.com/cn/app/medis-gui-for-redis/id1063631769?mt=12">链接</a></li>
+<li>Redis桌面管理工具 <a target="_blank" rel="noopener" href="http://www.pc6.com/mac/486661.html">链接</a></li>
+</ul>
+<h4 id="（9）查看端口-进程"><a href="#（9）查看端口-进程" class="headerlink" title="（9）查看端口/进程"></a>（9）查看端口/进程</h4><p>查看端口：lsof -i:6379</p>
+<p>查看进程：ps -ef | grep redis</p>
+<h3 id="7-django-redis的配置"><a href="#7-django-redis的配置" class="headerlink" title="7.django-redis的配置"></a>7.django-redis的配置</h3><h4 id="（1）安装"><a href="#（1）安装" class="headerlink" title="（1）安装"></a>（1）安装</h4><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install django-redis</span><br></pre></td></tr></table></figure>
+
+<h4 id="（2）settings配置"><a href="#（2）settings配置" class="headerlink" title="（2）settings配置"></a>（2）settings配置</h4><p>a.使用Redis缓存网站数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">REDIS_DEFAULT_LOCATION = env(<span class="string">&#x27;REDIS_DEFAULT_LOCATION&#x27;</span>, <span class="string">&#x27;redis://127.0.0.1:6379/1&#x27;</span>) <span class="comment">#redis服务器地址</span></span><br><span class="line">CACHE_DEFAULT_TIMEOUT = env(<span class="string">&#x27;REDIS_DEFAULT_TIMEOUT&#x27;</span>, <span class="number">7</span> * <span class="number">24</span> * <span class="number">60</span> * <span class="number">60</span>)</span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">default是连接池的名称（名称可以修改，还可以在往后面加连接池）</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line">CACHES = &#123;</span><br><span class="line">    <span class="string">&quot;default&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;BACKEND&quot;</span>: <span class="string">&quot;django_redis.cache.RedisCache&quot;</span>,</span><br><span class="line">        <span class="string">&quot;LOCATION&quot;</span>: REDIS_DEFAULT_LOCATION,</span><br><span class="line">        <span class="string">&#x27;TIMEOUT&#x27;</span>: CACHE_DEFAULT_TIMEOUT,</span><br><span class="line">        <span class="string">&quot;OPTIONS&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;CLIENT_CLASS&quot;</span>: <span class="string">&quot;django_redis.client.DefaultClient&quot;</span>,</span><br><span class="line">          	<span class="string">&quot;CONNECTION_POOL_KWARGS&quot;</span>: &#123;<span class="string">&quot;max_connections&quot;</span>: <span class="number">100</span>&#125;, <span class="comment">#最大连接池100</span></span><br><span class="line">            <span class="string">&quot;PASSWORD&quot;</span>: <span class="string">&quot;pwd&quot;</span>, <span class="comment">#若有密码需要该项</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>配置好后可进行测试缓存是否成功：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python manager.py shell</span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; cache.set(<span class="string">&quot;key&quot;</span>,<span class="string">&quot;value&quot;</span>)</span></span><br></pre></td></tr></table></figure>
+
+<p>b.缓存Celery</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Redis连接配置</span></span><br><span class="line">CELERY_URL=redis://<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span></span><br><span class="line"><span class="comment"># Celery配置</span></span><br><span class="line">CELERY_BROKER_URL=redis://<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>/<span class="number">1</span>  <span class="comment"># 使用Redis 1作为消息代理</span></span><br><span class="line">CELERY_RESULT_BACKEND=redis://<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>/<span class="number">2</span>  <span class="comment"># 任务结果存储于Redis 2</span></span><br></pre></td></tr></table></figure>
+
+<p>c.使用Redis缓存Channel layers</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CHANNEL_LAYERS = &#123;</span><br><span class="line">  <span class="string">&quot;default&quot;</span>:&#123;</span><br><span class="line">    <span class="string">&quot;BACKEND&quot;</span>: <span class="string">&quot;channels_redis.core.RedisChannelLayer&quot;</span>,</span><br><span class="line">    <span class="string">&quot;CONFIG&quot;</span>:&#123;</span><br><span class="line">      	<span class="string">&quot;hosts&quot;</span>:[<span class="string">f&#x27;<span class="subst">&#123;env(<span class="string">&quot;REDIS_URL&quot;</span>,default=<span class="string">&quot;redis://127.0.0.1:6379&quot;</span>)&#125;</span>/3&#x27;</span>],</span><br><span class="line">      <span class="comment"># 使用Redis 3 缓存channel layers</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>d.激活压缩（默认：关闭）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CACHES = &#123;</span><br><span class="line">    <span class="string">&quot;default&quot;</span>: &#123;</span><br><span class="line">        <span class="comment"># ...</span></span><br><span class="line">        <span class="string">&quot;OPTIONS&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;COMPRESSOR&quot;</span>: <span class="string">&quot;django_redis.compressors.zlib.ZlibCompressor&quot;</span>,</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="（3）不同级别的缓存"><a href="#（3）不同级别的缓存" class="headerlink" title="（3）不同级别的缓存"></a>（3）不同级别的缓存</h4><p>视图指定部分缓存</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"><span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> render,HttpResponse</span><br><span class="line"><span class="keyword">from</span> django_redis <span class="keyword">import</span>  get_redis_connection  <span class="comment">#导入连接池</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span>(<span class="params">request</span>):</span></span><br><span class="line">    conn=get_redis_connection(<span class="string">&#x27;default&#x27;</span>)        <span class="comment">#拿到defalut这个redis连接池</span></span><br><span class="line">    conn.<span class="built_in">set</span>(<span class="string">&quot;name&quot;</span>,<span class="string">&quot;egon&quot;</span>)                     <span class="comment">#设置值</span></span><br><span class="line">    <span class="keyword">return</span> HttpResponse(<span class="string">&quot;设置成功！&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">order</span>(<span class="params">request</span>):</span></span><br><span class="line">    conn=get_redis_connection(<span class="string">&#x27;default&#x27;</span>)        </span><br><span class="line">    name=conn.get(<span class="string">&quot;name&quot;</span>)                     </span><br><span class="line">    <span class="keyword">return</span> HttpResponse(name)                   <span class="comment">#返回值</span></span><br></pre></td></tr></table></figure>
+
+<p>全站缓存</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;django.middleware.cache.UpdateCacheMiddleware&#x27;</span>      <span class="comment">#最上面</span></span><br><span class="line">...其他中间件</span><br><span class="line"><span class="string">&#x27;django.middleware.cache.FetchFromCacheMiddleware&#x27;</span>   <span class="comment">#最下面</span></span><br></pre></td></tr></table></figure>
+
+<p>单视图缓存</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.views.decorators.cache <span class="keyword">import</span> cache_page</span><br><span class="line"></span><br><span class="line"><span class="meta">@cache_page(<span class="params"><span class="number">60</span>*<span class="number">15</span></span>)   </span><span class="comment">#15秒</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span>(<span class="params">request</span>):</span></span><br><span class="line">    ctime=<span class="built_in">str</span>(time.time())</span><br><span class="line">    <span class="keyword">return</span> HttpResponse(ctime)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="8-缓存性能评估工具——Django-Debug-Toolbar"><a href="#8-缓存性能评估工具——Django-Debug-Toolbar" class="headerlink" title="8.缓存性能评估工具——Django Debug Toolbar"></a>8.缓存性能评估工具——Django Debug Toolbar</h3><p>Django Debug Toolbar 不仅仅可以评估Django中的Cache性能，还可以监控 SQL语句操作、CPU 运行情况、静态文件使用情况、模板使用情况等，提供了前端面板，操作简单方便。</p>
+<h4 id="（1）安装及配置"><a href="#（1）安装及配置" class="headerlink" title="（1）安装及配置"></a>（1）安装及配置</h4><p>a.下载依赖库</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install django-debug-toolbar</span><br></pre></td></tr></table></figure>
+
+<p>b.修改配置信息(<code>settings.py</code>)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 打开DEBUG模式</span></span><br><span class="line">DEBUG = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 在INSTALLED_APPS加入debug-toolbar</span></span><br><span class="line">INSTALLED_APPS = (</span><br><span class="line">    ......</span><br><span class="line">    <span class="string">&#x27;debug_toolbar&#x27;</span>,</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加中间件</span></span><br><span class="line">MIDDLEWARE = [</span><br><span class="line">    <span class="string">&#x27;debug_toolbar.middleware.DebugToolbarMiddleware&#x27;</span>,</span><br><span class="line">     ......</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>c.配置URL(<code>urls.py</code>)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> settings.DEBUG:</span><br><span class="line">    <span class="keyword">import</span> debug_toolbar</span><br><span class="line">    urlpatterns = [</span><br><span class="line">        url(<span class="string">r&#x27;^__debug__/&#x27;</span>, include(debug_toolbar.urls)),</span><br><span class="line">    ] + urlpatterns</span><br></pre></td></tr></table></figure>
+
+<p>其它配置参考文档：<a target="_blank" rel="noopener" href="https://django-debug-toolbar.readthedocs.io/en/latest/configuration.html">链接</a></p>
+<p>Django Debug Toolbar 中的 Cache 部分提供了以下信息：</p>
+<ul>
+<li>总次数</li>
+<li>总耗时</li>
+<li>命中次数</li>
+<li>未命中次数</li>
+<li>各操作执行次数</li>
+<li>具体请求的耗时、类型、参数、关键字参数、Backend</li>
+</ul>
+<h4 id="（2）动手实践"><a href="#（2）动手实践" class="headerlink" title="（2）动手实践"></a>（2）动手实践</h4><p>操作系统：macOS Catalina</p>
+<p>内存： 16GB 2667 MHz DDR4</p>
+<p>缓存方式：自定义缓存——redis；</p>
+<p>缓存粒度：Low level cache API</p>
+<p>实践代码：</p>
+<p>a.安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install django-redis</span><br></pre></td></tr></table></figure>
+
+<p>b.CACHES设置</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">CACHES = &#123;</span><br><span class="line">    <span class="string">&quot;default&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;BACKEND&quot;</span>: <span class="string">&quot;django_redis.cache.RedisCache&quot;</span>,</span><br><span class="line">        <span class="string">&quot;LOCATION&quot;</span>: <span class="string">&#x27;redis://127.0.0.1:6379&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;TIMEOUT&#x27;</span>: <span class="number">60</span>,</span><br><span class="line">        <span class="string">&quot;OPTIONS&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;CLIENT_CLASS&quot;</span>: <span class="string">&quot;django_redis.client.DefaultClient&quot;</span>,</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>c.视图中进行缓存</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.core.cache <span class="keyword">import</span> cache</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> cache.get(<span class="string">&quot;age&quot;</span>):</span><br><span class="line">	<span class="built_in">print</span>(cache.get(<span class="string">&quot;age&quot;</span>))</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">	cache.<span class="built_in">set</span>(<span class="string">&quot;age&quot;</span>, <span class="number">18</span>)  <span class="comment"># 写入</span></span><br><span class="line">cache.get(<span class="string">&quot;name&quot;</span>)</span><br><span class="line">cache.get(<span class="string">&quot;age&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>d.实践效果</p>
+<p><img src="/Users/junmingguo/Documents/first.png" alt="first"></p>
+<p>从实践效果图发现第一次读取耗时较后续读写操作更多，主要原因是<code>django-redis</code> 默认使用Django setting 中 <code>DJANGO_REDIS_CONNECTION_FACTORY</code> 参数指定，在没提供该参数的前提下默认使用 <code>django_redis.pool.ConnectionFactory</code> 类产生连接：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 源码: django_redis/pool.py</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_connection_factory</span>(<span class="params">path=<span class="literal">None</span>, options=<span class="literal">None</span></span>):</span></span><br><span class="line">    <span class="keyword">if</span> path <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        path = <span class="built_in">getattr</span>(</span><br><span class="line">            settings,</span><br><span class="line">            <span class="string">&quot;DJANGO_REDIS_CONNECTION_FACTORY&quot;</span>,</span><br><span class="line">            <span class="string">&quot;django_redis.pool.ConnectionFactory&quot;</span>,</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">    cls = import_string(path)</span><br><span class="line">    <span class="keyword">return</span> cls(options <span class="keyword">or</span> &#123;&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>其中连接池的连接方式保证了数据库的连接得以重用，避免了较为频繁的创建与释放连接导致的大量性能开销，减少系统消耗的基础并提升了系统运行环境的平稳性，减少内存碎片和数据库临时进程和线程的数量。</p>
+<p>因而第一次请求耗时较长的原因包含了连接耗时，后续的读写请求将重用数据库的连接，将耗时大大降低。</p>
+<h3 id="8-python-连接-redis"><a href="#8-python-连接-redis" class="headerlink" title="8.python 连接 redis"></a>8.python 连接 redis</h3><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install redis</span><br></pre></td></tr></table></figure>
+
+<h4 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h4><ul>
+<li>传统方式</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"></span><br><span class="line">conn=redis.Redis(host=<span class="string">&#x27;127.0.0.1&#x27;</span>,port=<span class="number">6379</span>,password=<span class="string">&#x27;pwd&#x27;</span>) </span><br><span class="line">conn.<span class="built_in">set</span>(<span class="string">&#x27;name&#x27;</span>,<span class="string">&#x27;jimmy&#x27;</span>)</span><br><span class="line"></span><br><span class="line">name=conn.get(<span class="string">&#x27;name&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(name) </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>连接池方式</li>
+</ul>
+<blockquote>
+<p>与传统方式连接不同之处：链接不断开且长时间保持连接</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> redis</span><br><span class="line">pool=redis.ConnectionPool(host=<span class="string">&#x27;127.0.0.1&#x27;</span>,port=<span class="number">6379</span>,password=<span class="string">&#x27;pwd,max_connections=1000)</span></span><br><span class="line"><span class="string">conn=redis.Redis(connection_pool=pool)</span></span><br><span class="line"><span class="string">conn.set(&#x27;</span>foo<span class="string">&#x27;,&#x27;</span>Ba<span class="string">r&#x27;)</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>单例模式使用连接池</li>
+</ul>
+<p><code>redis_pool.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> redis</span><br><span class="line">pool = redis.ConnectionPool(host=<span class="string">&#x27;127.0.0.1&#x27;</span>, port=<span class="number">6379</span>, password=<span class="string">&#x27;pwd&#x27;</span>, max_connections=<span class="number">1000</span>)</span><br></pre></td></tr></table></figure>
+
+<p><code>file.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"><span class="keyword">from</span> redis_poll <span class="keyword">import</span> pool</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    key=<span class="built_in">input</span>(<span class="string">&quot;请输入key:&quot;</span>)</span><br><span class="line">    val=<span class="built_in">input</span>(<span class="string">&quot;请输入val:&quot;</span>)</span><br><span class="line">    conn = redis.Redis(connection_pool=pool)</span><br><span class="line">    conn.<span class="built_in">set</span>(key, val)</span><br></pre></td></tr></table></figure>
+
+<h4 id="处理字典数据"><a href="#处理字典数据" class="headerlink" title="处理字典数据"></a>处理字典数据</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> redis</span><br><span class="line">pool=redis.ConnectionPool(host=<span class="string">&#x27;47.99.191.149&#x27;</span>,port=<span class="number">6379</span>,password=<span class="string">&quot;cyy520&quot;</span>,max_connections=<span class="number">1000</span>)</span><br><span class="line">conn=redis.Redis(connection_pool=pool)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 字典操作方式（一）：</span></span><br><span class="line">conn.hset(<span class="string">&#x27;k1&#x27;</span>,<span class="string">&#x27;username&#x27;</span>,<span class="string">&#x27;alex&#x27;</span>)</span><br><span class="line">conn.hset(<span class="string">&#x27;k1&#x27;</span>,<span class="string">&#x27;age&#x27;</span>,<span class="number">18</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 字典操作方式（二）</span></span><br><span class="line">conn.hmset(<span class="string">&#x27;k2&#x27;</span>,&#123;<span class="string">&#x27;username&#x27;</span>: <span class="string">&#x27;jim&#x27;</span>, <span class="string">&#x27;age&#x27;</span>: <span class="string">&#x27;19&#x27;</span>&#125;)</span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">redis=&#123;</span></span><br><span class="line"><span class="string">    k1:&#123;</span></span><br><span class="line"><span class="string">        username:alex,</span></span><br><span class="line"><span class="string">        age:18</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取指定key</span></span><br><span class="line">val=conn.hget(<span class="string">&#x27;k1&#x27;</span>,<span class="string">&#x27;username&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(val)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取多个key</span></span><br><span class="line">val2=conn.hmget(<span class="string">&#x27;k2&#x27;</span>,<span class="string">&#x27;username&#x27;</span>,<span class="string">&#x27;age&#x27;</span>) </span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取所有键值对</span></span><br><span class="line">vals=conn.hgetall(<span class="string">&#x27;k1&#x27;</span>) </span><br><span class="line"><span class="built_in">print</span>(vals)   <span class="comment">#&#123;b&#x27;username&#x27;: b&#x27;alex&#x27;, b&#x27;age&#x27;: b&#x27;18&#x27;&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 迭代读取（以每次读取100个为例）</span></span><br><span class="line">ret = conn.hscan_iter(<span class="string">&#x27;k1&#x27;</span>,count=<span class="number">100</span>)</span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> ret:</span><br><span class="line">  <span class="built_in">print</span>(item)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="事务操作"><a href="#事务操作" class="headerlink" title="事务操作"></a>事务操作</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">pipe=conn.pipeline(transaction=<span class="literal">True</span>)<span class="comment">#创建一个pipe，事务为True</span></span><br><span class="line">pipe.multi()</span><br><span class="line"></span><br><span class="line">pipe.<span class="built_in">set</span>(<span class="string">&#x27;k1&#x27;</span>,<span class="number">123</span>)</span><br><span class="line">pipe.hset(<span class="string">&#x27;k2&#x27;</span>,<span class="string">&#x27;num&#x27;</span>,<span class="number">666</span>)</span><br><span class="line"></span><br><span class="line">pipe.execute()</span><br></pre></td></tr></table></figure>
+
+<h2 id="paperclip-问题及解决方法"><a href="#paperclip-问题及解决方法" class="headerlink" title=":paperclip:问题及解决方法"></a>:paperclip:问题及解决方法</h2><h4 id="（1）Redis编译过程报错"><a href="#（1）Redis编译过程报错" class="headerlink" title="（1）Redis编译过程报错"></a>（1）Redis编译过程报错</h4><p>Q：执行<code>sudo make test</code>编译过程可能报错</p>
+<p>A：执行命令清理再编译：<code>sudo make distclean &amp;&amp; sudo make &amp;&amp; sudo make test</code></p>
+<h4 id="（2）Redis存储过程失败"><a href="#（2）Redis存储过程失败" class="headerlink" title="（2）Redis存储过程失败"></a>（2）Redis存储过程失败</h4><p>Q：存储过程中出现<code>“Failed opening the RDB file dump.rdb (in server root dir /usr/local/redis-6.0.5) for saving: Permission denied”</code></p>
+<p>A：未赋予权限，需要对所安装的redis目录给予777权限：<code>sudo chmod -R 0777 redis-6.0.5</code></p>
+<h3 id="其它补充参考"><a href="#其它补充参考" class="headerlink" title="其它补充参考"></a>其它补充参考</h3><p><a target="_blank" rel="noopener" href="https://www.oreilly.com/library/view/redis-cookbook/9781449311353/">redis cookbook</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/58331707">redis五大难题解决方法：雪崩，穿透，并发</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/u/7ba34f6c07c9">微服务架构下的缓存系统设计</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39024365/article/details/103820499">互联网架构中缓存介绍</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.360doc.com/content/18/0605/06/28740943_759750231.shtml">最全面的缓存架构设计</a></p>
+<p><a href="%5Bhttp://redis.io/topics/cluster-tutorial">Redis集群</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/sous-chefs/redisio">Install and Configures Redis server instances</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/django/channels_redis">A Django Channels channel layer</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_30906671/article/details/99016060">使用第三方组件(django-redis)创建连接池</a></p>
+<p><a target="_blank" rel="noopener" href="https://redis.io/clients#python">redis python client</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/07/17/Django%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/" data-id="ckn0fva3q0009hltd3n0ih438" data-title="Django缓存机制介绍" class="article-share-link">Teilen</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/09/17/%E6%97%A5%E5%B8%B8%E9%97%AE%E9%A2%98%E2%80%94%E2%80%94Flask%E5%BC%80%E5%90%AF%E5%B1%80%E5%9F%9F%E7%BD%91%E8%AE%BF%E9%97%AE/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          日常问题——Flask开启局域网访问
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Django/">Django</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go/">Go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Notes/">Notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Others/">Others</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Study/">Study</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Testing/">Testing</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tools/">Tools</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/cos/">cos</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/idea/">idea</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/04/02/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94urljoin/">日常笔记——urljoin</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/01/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94k8s/">日常笔记——k8s</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/01/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/01/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Python/">Python function / package</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/31/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Elasticsearch/">日常笔记——Elasticsearch</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 Jimmy Guo<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

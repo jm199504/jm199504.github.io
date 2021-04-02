@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>日常笔记——Rabbitmq &amp; Celery | Jimmy&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="概述：日常笔记——Rabbitmq &amp; Celery">
+<meta property="og:type" content="article">
+<meta property="og:title" content="日常笔记——Rabbitmq &amp; Celery">
+<meta property="og:url" content="http://example.com/2021/03/24/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Rabbitmq&Celery/index.html">
+<meta property="og:site_name" content="Jimmy&#39;s blog">
+<meta property="og:description" content="概述：日常笔记——Rabbitmq &amp; Celery">
+<meta property="og:locale">
+<meta property="og:image" content="https://support.smartbear.com/readyapi/docs/_images/testing/amqp-about.png">
+<meta property="og:image" content="https://img-blog.csdn.net/20170512105615019">
+<meta property="og:image" content="https://img-blog.csdn.net/20170512103945228">
+<meta property="og:image" content="https://img-blog.csdn.net/20170512111129762">
+<meta property="og:image" content="http://example.com/Users/junmingguo/Downloads/vosamo.github.io-master/img/celery.png">
+<meta property="og:image" content="https://img-blog.csdn.net/20161213105123227">
+<meta property="article:published_time" content="2021-03-24T09:09:39.082Z">
+<meta property="article:modified_time" content="2021-04-02T06:44:38.585Z">
+<meta property="article:author" content="Jimmy Guo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://support.smartbear.com/readyapi/docs/_images/testing/amqp-about.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Jimmy's blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jimmy&#39;s blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-日常笔记——Rabbitmq&amp;Celery" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/24/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Rabbitmq&Celery/" class="article-date">
+  <time class="dt-published" datetime="2021-03-24T09:09:39.082Z" itemprop="datePublished">2021-03-24</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Notes/">Notes</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      日常笔记——Rabbitmq &amp; Celery
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>概述：日常笔记——Rabbitmq &amp; Celery</p>
+<span id="more"></span>
+
+<h1 id="Rabbitmq-amp-Celery"><a href="#Rabbitmq-amp-Celery" class="headerlink" title="Rabbitmq &amp; Celery"></a>Rabbitmq &amp; Celery</h1><h1 id="一、Rabbitmq"><a href="#一、Rabbitmq" class="headerlink" title="一、Rabbitmq"></a>一、Rabbitmq</h1><h2 id="1-安装"><a href="#1-安装" class="headerlink" title="1.安装"></a>1.安装</h2><p>以<code>mac OS</code>为例：</p>
+<p>（1）安装Homebrew [已安装可忽略]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ruby -e &quot;$(curl -fsSL https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;Homebrew&#x2F;install&#x2F;master&#x2F;install)&quot;</span><br></pre></td></tr></table></figure>
+
+<p>（2）通过<code>brew</code>安装Rabbitmq</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install rabbitmq</span><br></pre></td></tr></table></figure>
+
+<p>（3）环境变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vi &#x2F;etc&#x2F;profile</span><br><span class="line">PATH&#x3D;$PATH:&#x2F;usr&#x2F;local&#x2F;sbin</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-基础概念"><a href="#2-基础概念" class="headerlink" title="2.基础概念"></a>2.基础概念</h2><p>（1）高级消息队列协议（Advanced Message Queueing Protocol, AMQP）是面向消息中间件的开放标准应用程序层协议。</p>
+<p>（2）在AMQP中，发送消息的应用程序（称为生产者）将消息发布到AMQP代理，该代理将消息分发给处理消息的应用程序（消费者）。</p>
+<p>（3）AMQP 消息队列服务器实体（Broker）的内部结构主要包括三种实体，分别是交换器（Exchange）、队列（Queue）、绑定（bindings），如下图：</p>
+<p><img src="https://support.smartbear.com/readyapi/docs/_images/testing/amqp-about.png" alt="img"></p>
+<p>其中bingings是指将Exchange和Queue按路由规则绑定。</p>
+<p>（4）Exchange分发消息时根据类型的不同分发策略有区别，目前共三种类型：direct、fanout、topic。</p>
+<ul>
+<li><code>direct</code></li>
+</ul>
+<p><img src="https://img-blog.csdn.net/20170512105615019" alt="img"></p>
+<p>消息中的路由键（routing key）如果和 Binding 中的 binding key 一致， 交换器就将消息发到对应的队列中。路由键与队列名完全匹配，如果一个队列绑定到交换机要求路由键为“dog”，则只转发 routing key 标记为“dog”的消息，不会转发“dog.puppy”，也不会转发“dog.guard”等等。它是完全匹配、单播的模式。</p>
+<p>应用场景：现在我们考虑只把重要的日志消息写入磁盘文件，例如只把 Error 级别的日志发送给负责记录写入磁盘文件的 Queue。这种场景下我们可以使用指定的 RoutingKey（例如 error）将写入磁盘文件的 Queue 绑定到 Direct Exchange 上。</p>
+<ul>
+<li><code>fanout</code></li>
+</ul>
+<p><img src="https://img-blog.csdn.net/20170512103945228" alt="img"></p>
+<p>每个发到 fanout 类型交换器的消息都会分到所有绑定的队列上去。fanout 交换器不处理路由键（没有路由键概念），只是简单的将队列绑定到交换器上，每个发送到交换器的消息都会被转发到与该交换器绑定的所有队列上。很像子网广播，每台子网内的主机都获得了一份复制的消息。fanout 类型转发消息是最快的，也实现了一个消息被多个消费者获取的需求。</p>
+<p>应用场景：以日志系统为例：假设我们定义了一个 Exchange 来接收日志消息，同时定义了两个 Queue 来存储消息：一个记录将被打印到控制台的日志消息；另一个记录将被写入磁盘文件的日志消息。我们希望 Exchange 接收到的每一条消息都会同时被转发到两个 Queue，这种场景下就可以使用 Fanout Exchange 来广播消息到所有绑定的 Queue。</p>
+<ul>
+<li><code>topic</code></li>
+</ul>
+<p><img src="https://img-blog.csdn.net/20170512111129762" alt="img"></p>
+<p>topic 交换器通过模式匹配分配消息的路由键属性，将路由键和某个模式进行匹配，此时队列需要绑定到一个模式上。它将路由键和绑定键的字符串切分成单词，这些单词之间用点隔开。它同样也会识别两个通配符：符号“#”和符号“”。#匹配0个或多个单词<em>，</em>匹配不多不少一个单词。</p>
+<p>应用场景：假设我们的消息路由规则除了需要根据日志级别来分发之外还需要根据消息来源分发，可以将 RoutingKey 定义为 <code>消息来源.级别</code> 如 <code>order.info</code>、<code>user.error</code>等。处理所有来源为 <code>user</code> 的 Queue 就可以通过 <code>user.*</code> 绑定到 Topic Exchange 上，而处理所有日志级别为 <code>info</code> 的 Queue 可以通过 <code>*.info</code> 绑定到 Exchange上。</p>
+<h2 id="3-常见命令"><a href="#3-常见命令" class="headerlink" title="3.常见命令"></a>3.常见命令</h2><h3 id="（1）启动服务"><a href="#（1）启动服务" class="headerlink" title="（1）启动服务"></a>（1）启动服务</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rabbitmq-server</span><br><span class="line">&#x2F;&#x2F; 备注：启动失败可尝试 sudo rabbitmq-server</span><br><span class="line">&#x2F;&#x2F; 后台启动：rabbitmq-server -detached  </span><br></pre></td></tr></table></figure>
+
+<h3 id="（2）查看状态"><a href="#（2）查看状态" class="headerlink" title="（2）查看状态"></a>（2）查看状态</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl status</span><br></pre></td></tr></table></figure>
+
+<h3 id="（3）访问"><a href="#（3）访问" class="headerlink" title="（3）访问"></a>（3）访问</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:15672</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 默认账号及密码均为guest</span> </span><br></pre></td></tr></table></figure>
+
+<h3 id="（4）停止服务"><a href="#（4）停止服务" class="headerlink" title="（4）停止服务"></a>（4）停止服务</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmq-service stop</span><br></pre></td></tr></table></figure>
+
+<h3 id="（5）查看所有队列"><a href="#（5）查看所有队列" class="headerlink" title="（5）查看所有队列"></a>（5）查看所有队列</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl list_queues</span><br></pre></td></tr></table></figure>
+
+<h3 id="（6）清除所有的队列"><a href="#（6）清除所有的队列" class="headerlink" title="（6）清除所有的队列"></a>（6）清除所有的队列</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl reset</span><br></pre></td></tr></table></figure>
+
+<h3 id="（7）添加用户"><a href="#（7）添加用户" class="headerlink" title="（7）添加用户"></a>（7）添加用户</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl add_user username password</span><br></pre></td></tr></table></figure>
+
+<h3 id="（8）分配角色"><a href="#（8）分配角色" class="headerlink" title="（8）分配角色"></a>（8）分配角色</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl set_user_tags username administrator</span><br></pre></td></tr></table></figure>
+
+<h3 id="（9）新增虚拟主机"><a href="#（9）新增虚拟主机" class="headerlink" title="（9）新增虚拟主机"></a>（9）新增虚拟主机</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl add_vhost vhost_name</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-Hello-Rabbitmq"><a href="#4-Hello-Rabbitmq" class="headerlink" title="4.Hello Rabbitmq"></a>4.Hello Rabbitmq</h2><p>Hello World将展示生产者传输数据至消息队列，消费者从消息队列中取数据的过程，类似于下图：</p>
+<p>![image-20201017214611765](/Users/junmingguo/Library/Application Support/typora-user-images/image-20201017214611765.png)</p>
+<p>其中P表示生产者，C表示消费者，红色矩阵表示消息队列，hello表示传输的数据。</p>
+<h3 id="（1）生产者"><a href="#（1）生产者" class="headerlink" title="（1）生产者"></a>（1）生产者</h3><p><code>send.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pika</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line">queue = <span class="string">&#x27;demo_queue&#x27;</span>  <span class="comment"># 队列名称</span></span><br><span class="line">routing_key = <span class="string">&#x27;url_test&#x27;</span>  <span class="comment"># 路由键</span></span><br><span class="line">exchange = <span class="string">&#x27;oss_test&#x27;</span>  <span class="comment"># 交换器名称</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 新建连接，rabbitmq安装在本地则hostname为&#x27;localhost&#x27;</span></span><br><span class="line">hostname = <span class="string">&#x27;127.0.0.1&#x27;</span></span><br><span class="line">port = <span class="number">5672</span></span><br><span class="line"></span><br><span class="line">credentials = pika.PlainCredentials(username=<span class="string">&#x27;guest&#x27;</span>, password=<span class="string">&#x27;guest&#x27;</span>)</span><br><span class="line">parameters = pika.ConnectionParameters(host=hostname, port=port, credentials=credentials)</span><br><span class="line">connection = pika.BlockingConnection(parameters=parameters)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建通道</span></span><br><span class="line">channel = connection.channel()</span><br><span class="line"><span class="comment"># 创建broker: 交换器类型为direct，durable属性为true时表示会创建一个持久化的交换器</span></span><br><span class="line">channel.exchange_declare(exchange=exchange, exchange_type=<span class="string">&#x27;direct&#x27;</span>, durable=<span class="literal">True</span>)</span><br><span class="line"><span class="comment"># 声明一个队列，生产者和消费者都要声明一个相同的队列，用来防止万一某一方挂了，另一方能正常运行</span></span><br><span class="line">channel.queue_declare(queue=queue, durable=<span class="literal">True</span>)</span><br><span class="line"><span class="comment"># 把队列和中间人绑定</span></span><br><span class="line">channel.queue_bind(exchange=exchange, queue=queue, routing_key=routing_key)</span><br><span class="line"><span class="comment"># 交换机; 队列名,写明将消息发往哪个队列; 消息内容</span></span><br><span class="line"><span class="comment"># routing_key在使用匿名交换机的时候才需要指定，表示发送到哪个队列,注意当未定义exchange时，routing_key需和queue的值保持一致</span></span><br><span class="line">data = &#123;</span><br><span class="line">    <span class="string">&quot;name&quot;</span>: <span class="string">&quot;jimmy&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">channel.basic_publish(exchange=exchange, routing_key=routing_key, body=json.dumps(data))</span><br><span class="line"><span class="comment"># 关闭连接</span></span><br><span class="line">connection.close()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="（2）消费者"><a href="#（2）消费者" class="headerlink" title="（2）消费者"></a>（2）消费者</h3><p><code>receive.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pika</span><br><span class="line"></span><br><span class="line">queue = <span class="string">&#x27;demo_queue&#x27;</span>  <span class="comment"># 队列名</span></span><br><span class="line"></span><br><span class="line">hostname = <span class="string">&#x27;127.0.0.1&#x27;</span></span><br><span class="line">port = <span class="number">5672</span></span><br><span class="line"></span><br><span class="line">credentials = pika.PlainCredentials(username=<span class="string">&#x27;guest&#x27;</span>, password=<span class="string">&#x27;guest&#x27;</span>)</span><br><span class="line">parameters = pika.ConnectionParameters(host=hostname, port=port, credentials=credentials)</span><br><span class="line">connection = pika.BlockingConnection(parameters=parameters)</span><br><span class="line"><span class="comment"># 创建通道</span></span><br><span class="line">channel = connection.channel()</span><br><span class="line">channel.queue_declare(queue=queue, durable=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">callback</span>(<span class="params">ch, method, properties, body</span>):</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;接收到的消息 ======&gt; <span class="subst">&#123;body&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="comment"># ch.basic_ack(delivery_tag=method.delivery_tag)  # 发送ack消息</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加不按顺序分配消息的参数（可选）</span></span><br><span class="line"><span class="comment"># channel.basic_qos(prefetch_count=1)</span></span><br><span class="line"><span class="comment"># rabbitmq使用callback来接收信息</span></span><br><span class="line">channel.basic_consume(queue=queue,</span><br><span class="line">                      on_message_callback=callback,</span><br><span class="line">                      auto_ack=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 开始接收信息，并进入阻塞状态，队列里有信息才会调用callback进行处理,按ctrl+c退出</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;正在等待接收消息，退出请按CTRL+C ……&#x27;</span>)</span><br><span class="line">channel.start_consuming()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>执行<code>receive.py</code></li>
+<li>执行2次<code>send.py</code>后，查看队列，会发现Ready=2：</li>
+</ul>
+<p>![image-20201017213921348](/Users/junmingguo/Library/Application Support/typora-user-images/image-20201017213921348.png)</p>
+<ul>
+<li>查看消费者的终端输出 </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">正在等待接收消息，退出请按CTRL+C ……</span><br><span class="line">接收到的消息 &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&gt; b&#39;&#123;&quot;name&quot;: &quot;jimmy&quot;&#125;&#39;</span><br><span class="line">接收到的消息 &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&gt; b&#39;&#123;&quot;name&quot;: &quot;jimmy&quot;&#125;&#39;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="5-问题记录"><a href="#5-问题记录" class="headerlink" title="5.问题记录"></a>5.问题记录</h2><h3 id="（1）消费者接收异常"><a href="#（1）消费者接收异常" class="headerlink" title="（1）消费者接收异常"></a>（1）消费者接收异常</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">channel.basic_consume(callback, queue=queue, no_ack=<span class="literal">False</span>)</span><br><span class="line"><span class="comment"># TypeError: basic_consume() got multiple values for argument &#x27;queue&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>版本更新导致参数位置和参数名称均涉及更新：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">channel.basic_consume(queue=queue, on_message_callback=callback,auto_ack=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="（2）启动过程异常"><a href="#（2）启动过程异常" class="headerlink" title="（2）启动过程异常"></a>（2）启动过程异常</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zsh: command not found: rabbitmq-server</span><br></pre></td></tr></table></figure>
+
+<p>编辑<code>~/.zshrc</code>并写入以下3行配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.zshrc</span><br><span class="line"></span><br><span class="line">PATH=$PATH:/usr/local/sbin</span><br><span class="line">export PATH=$PATH:/usr/local/sbin</span><br><span class="line">export PATH=/usr/local/sbin:$PATH</span><br><span class="line"></span><br><span class="line">source .zshrc</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 打开新窗口</span></span><br><span class="line"></span><br><span class="line">rabbitmq-server</span><br></pre></td></tr></table></figure>
+
+<p>（3）启动过程异常</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Configuring logger redirection</span><br><span class="line"><span class="number">10</span>:<span class="number">03</span>:<span class="number">26</span>.<span class="number">920</span> [warning] Failed to write PID file &quot;/usr/local/var/lib/rabbitmq/mnesia/rabbit@localhost.pid&quot;: permission denied</span><br><span class="line"><span class="number">10</span>:<span class="number">03</span>:<span class="number">27</span>.<span class="number">093</span> [error] Supervisor ra_system_sup had child ra_log_ets started with ra_log_ets:start_link......</span><br><span class="line">Kernel pid terminated (application_controller) (&#123;application_start_failure,ra,&#123;&#123;shutdown,&#123;failed_to_start_child,ra_system_sup,&#123;shutdown,&#123;failed_to_start_child,ra_log_ets,&#123;&#123;badmatch,&#123;error,&#123;file_error,</span><br><span class="line"></span><br><span class="line">Crash dump is being written to: erl_crash.dump...done</span><br></pre></td></tr></table></figure>
+
+<p>解决: <code>sudo rabbitmq-server</code></p>
+<h3 id="（3）启动失败"><a href="#（3）启动失败" class="headerlink" title="（3）启动失败"></a>（3）启动失败</h3><p>zsh: command not found: rabbitmq-server</p>
+<p>编辑~/.zshrc并写入以下3行配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">vim ~&#x2F;.zshrc</span><br><span class="line"></span><br><span class="line">PATH&#x3D;$PATH:&#x2F;usr&#x2F;local&#x2F;sbin</span><br><span class="line">export PATH&#x3D;$PATH:&#x2F;usr&#x2F;local&#x2F;sbin</span><br><span class="line">export PATH&#x3D;&#x2F;usr&#x2F;local&#x2F;sbin:$PATH</span><br><span class="line"></span><br><span class="line">source .zshrc</span><br><span class="line"></span><br><span class="line"># 打开新窗口</span><br><span class="line"></span><br><span class="line">rabbitmq-server</span><br></pre></td></tr></table></figure>
+
+<h3 id="（4）安装相关异常"><a href="#（4）安装相关异常" class="headerlink" title="（4）安装相关异常"></a>（4）安装相关异常</h3><p>（1）问题：执行<code>sudo make test</code>编译过程可能报错</p>
+<p>解决方案：执行命令清理再编译：<code>sudo make distclean &amp;&amp; sudo make &amp;&amp; sudo make test</code></p>
+<p>（2）问题：安装Redis的编译过程出现问题<code>“Failed opening the RDB file dump.rdb (in server root dir /usr/local/redis-6.0.5) for saving: Permission denied”</code>，说明未赋予权限，需要对所安装的redis目录给予777权限：</p>
+<p>解决方案：<code>sudo chmod -R 0777 redis-6.0.5</code></p>
+<h1 id="二、Celery"><a href="#二、Celery" class="headerlink" title="二、Celery"></a>二、Celery</h1><h2 id="1-模块架构"><a href="#1-模块架构" class="headerlink" title="1.模块架构"></a>1.模块架构</h2><p><img src="/Users/junmingguo/Downloads/vosamo.github.io-master/img/celery.png" alt="celery"></p>
+<p><img src="https://img-blog.csdn.net/20161213105123227" alt="Celery_framework"></p>
+<p>Celery模块：</p>
+<ul>
+<li>任务模块 Task</li>
+</ul>
+<p>包含异步任务和定时任务。其中，异步任务通常在业务逻辑中被触发并发往任务队列，而定时任务由 Celery Beat 进程周期性地将任务发往任务队列。</p>
+<ul>
+<li>消息中间件 Broker</li>
+</ul>
+<p>Broker，即为任务调度队列，接收任务生产者发来的消息（即任务），将任务存入队列。Celery 本身不提供队列服务，官方推荐使用 RabbitMQ 和 Redis 等。</p>
+<ul>
+<li>任务执行单元 Worker</li>
+</ul>
+<p>Worker 是执行任务的处理单元，它实时监控消息队列，获取队列中调度的任务，并执行它。</p>
+<ul>
+<li>任务结果存储 Backend</li>
+</ul>
+<p>Backend 用于存储任务的执行结果，以供查询。同消息中间件一样，存储也可使用 RabbitMQ, Redis 和 MongoDB 等。</p>
+<h2 id="2-基本概念"><a href="#2-基本概念" class="headerlink" title="2.基本概念"></a>2.基本概念</h2><p>任务生产者 (task producer) 负责产生计算任务，交给任务队列去处理。</p>
+<p>任务调度器 (celery beat)会读取配置文件的内容，周期性地将执行任务的请求发送给任务队列。</p>
+<p>任务代理 (broker)负责接受任务生产者发送过来的任务处理消息，存进队列之后再进行调度，分发给任务消费方 (celery worker)。</p>
+<p>任务消费方 (celery worker)负责接收任务处理中间方发来的任务处理请求，完成这些任务，并且返回任务处理的结果。</p>
+<p>Result Backend：任务处理完后保存状态信息和结果，以供查询。Celery默认已支持Redis、RabbitMQ、MongoDB、Django ORM、SQLAlchemy等方式。</p>
+<h2 id="3-Hello-Celery"><a href="#3-Hello-Celery" class="headerlink" title="3.Hello Celery"></a>3.Hello Celery</h2><h3 id="（1）安装"><a href="#（1）安装" class="headerlink" title="（1）安装"></a>（1）安装</h3><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install celery==<span class="number">4</span>.<span class="number">4</span>.<span class="number">7</span></span><br></pre></td></tr></table></figure>
+
+<p>Tip：celery( v5.0.0 )存在缺陷——backend找不到amqp</p>
+<h3 id="（2）创建celery应用"><a href="#（2）创建celery应用" class="headerlink" title="（2）创建celery应用"></a>（2）创建celery应用</h3><p><code>tasks.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> celery <span class="keyword">import</span> Celery</span><br><span class="line"></span><br><span class="line">app = Celery(<span class="string">&#x27;task_name&#x27;</span>, broker=<span class="string">&#x27;amqp://guest:guest@127.0.0.1:5672&#x27;</span>)  <span class="comment"># 第一个参数为当前模块名称，第二个参数为中间件参数——指定你使用的消息中间件URL</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.task</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span>(<span class="params">x, y</span>):</span></span><br><span class="line">    <span class="keyword">return</span> x + y</span><br></pre></td></tr></table></figure>
+
+<h3 id="（3）启动worker"><a href="#（3）启动worker" class="headerlink" title="（3）启动worker"></a>（3）启动worker</h3><p>🗒：<code>tasks</code>为工程名</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">celery -A tasks worker --loglevel=INFO [-Q QUEUE_NAME]</span><br></pre></td></tr></table></figure>
+
+<h3 id="（4）调用application"><a href="#（4）调用application" class="headerlink" title="（4）调用application"></a>（4）调用application</h3><p>触发消息提交至队列</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python</span><br><span class="line">from tasks import add</span><br><span class="line">result = add.delay(<span class="number">1</span>,<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+<p>调用（4）后可查看<code>Terminals</code>的worker相关信息输出</p>
+<h3 id="（5）查看执行结果"><a href="#（5）查看执行结果" class="headerlink" title="（5）查看执行结果"></a>（5）查看执行结果</h3><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">result.result</span><br><span class="line"># result: <span class="number">3</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="（6）使用config加载Celery信息"><a href="#（6）使用config加载Celery信息" class="headerlink" title="（6）使用config加载Celery信息"></a>（6）使用config加载Celery信息</h3><p>除了上述<code>app = Celery(&#39;tasks&#39;, broker=&#39;amqp://guest:guest@127.0.0.1:5672&#39;)</code>的方法外，还可以将Celery的配置存入<code>celeryconfig.py</code>文件中，使用<code>app.config_from_object</code>加载：</p>
+<p><code>tasks.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> celery <span class="keyword">import</span> Celery</span><br><span class="line">app = Celery(<span class="string">&#x27;task_name&#x27;</span>)</span><br><span class="line">app.config_from_object(<span class="string">&#x27;celery_config&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><code>celery_config.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> timedelta</span><br><span class="line"></span><br><span class="line">BROKER_URL = <span class="string">&#x27;amqp://guest:guest@127.0.0.1:5672&#x27;</span>  <span class="comment"># 中间件地址</span></span><br><span class="line">CELERY_RESULT_BACKEND = <span class="string">&#x27;amqp://&#x27;</span> <span class="comment"># 后端: 存储任务执行结果</span></span><br><span class="line">CELERY_TIMEZONE = <span class="string">&#x27;Asia/Shanghai&#x27;</span>    <span class="comment"># 指定时区，不指定默认为 &#x27;UTC&#x27;</span></span><br><span class="line">CELERY_TASK_RESULT_EXPIRES = <span class="number">60</span> * <span class="number">60</span> * <span class="number">24</span> <span class="comment"># 任务过期时间</span></span><br><span class="line"></span><br><span class="line">CELERYBEAT_SCHEDULE = &#123;</span><br><span class="line">    <span class="string">&#x27;mybeat&#x27;</span>: &#123;</span><br><span class="line">        <span class="comment"># task：需要执行计划任务的函数</span></span><br><span class="line">        <span class="string">&#x27;task&#x27;</span>: <span class="string">&#x27;tasks.add&#x27;</span>,</span><br><span class="line">        <span class="comment"># 配置计划任务的执行时间（3秒）</span></span><br><span class="line">        <span class="string">&#x27;schedule&#x27;</span>: timedelta(seconds=<span class="number">3</span>),</span><br><span class="line">        <span class="comment"># 传入计划任务函数的参数</span></span><br><span class="line">        <span class="string">&#x27;args&#x27;</span>: (<span class="number">1</span>, <span class="number">200</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># ……</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-在Django中使用信号量"><a href="#4-在Django中使用信号量" class="headerlink" title="4.在Django中使用信号量"></a>4.在Django中使用信号量</h2><p>信号量（Signal）：在特定事件发生时，可以发送一个信号去通知注册了这个信号的一个或者多个回调，在回调里进行逻辑处理。</p>
+<h3 id="（1）自定义信号量"><a href="#（1）自定义信号量" class="headerlink" title="（1）自定义信号量"></a>（1）自定义信号量</h3><p><code>event.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.dispatch <span class="keyword">import</span> Signal  <span class="comment"># 内置库 </span></span><br><span class="line">mySignal = Signal(providing_args=[<span class="string">&quot;信号参数1&quot;</span>,<span class="string">&quot;信号参数2&quot;</span>])</span><br></pre></td></tr></table></figure>
+
+<h3 id="（2）加载信号量-绑定处理函数"><a href="#（2）加载信号量-绑定处理函数" class="headerlink" title="（2）加载信号量 - 绑定处理函数"></a>（2）加载信号量 - 绑定处理函数</h3><p><code>__init__.py</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">from .event import mySignal</span><br></pre></td></tr></table></figure>
+
+<p><code>apps.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.apps <span class="keyword">import</span> AppConfig  <span class="comment"># 内置库 </span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyAppConfig</span>(<span class="params">AppConfig</span>):</span></span><br><span class="line">  name = <span class="string">&quot;app&quot;</span></span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">ready</span>(<span class="params">self</span>):</span></span><br><span class="line">    <span class="keyword">from</span> .signals <span class="keyword">import</span> 处理函数</span><br></pre></td></tr></table></figure>
+
+<h3 id="（3）事件触发-send"><a href="#（3）事件触发-send" class="headerlink" title="（3）事件触发 - send"></a>（3）事件触发 - send</h3><p><code>view.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> .event <span class="keyword">import</span> mySignal</span><br><span class="line">mySignal.send(sender=<span class="string">&quot;function or class&quot;</span>, 信号参数<span class="number">1</span>=<span class="string">&quot;something&quot;</span>, 信号参数<span class="number">2</span>=<span class="string">&quot;others&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="（4）接收信号-执行（signals-py处理信号的函数）"><a href="#（4）接收信号-执行（signals-py处理信号的函数）" class="headerlink" title="（4）接收信号 + 执行（signals.py处理信号的函数）"></a>（4）接收信号 + 执行（<code>signals.py</code>处理信号的函数）</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.dispatch <span class="keyword">import</span> receiver  <span class="comment"># 内置库 </span></span><br><span class="line"><span class="keyword">from</span> .event <span class="keyword">import</span> mySignal</span><br><span class="line"></span><br><span class="line"><span class="meta">@receiver(<span class="params">mySignal</span>)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> 处理函数(<span class="params">sender, instance, **kwargs</span>):</span></span><br><span class="line"><span class="comment">#    :param sender: 信号发送类</span></span><br><span class="line"><span class="comment">#    :param instance: 实际要保存的实例</span></span><br><span class="line"><span class="comment">#    :param kwargs: post_save 参数</span></span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&quot;do something&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="（5）celery内置的几种信号"><a href="#（5）celery内置的几种信号" class="headerlink" title="（5）celery内置的几种信号"></a>（5）celery内置的几种信号</h3><blockquote>
+<p><code>from celery.signals import before_task_publish, task_postrun</code></p>
+</blockquote>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">before_task_publish - sender 发布 task 之前。</span><br><span class="line">after_task_publish - sender 发布 task 之后。</span><br><span class="line"></span><br><span class="line">task_prerun - receiver 执行 task 之前。</span><br><span class="line">task_postrun - receiver 执行 task 之后。</span><br><span class="line"></span><br><span class="line">task_retry - receiver 执行 task 时，发生「重试」。</span><br><span class="line">task_success - receiver 执行 task 时，发生「成功」。</span><br><span class="line">task_failure - receiver 执行 task 时，发生「失败」。</span><br><span class="line">task_revoked - receiver 执行 task 时，发生「注销」。</span><br><span class="line"></span><br><span class="line">task_unknown - receiver 无法辨识。当 project 和 celery 的 task 产生落差时，会发生的状况。</span><br><span class="line"></span><br><span class="line">补充：before_task_publish提供了很多参数：任务消息体body、交换器exchange、路由键routing_key、应用头部映射headers、消息属性properties、实体列表declare、重试策略retry_policy。（具体描述可参考官网）</span><br><span class="line"></span><br><span class="line">其中 headers &#x3D; &#123;&#39;lang&#39;: &#39;py&#39;, &#39;task&#39;: &#39;tasks.add&#39;, &#39;id&#39;: &#39;15856ead-8a38-4a65-95d5-9baffc3c301c&#39;, &#39;shadow&#39;: None, &#39;eta&#39;: None, &#39;expires&#39;: None, &#39;group&#39;: None, &#39;group_index&#39;: None, &#39;retries&#39;: 0, &#39;timelimit&#39;: [None, None], &#39;root_id&#39;: &#39;15856ead-8a38-4a65-95d5-9baffc3c301c&#39;, &#39;parent_id&#39;: None, &#39;argsrepr&#39;: &#39;[1, 200]&#39;, &#39;kwargsrepr&#39;: &#39;&#123;&#125;&#39;, &#39;origin&#39;: &#39;gen29622@JUNMINGGUO-MB0&#39;&#125;</span><br><span class="line"></span><br><span class="line">补充: ETA（estimated time of arrival, 预计到底时间）让你设置一个日期和时间，在这个时间之前任务将被执行。 countdown 是一种以秒为单位设置ETA的快捷方式。 确保任务在指定的日期和时间之后的某个时间执行，但不一定在该时间执行。</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="（6）django内置的几种信号"><a href="#（6）django内置的几种信号" class="headerlink" title="（6）django内置的几种信号"></a>（6）django内置的几种信号</h3><blockquote>
+<p><code>from django.db.models.signals import pre_save,post_save</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pre_save - models对象保存之前触发</span><br><span class="line">post_save - models对象保存之后触发</span><br></pre></td></tr></table></figure>
+
+<h3 id="（7）自动收集异步任务"><a href="#（7）自动收集异步任务" class="headerlink" title="（7）自动收集异步任务"></a>（7）自动收集异步任务</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">app = Celery(<span class="string">&#x27;CELERY_NAME&#x27;</span>)</span><br><span class="line">app.config_from_object(<span class="string">&#x27;settings&#x27;</span>, namespace=<span class="string">&#x27;CELERY&#x27;</span>)</span><br><span class="line">app.autodiscover_tasks()  </span><br></pre></td></tr></table></figure>
+
+<h3 id="（8）使用日志记录"><a href="#（8）使用日志记录" class="headerlink" title="（8）使用日志记录"></a>（8）使用日志记录</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> celery.utils.log <span class="keyword">import</span> get_task_logger                                                     </span><br><span class="line">                                                                                                 </span><br><span class="line">logger = get_task_logger(__name__)                                                               </span><br><span class="line">                                   </span><br><span class="line"><span class="meta">@app.task(<span class="params">bind=<span class="literal">True</span></span>)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mytask</span>(<span class="params">self</span>):</span></span><br><span class="line">	logger.info(self.request)</span><br><span class="line"></span><br><span class="line"><span class="comment"># bind设置为True时，mytask的形参必须填写self，可通过self获取上下文 </span></span><br></pre></td></tr></table></figure>
+
+<h2 id="5-任务调度器-Beat"><a href="#5-任务调度器-Beat" class="headerlink" title="5.任务调度器(Beat)"></a>5.任务调度器(Beat)</h2><h3 id="（1）配置"><a href="#（1）配置" class="headerlink" title="（1）配置"></a>（1）配置</h3><p>在<code>celeryconfig.py</code>中配置<code>CELERYBEAT_SCHEDULE</code>:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">CELERYBEAT_SCHEDULE = &#123;</span><br><span class="line">    <span class="string">&#x27;mybeat&#x27;</span>: &#123;</span><br><span class="line">        <span class="comment"># task：需要执行计划任务的函数(完整路径：文件路径.方法)</span></span><br><span class="line">        <span class="string">&#x27;task&#x27;</span>: <span class="string">&#x27;tasks.add&#x27;</span>,</span><br><span class="line">        <span class="comment"># 配置计划任务的执行时间（3秒）</span></span><br><span class="line">        <span class="string">&#x27;schedule&#x27;</span>: timedelta(seconds=<span class="number">3</span>),</span><br><span class="line">        <span class="comment"># 传入计划任务函数的参数</span></span><br><span class="line">        <span class="string">&#x27;args&#x27;</span>: (<span class="number">1</span>, <span class="number">200</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="（2）启动周期性任务"><a href="#（2）启动周期性任务" class="headerlink" title="（2）启动周期性任务"></a>（2）启动周期性任务</h3><p>任务调度器会周期性（3秒）地启动任务，将需要执行的任务发送给任务队列。</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">celery -A YOUR_TASK_NAME beat --loglevel=INFO [-Q QUEUE_NAME]</span><br><span class="line"># YOUR_TASK为clery任务名</span><br><span class="line"># QUEUE_NAME为对应的队列名</span><br></pre></td></tr></table></figure>
+
+<h3 id="（3）查看周期性任务"><a href="#（3）查看周期性任务" class="headerlink" title="（3）查看周期性任务"></a>（3）查看周期性任务</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">celery -A YOUR_TASK_NAME worker --loglevel=INFO [-Q QUEUE_NAME] </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> QUEUE_NAME 为Beat队列的名称</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="6-Django-setting其它相关配置"><a href="#6-Django-setting其它相关配置" class="headerlink" title="6.Django-setting其它相关配置"></a>6.Django-setting其它相关配置</h2><h3 id="（1）异步任务绑定自定义任务队列名"><a href="#（1）异步任务绑定自定义任务队列名" class="headerlink" title="（1）异步任务绑定自定义任务队列名"></a>（1）异步任务绑定自定义任务队列名</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> kombu <span class="keyword">import</span> Queue, Exchange</span><br><span class="line">CELERY_TASK_QUEUES=(</span><br><span class="line">			Queue(<span class="string">&#x27;队列名&#x27;</span>,</span><br><span class="line">      	exchange=Exchange(<span class="string">&#x27;队列名&#x27;</span>),</span><br><span class="line">        routing_key=<span class="string">&#x27;队列名&#x27;</span>),</span><br><span class="line">			...</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">CELERY_TASK_ROUTES=&#123;</span><br><span class="line">    <span class="string">&#x27;文件路径.异步方法名&#x27;</span>: <span class="string">&#x27;队列名&#x27;</span>,</span><br><span class="line">  	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="（2）周期性任务"><a href="#（2）周期性任务" class="headerlink" title="（2）周期性任务"></a>（2）周期性任务</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CELERY_BEAT_SCHEDULE=&#123;</span><br><span class="line"> 	 <span class="string">&#x27;周期性任务名&#x27;</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;task&#x27;</span>: <span class="string">&#x27;周期性任务文件路径.周期性任务名&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;schedule&#x27;</span>: <span class="number">60</span>, <span class="comment"># 间隔触发时间：60秒</span></span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h2><p>1.安装celery</p>
+<p>2.安装rabbitmq</p>
+<p>3.实践celery + rabbitmq</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> celery <span class="keyword">import</span> Celery</span><br><span class="line"></span><br><span class="line">app = Celery(<span class="string">&#x27;tasks&#x27;</span>, broker=<span class="string">&#x27;amqp://guest:guest@127.0.0.1:5672&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.task</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span>(<span class="params">x, y</span>):</span></span><br><span class="line">    <span class="keyword">return</span> x + y</span><br></pre></td></tr></table></figure>
+
+<p>4.运行celery</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">celery -A tasks worker --loglevel=INFO</span><br></pre></td></tr></table></figure>
+
+<p>5.查看完整的命令行参数列表</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">celery worker --<span class="built_in">help</span></span><br></pre></td></tr></table></figure>
+
+<p>6.调用任务：使用<code>delay()</code>调用任务，是<code>apply_async()</code>的快捷方式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> tasks <span class="keyword">import</span> add</span><br><span class="line">add.delay(<span class="number">4</span>,<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+<h1 id="三、Celery-once"><a href="#三、Celery-once" class="headerlink" title="三、Celery_once"></a>三、Celery_once</h1><h2 id="1-作用"><a href="#1-作用" class="headerlink" title="1.作用"></a>1.作用</h2><p>可防止Celery重复执行相同任务，即避免队列中存在重复异步任务。</p>
+<h2 id="2-安装"><a href="#2-安装" class="headerlink" title="2.安装"></a>2.安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install celery_once</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-实现原理"><a href="#3-实现原理" class="headerlink" title="3.实现原理"></a>3.实现原理</h2><p>采用redis分布式锁，重写了Celery的<code>apply_async()</code>，重写的源码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">apply_async</span>(<span class="params">self, args=<span class="literal">None</span>, kwargs=<span class="literal">None</span>, **options</span>):</span></span><br><span class="line">  <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        Attempts to queues a task.</span></span><br><span class="line"><span class="string">        Will raises an AlreadyQueued exception if already queued.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        :param \*args: positional arguments passed on to the task.</span></span><br><span class="line"><span class="string">        :param \*\*kwargs: keyword arguments passed on to the task.</span></span><br><span class="line"><span class="string">        :keyword \*\*once: (optional)</span></span><br><span class="line"><span class="string">            :param: graceful: (optional)</span></span><br><span class="line"><span class="string">                If True, wouldn&#x27;t raise an exception if already queued.</span></span><br><span class="line"><span class="string">                Instead will return none.</span></span><br><span class="line"><span class="string">            :param: timeout: (optional)</span></span><br><span class="line"><span class="string">                An `int&#x27; number of seconds after which the lock will expire.</span></span><br><span class="line"><span class="string">                If not set, defaults to 1 hour.</span></span><br><span class="line"><span class="string">            :param: keys: (optional)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">  once_options = options.get(<span class="string">&#x27;once&#x27;</span>, &#123;&#125;)</span><br><span class="line">  once_graceful = once_options.get(</span><br><span class="line">    <span class="string">&#x27;graceful&#x27;</span>, self.once.get(<span class="string">&#x27;graceful&#x27;</span>, <span class="literal">False</span>))</span><br><span class="line">  once_timeout = once_options.get(</span><br><span class="line">    <span class="string">&#x27;timeout&#x27;</span>, self.once.get(<span class="string">&#x27;timeout&#x27;</span>, self.default_timeout))</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> <span class="keyword">not</span> options.get(<span class="string">&#x27;retries&#x27;</span>):</span><br><span class="line">    key = self.get_key(args, kwargs)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">      self.once_backend.raise_or_lock(key, timeout=once_timeout)</span><br><span class="line">      <span class="keyword">except</span> AlreadyQueued <span class="keyword">as</span> e:</span><br><span class="line">        <span class="keyword">if</span> once_graceful:</span><br><span class="line">          <span class="keyword">return</span> EagerResult(<span class="literal">None</span>, <span class="literal">None</span>, states.REJECTED)</span><br><span class="line">        <span class="keyword">raise</span> e</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">super</span>(QueueOnce, self).apply_async(args, kwargs, **options)</span><br></pre></td></tr></table></figure>
+
+<p>重点内容在于：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> options.get(<span class="string">&#x27;retries&#x27;</span>):</span><br><span class="line">  key = self.get_key(args, kwargs)</span><br><span class="line">  <span class="keyword">try</span>:</span><br><span class="line">    self.once_backend.raise_or_lock(key, timeout=once_timeout)</span><br><span class="line">  <span class="keyword">except</span> AlreadyQueued <span class="keyword">as</span> e:</span><br><span class="line">      <span class="keyword">if</span> once_graceful:</span><br><span class="line">        <span class="keyword">return</span> EagerResult(<span class="literal">None</span>, <span class="literal">None</span>, states.REJECTED)</span><br><span class="line">      <span class="keyword">raise</span> e</span><br><span class="line"><span class="keyword">return</span> <span class="built_in">super</span>(QueueOnce, self).apply_async(args, kwargs, **options)</span><br></pre></td></tr></table></figure>
+
+<p>（1）try中去判断队列中是否存在（尝试加锁进行判断），若加锁失败则表示队列中存在相同异步任务，因而触发<code>except AlreadyQueued</code>，如果<code>once_graceful=True</code>则表示不抛错，反之设为<code>False</code>则<code>raise e</code>。</p>
+<p>（2）注意到如果触发<code>AlreadyQueued</code>时会返回<code>EagerResult</code>对象，其中它的<code>__init__</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, <span class="built_in">id</span>, ret_value, state, traceback=<span class="literal">None</span></span>):</span></span><br><span class="line">  <span class="comment"># pylint: disable=super-init-not-called</span></span><br><span class="line">  <span class="comment"># XXX should really not be inheriting from AsyncResult</span></span><br><span class="line">  self.<span class="built_in">id</span> = <span class="built_in">id</span></span><br><span class="line">  self._result = ret_value</span><br><span class="line">  self._state = state</span><br><span class="line">  self._traceback = traceback</span><br><span class="line">  self.on_ready = promise()</span><br><span class="line">  self.on_ready(self)</span><br></pre></td></tr></table></figure>
+
+<p>原因在于Celery启动周期性任务Beat时，会触发<code>celery/beat.py</code>中的<code>apply_entry</code>方法，源码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">apply_entry</span>(<span class="params">self, entry, producer=<span class="literal">None</span></span>):</span></span><br><span class="line">  info(<span class="string">&#x27;Scheduler: Sending due task %s (%s)&#x27;</span>, entry.name, entry.task)</span><br><span class="line">  <span class="keyword">try</span>:</span><br><span class="line">      result = self.apply_async(entry, producer=producer, advance=<span class="literal">False</span>)</span><br><span class="line">  <span class="keyword">except</span> Exception <span class="keyword">as</span> exc:  <span class="comment"># pylint: disable=broad-except</span></span><br><span class="line">      error(<span class="string">&#x27;Message Error: %s\n%s&#x27;</span>,</span><br><span class="line">            exc, traceback.format_stack(), exc_info=<span class="literal">True</span>)</span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">      debug(<span class="string">&#x27;%s sent. id-&gt;%s&#x27;</span>, entry.task, result.<span class="built_in">id</span>)</span><br></pre></td></tr></table></figure>
+
+<p>分析可知，<code>apply_entry</code>中会获取<code>apply_async</code>的返回结果赋给<code>result</code>，其中发布异步任务失败（当队列中存在相同任务时），会进入<code>else</code>分支，而该部分需要获取<code>result.id</code>，所以<code>EagerResult</code>中需要赋予id字段为None，从而避免触发<code>NoneType has not key ‘id’</code>，而其它字段为可选字段，例如_state，_traceback等。</p>
+<h2 id="4-备注"><a href="#4-备注" class="headerlink" title="4.备注"></a>4.备注</h2><p><code>Celery_once</code>实现原理采用的<code>redis</code>共享锁，因此中间件（broker）仅支持<code>redis</code>，不支持其它broker，例如<code>rabbitmq</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CELERY_ONCE = &#123;</span><br><span class="line">    <span class="string">&#x27;backend&#x27;</span>: <span class="string">&#x27;celery_once.backends.Redis&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;settings&#x27;</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;url&#x27;</span>: YOUR_REDIS_URL,</span><br><span class="line">        <span class="string">&#x27;default_timeout&#x27;</span>: <span class="number">600</span>,  <span class="comment"># 任务下发后10分钟后删掉对应的celery-once锁，即10分钟后该任务可重新放入队列</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="四-Flower-Celery"><a href="#四-Flower-Celery" class="headerlink" title="四.Flower-Celery"></a>四.Flower-Celery</h1><p>Flower-Celery是一款Celery的监控可视化工具</p>
+<h2 id="1-安装-1"><a href="#1-安装-1" class="headerlink" title="1.安装"></a>1.安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install flower</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-启动"><a href="#2-启动" class="headerlink" title="2.启动"></a>2.启动</h2><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">flower -A tasks --port=<span class="number">5555</span></span><br><span class="line"># tasks为Celery.app名称</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-访问"><a href="#3-访问" class="headerlink" title="3.访问"></a>3.访问</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="http://localhost:5555/tasks">http://localhost:5555/tasks</a></p>
+</blockquote>
+<h2 id="4-可视化展示"><a href="#4-可视化展示" class="headerlink" title="4.可视化展示"></a>4.可视化展示</h2><p>![image-20201020162051867](/Users/junmingguo/Library/Application Support/typora-user-images/image-20201020162051867.png)</p>
+<h1 id="文档补充"><a href="#文档补充" class="headerlink" title="文档补充"></a>文档补充</h1><ul>
+<li><p>rabbitmq <a target="_blank" rel="noopener" href="https://www.rabbitmq.com/documentation.html">官方文档链接</a></p>
+</li>
+<li><p>pika <a target="_blank" rel="noopener" href="https://pika.readthedocs.io/en/stable/index.html">官网文档链接</a></p>
+</li>
+<li><p>Celery  <a target="_blank" rel="noopener" href="https://docs.celeryproject.org/en/v4.4.7/">官方文档链接</a></p>
+</li>
+<li><p>Celery <a target="_blank" rel="noopener" href="https://www.celerycn.io/">中文手册</a></p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/24/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Rabbitmq&Celery/" data-id="ckn0fva3s000bhltde9419fmc" data-title="日常笔记——Rabbitmq &amp; Celery" class="article-share-link">Teilen</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/03/25/%E6%9C%AC%E5%9C%B0%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E7%BB%9F%E8%AE%A1%E5%B7%A5%E5%85%B7%E2%80%94%E2%80%94Coverage/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          本地单元测试统计工具——Coverage
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/03/24/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94unittest/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">日常笔记——unittest</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Django/">Django</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go/">Go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Notes/">Notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Others/">Others</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Study/">Study</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Testing/">Testing</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tools/">Tools</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/cos/">cos</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/idea/">idea</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/04/02/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94urljoin/">日常笔记——urljoin</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/01/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94k8s/">日常笔记——k8s</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/01/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/01/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Python/">Python function / package</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/31/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Elasticsearch/">日常笔记——Elasticsearch</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 Jimmy Guo<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Tencent cloud COS实践.md | Jimmy&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="概述：Tencent cloud COS存储实践.md">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tencent cloud COS实践.md">
+<meta property="og:url" content="http://example.com/2021/03/24/Tencent%20cloud%20COS%E5%AD%98%E5%82%A8%E5%AE%9E%E8%B7%B5/index.html">
+<meta property="og:site_name" content="Jimmy&#39;s blog">
+<meta property="og:description" content="概述：Tencent cloud COS存储实践.md">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-03-24T05:23:29.709Z">
+<meta property="article:modified_time" content="2021-04-02T06:38:27.467Z">
+<meta property="article:author" content="Jimmy Guo">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Jimmy's blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jimmy&#39;s blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Tencent cloud COS存储实践" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/24/Tencent%20cloud%20COS%E5%AD%98%E5%82%A8%E5%AE%9E%E8%B7%B5/" class="article-date">
+  <time class="dt-published" datetime="2021-03-24T05:23:29.709Z" itemprop="datePublished">2021-03-24</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/cos/">cos</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Tencent cloud COS实践.md
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>概述：Tencent cloud COS存储实践.md</p>
+<span id="more"></span>
+
+<h1 id="对象存储-Cloud-object-Store-COS"><a href="#对象存储-Cloud-object-Store-COS" class="headerlink" title="对象存储 Cloud object Store/COS"></a>对象存储 Cloud object Store/COS</h1><h2 id="install"><a href="#install" class="headerlink" title="install"></a>install</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -U cos-python-sdk-v5</span><br></pre></td></tr></table></figure>
+
+<h2 id="config"><a href="#config" class="headerlink" title="config"></a>config</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">from qcloud_cos import CosConfig</span><br><span class="line">from qcloud_cos import CosS3Client</span><br><span class="line">import sys</span><br><span class="line">import logging</span><br><span class="line">logging.basicConfig(level&#x3D;logging.INFO, stream&#x3D;sys.stdout)</span><br><span class="line">secret_id &#x3D; &#39;AKIDEI7fz3fzY0DUTCwz1nHUGn5sOKzNkP9c&#39;      # 替换为用户的 secretId</span><br><span class="line">secret_key &#x3D; &#39;Lq2VkmY3gBOL1lUrypgdCWZYkTxBHgbG&#39;      # 替换为用户的 secretKey</span><br><span class="line">region &#x3D; &#39;ap-guangzhou&#39;     # 替换为用户的 Region</span><br><span class="line">token &#x3D; None                # 使用临时密钥需要传入 Token，默认为空，可不填</span><br><span class="line">scheme &#x3D; &#39;https&#39;            # 指定使用 http&#x2F;https 协议来访问 COS，默认为 https，可不填</span><br><span class="line">config &#x3D; CosConfig(Region&#x3D;region, SecretId&#x3D;secret_id, SecretKey&#x3D;secret_key, Token&#x3D;token)</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取客户端对象"><a href="#获取客户端对象" class="headerlink" title="获取客户端对象"></a>获取客户端对象</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">client &#x3D; CosS3Client(config)</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建存储桶"><a href="#创建存储桶" class="headerlink" title="创建存储桶"></a>创建存储桶</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">response &#x3D; client.create_bucket(</span><br><span class="line">   Bucket&#x3D;&#39;examplebucket-1250000000&#39;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看存储桶列表"><a href="#查看存储桶列表" class="headerlink" title="查看存储桶列表"></a>查看存储桶列表</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response &#x3D; client.list_buckets()</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看存储桶文件"><a href="#查看存储桶文件" class="headerlink" title="查看存储桶文件"></a>查看存储桶文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">response &#x3D; client.list_objects(</span><br><span class="line">   Bucket&#x3D;&#39;pic-1302652079&#39;,</span><br><span class="line">   Prefix&#x3D;&#39;person&#39;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h2 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">file_name &#x3D; &#39;通过制品名查询发布单.py&#39;</span><br><span class="line">with open(&#39;通过制品名查询发布单.py&#39;, &#39;rb&#39;) as fp:</span><br><span class="line">    response &#x3D; client.put_object(</span><br><span class="line">        Bucket&#x3D;&#39;pic-1302652079&#39;,  # Bucket由bucketname-appid组成</span><br><span class="line">        Body&#x3D;fp,</span><br><span class="line">        Key&#x3D;file_name,</span><br><span class="line">        StorageClass&#x3D;&#39;STANDARD&#39;,</span><br><span class="line">        ContentType&#x3D;&#39;text&#x2F;html; charset&#x3D;utf-8&#39;</span><br><span class="line">    )</span><br><span class="line">    print(response[&#39;ETag&#39;])</span><br></pre></td></tr></table></figure>
+
+<h2 id="文件下载"><a href="#文件下载" class="headerlink" title="文件下载"></a>文件下载</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">response &#x3D; client.get_object(</span><br><span class="line">   Bucket&#x3D;&#39;pic-1302652079&#39;,</span><br><span class="line">   Key&#x3D;&#39;通过制品名查询发布单.py&#39;,</span><br><span class="line">)</span><br><span class="line">response[&#39;Body&#39;].get_stream_to_file(&#39;转义.py&#39;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="文件删除"><a href="#文件删除" class="headerlink" title="文件删除"></a>文件删除</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">response &#x3D; client.delete_object(</span><br><span class="line">   Bucket&#x3D;&#39;pic-1302652079&#39;,</span><br><span class="line">   Key&#x3D;&#39;通过制品名查询发布单.py&#39;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/24/Tencent%20cloud%20COS%E5%AD%98%E5%82%A8%E5%AE%9E%E8%B7%B5/" data-id="ckn0fva330000hltdeved6btw" data-title="Tencent cloud COS实践.md" class="article-share-link">Teilen</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/03/24/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94gRPC/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          日常笔记——gRPC
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/03/24/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94YAML/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">日常笔记——Yaml</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Django/">Django</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go/">Go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Notes/">Notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Others/">Others</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Study/">Study</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Testing/">Testing</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tools/">Tools</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/cos/">cos</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/idea/">idea</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/04/02/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94urljoin/">日常笔记——urljoin</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/01/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94k8s/">日常笔记——k8s</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/01/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/01/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Python/">Python function / package</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/31/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Elasticsearch/">日常笔记——Elasticsearch</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 Jimmy Guo<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

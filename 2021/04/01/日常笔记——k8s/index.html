@@ -14,7 +14,7 @@
 <meta property="og:description" content="概述：日常笔记——k8s">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-04-01T10:32:52.244Z">
-<meta property="article:modified_time" content="2021-04-02T01:50:59.652Z">
+<meta property="article:modified_time" content="2021-04-02T07:24:04.974Z">
 <meta property="article:author" content="Jimmy Guo">
 <meta name="twitter:card" content="summary">
   
@@ -133,6 +133,141 @@
 <li>Kube-proxy：为Pod对象提供代理</li>
 </ul>
 </li>
+<li><p>Kubernets 分层架构</p>
+</li>
+</ol>
+<ul>
+<li><p>Ecosystem</p>
+</li>
+<li><p>Interface layer: client libraries and tools</p>
+</li>
+<li><p>governance layer: automation and policy enforcement</p>
+</li>
+<li><p>Application layer: deployment and routing</p>
+</li>
+<li><p>Nucleus: api and execution</p>
+</li>
+<li><p>(Container runtime, network plugin,volume plugin, image registry, cloud provider, identity provider)</p>
+</li>
+</ul>
+<p>- 核心层：Kubernetes最核心的功能，对外提供API构建高层的应用，对内提供插件式应用执行环境</p>
+<p>- 应用层：部署（无状态应用、有状态应用、批处理任务、集群应用等）和路由（服务发现、DNS解析等）</p>
+<p>- 管理层：系统度量（如基础设施、容器和网络的度量），自动化（如自动扩展、动态Provision等）以及策略管理（RBAC、Quota、PSP、NetworkPolicy等）</p>
+<p>- 接口层：kubectl命令行工具、客户端SDK以及集群联邦</p>
+<p>- 生态系统：在接口层之上的庞大容器集群管理调度的生态系统，可以划分为两个范</p>
+<p>Kubernetes外部：日志、监控、配置管理、CI、CD、Workflow、FaaS、OTS应用、ChatOps等Kubernetes外部：日志、监控、配置管理、CI、CD、Workflow、FaaS、OTS应用、ChatOps等<br>Kubernetes内部：CRI、CNI、CVI、镜像仓库、Cloud Provider、集群自身的配置和管理等</p>
+<ul>
+<li><p>kubelet： kubelet负责管理pods和它们上面的容器，images镜像、volumes、etc。</p>
+</li>
+<li><p>kube-proxy：每一个节点也运行一个简单的网络代理和负载均衡</p>
+</li>
+<li><p>etcd：所有master的持续状态都存在etcd的一个实例中。这可以很好地存储配置数据</p>
+</li>
+<li><p>Scheduler：调度器把未调度的pod通过binding api绑定到节点上。调度器是可插拔的，并且我们期待支持多集群的调度，未来甚至希望可以支持用户自定义的调度器。</p>
+</li>
+</ul>
+<ol start="7">
+<li><p>工作负载 Workload</p>
+<table>
+<thead>
+<tr>
+<th align="left">类型</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Deployment</td>
+<td align="left">声明了 Pod 的模板和控制 Pod 的运行策略，适用于部署无状态的应用程序。您可以根据业务需求，对 Deployment 中运行的 Pod 的副本数、调度策略、更新策略等进行声明。</td>
+</tr>
+<tr>
+<td align="left">StatefulSet</td>
+<td align="left">主要用于管理有状态的应用，创建的 Pod 拥有根据规范创建的持久型标识符。Pod 迁移或销毁重启后，标识符仍会保留。在需要持久化存储时，您可以通过标识符对存储卷进行一一对应。如果应用程序不需要持久的标识符，建议您使用 Deployment 部署应用程序。</td>
+</tr>
+<tr>
+<td align="left">固定 Pod IP 类型 StatefulSet</td>
+<td align="left">腾讯云容器服务提供扩展 StatefulSet 固定 IP 的能力，该类型的 StatefulSet 创建的 Pod 将通过弹性网卡分配真实的私有网络内的 IP 地址。腾讯云容器服务 VPC-CNI 的插件负责 IP 分配，当 Pod 重启或迁移，可实现 IP 地址不变。</td>
+</tr>
+<tr>
+<td align="left">DaemonSet</td>
+<td align="left">主要用于部署常驻集群内的后台程序，例如节点的日志采集。DaemonSet 保证在所有或部分节点上均运行指定的 Pod。新节点添加到集群内时，也会有自动部署 Pod。节点被移除集群后，Pod 将自动回收。</td>
+</tr>
+<tr>
+<td align="left">Job</td>
+<td align="left">Job 控制器会创建 1 - N 个 Pod，这些 Pod 按照运行规则运行，直至运行结束。</td>
+</tr>
+<tr>
+<td align="left">CronJob</td>
+<td align="left">根据指定的预定计划周期性地运行一个 Job。</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>配置项</p>
+<ul>
+<li><strong>ConfigMap</strong>：key-value 类型的键值对，通过 ConfigMap 您可以将配置和运行的镜像进行解耦，使得应用程序有更强的移植性。</li>
+<li><strong>Secret</strong>：key-value 类型的键值对，用于存储密码、令牌、密钥等敏感信息，降低直接对外暴露的风险。</li>
+</ul>
+</li>
+<li><p>存储卷</p>
+<p>存储卷（Volume）的核心只是一个目录，其中可能包含一些数据，Pod 中的容器可以访问该目录。存储卷的生命周期与 Pod 相同，并且长于该 Pod 下运行的容器，通常会在容器重启时保留数据。</p>
+</li>
+<li><p>PersistentVolume（PV）</p>
+<p>集群内的存储资源。例如，节点是集群的资源。PV 独立于 Pod 的生命周期，根据不同的 StorageClass 类型创建不同类型的 PV。</p>
+</li>
+<li><p>PersistentVolumeClaim（PVC）</p>
+</li>
+</ol>
+<p>   集群内的存储请求。例如，PV 是 Pod 使用节点资源，PVC 则声明使用 PV 资源。当 PV 资源不足时，PVC 也可以动态创建 PV。</p>
+<ol start="11">
+<li>StorageClass</li>
+</ol>
+<p>   描述存储的类型，集群管理员可以为集群定义不同的存储类别，容器服务当前仅支持私有网络，不支持基础网络。</p>
+<ol start="12">
+<li>Volume</li>
+</ol>
+<ul>
+<li>声明在Pod中容器可访问的文件目录；</li>
+<li>可以被挂载在Pod中一个或者多个容器指定路径下；</li>
+</ul>
+<ol start="13">
+<li>Deployment</li>
+</ol>
+<ul>
+<li>定义一组pod的副本数目、版本等</li>
+<li>通过控制器（Controller）维持pod的数目：自动恢复失败的pod</li>
+<li>通过控制器以指定的策略控制版本：滚动升级、重新生成、会滚等</li>
+</ul>
+<ol start="14">
+<li>Service</li>
+</ol>
+<ul>
+<li>提供访问一个或者多个Pod实例的稳定访问地址（可以避免用户访问具体Pod对应各自的IP address，对于外部用户而言仅了解单个IP address，当某个Pod崩后可自动切换至另一Pod）</li>
+<li>支持多种访问方式实现<ul>
+<li>ClusterIP</li>
+<li>NodePort</li>
+<li>LoadBalancer</li>
+</ul>
+</li>
+</ul>
+<ol start="15">
+<li>Namespaces</li>
+</ol>
+<ul>
+<li>一个集群内部的逻辑隔离机制（鉴权、资源额度）</li>
+<li>每一个资源（比如pod、deployment、service）都属于一个namespace</li>
+<li>同一个namespace中资源命名唯一</li>
+<li>不同namespace资源可重名</li>
+</ul>
+<ol start="16">
+<li>API - Label</li>
+</ol>
+<ul>
+<li>一组key：value</li>
+<li>可以被selector所查询，比如select color=red</li>
+<li>资源集合默认表达形式：例如service对应的一组pod</li>
+</ul>
+<ol start="17">
+<li><code>kubelet</code>：在集群中的每个节点上用来启动 pod 和容器等。</li>
+<li><code>kubectl</code>：用来与集群通信的命令行工具。</li>
 <li></li>
 </ol>
 <h2 id="docker实践"><a href="#docker实践" class="headerlink" title="docker实践"></a>docker实践</h2><ol>
@@ -243,7 +378,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Kategorien</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Go/">Go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Notes/">Notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Others/">Others</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Study/">Study</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Testing/">Testing</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tools/">Tools</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/idea/">idea</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Django/">Django</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go/">Go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Notes/">Notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Others/">Others</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Study/">Study</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Testing/">Testing</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tools/">Tools</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/cos/">cos</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/idea/">idea</a></li></ul>
     </div>
   </div>
 
@@ -258,7 +393,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archiv</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li></ul>
     </div>
   </div>
 
