@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Python画图实践 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="概述：Python画图实践：plotly、matplotlib、seaborn、pyechart">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python画图实践">
+<meta property="og:url" content="http://example.com/2020/09/17/Python%E7%94%BB%E5%9B%BE%E5%AE%9E%E8%B7%B5/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="概述：Python画图实践：plotly、matplotlib、seaborn、pyechart">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/images/plotly/1.png">
+<meta property="og:image" content="http://example.com/images/plotly/2.png">
+<meta property="og:image" content="http://example.com/images/plotly/3.png">
+<meta property="og:image" content="http://example.com/images/plotly/4.png">
+<meta property="og:image" content="http://example.com/images/plotly/5.png">
+<meta property="og:image" content="http://example.com/images/plotly/6.png">
+<meta property="og:image" content="http://example.com/images/plotly/7.png">
+<meta property="og:image" content="http://example.com/images/plotly/8.png">
+<meta property="og:image" content="http://example.com/images/plotly/1.gif">
+<meta property="og:image" content="http://example.com/images/plotly/9.png">
+<meta property="og:image" content="http://example.com/images/plotly/10.png">
+<meta property="og:image" content="http://example.com/images/plotly/11.png">
+<meta property="og:image" content="http://example.com/images/plotly/12.png">
+<meta property="og:image" content="http://example.com/images/pydraw/pltplot.png">
+<meta property="og:image" content="http://example.com/images/pydraw/plotdemo.png">
+<meta property="og:image" content="http://example.com/images/pydraw/color.png">
+<meta property="og:image" content="http://example.com/images/pydraw/plotdemo2.png">
+<meta property="og:image" content="http://example.com/images/pydraw/plotdemo3.png">
+<meta property="og:image" content="http://example.com/images/pydraw/plotdemo4.png">
+<meta property="og:image" content="http://example.com/images/pydraw/barplot.png">
+<meta property="og:image" content="http://example.com/images/pydraw/barplot2.png">
+<meta property="og:image" content="http://example.com/images/pydraw/pieplot.png">
+<meta property="og:image" content="http://example.com/images/pydraw/scatterplot.png">
+<meta property="og:image" content="http://example.com/images/pydraw/scatterplot2.png">
+<meta property="og:image" content="http://example.com/images/pydraw/meshgrid.png">
+<meta property="og:image" content="http://example.com/images/pydraw/3dplot.png">
+<meta property="og:image" content="http://example.com/images/pydraw/heatmapdemo.png">
+<meta property="og:image" content="http://example.com/images/pydraw/heatmapflight.png">
+<meta property="og:image" content="http://example.com/images/pydraw/heatmapflight2.png">
+<meta property="og:image" content="http://example.com/images/pydraw/jointplot.png">
+<meta property="og:image" content="http://example.com/images/pydraw/pairplot.png">
+<meta property="og:image" content="http://example.com/images/pydraw/pairplot3.png">
+<meta property="og:image" content="http://example.com/images/pydraw/pairplot4.png">
+<meta property="og:image" content="http://example.com/images/pydraw/pairplot2.png">
+<meta property="og:image" content="http://example.com/images/pydraw/boxplot.png">
+<meta property="og:image" content="http://example.com/images/pydraw/pyebar.png">
+<meta property="og:image" content="http://example.com/images/pydraw/pyebar2.png">
+<meta property="og:image" content="http://example.com/images/pydraw/pyebar3.png">
+<meta property="og:image" content="http://example.com/images/pydraw/lineplot.png">
+<meta property="og:image" content="http://example.com/images/pydraw/klineplot.png">
+<meta property="og:image" content="http://example.com/images/pydraw/klineplot2.png">
+<meta property="article:published_time" content="2020-09-17T15:21:12.797Z">
+<meta property="article:modified_time" content="2021-04-01T05:49:47.072Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/plotly/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Python画图实践" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/09/17/Python%E7%94%BB%E5%9B%BE%E5%AE%9E%E8%B7%B5/" class="article-date">
+  <time class="dt-published" datetime="2020-09-17T15:21:12.797Z" itemprop="datePublished">2020-09-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Python/">Python</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Python画图实践
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>概述：Python画图实践：plotly、matplotlib、seaborn、pyechart</p>
+<span id="more"></span>
+
+
+
+<h1 id="plotly"><a href="#plotly" class="headerlink" title="plotly"></a>plotly</h1><p>Install</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install plotly</span><br></pre></td></tr></table></figure>
+
+<h3 id="折线图"><a href="#折线图" class="headerlink" title="折线图"></a>折线图</h3><p>导入相应的库文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> plotly</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> plotly.graph_objects <span class="keyword">as</span> go</span><br></pre></td></tr></table></figure>
+
+<p>数据读取展示</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nz_weather = pd.read_csv(<span class="string">&quot;plotly-datasets/nz_weather.csv&quot;</span>)</span><br><span class="line">nz_weather.head()</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="right">DATE</th>
+<th align="right">Auckland</th>
+<th align="right">Christchurch</th>
+<th align="right">Dunedin</th>
+<th align="right">Hamilton</th>
+<th align="right">Wellington</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="right">0</td>
+<td align="right">2000-01</td>
+<td align="right">115.4</td>
+<td align="right">47.2</td>
+<td align="right">174.8</td>
+<td align="right">96.2</td>
+<td>91.8</td>
+</tr>
+<tr>
+<td align="right">1</td>
+<td align="right">2000-02</td>
+<td align="right">8.4</td>
+<td align="right">25.2</td>
+<td align="right">41</td>
+<td align="right">8.2</td>
+<td>35.2</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td align="right">2000-03</td>
+<td align="right">57.2</td>
+<td align="right">60.8</td>
+<td align="right">74.2</td>
+<td align="right">33.8</td>
+<td>53.4</td>
+</tr>
+<tr>
+<td align="right">3</td>
+<td align="right">2000-04</td>
+<td align="right">106.8</td>
+<td align="right">58.2</td>
+<td align="right">50</td>
+<td align="right">129.6</td>
+<td>109.8</td>
+</tr>
+<tr>
+<td align="right">4</td>
+<td align="right">2000-05</td>
+<td align="right">128.2</td>
+<td align="right">62.0</td>
+<td align="right">‘-</td>
+<td align="right">98.2</td>
+<td>78.2</td>
+</tr>
+</tbody></table>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">line1 = go.Scatter(x=nz_weather[<span class="string">&#x27;DATE&#x27;</span>],y=nz_weather[<span class="string">&#x27;Auckland&#x27;</span>],name=<span class="string">&#x27;Auckland&#x27;</span>)</span><br><span class="line">line2 = go.Scatter(x=nz_weather[<span class="string">&#x27;DATE&#x27;</span>],y=nz_weather[<span class="string">&#x27;Christchurch&#x27;</span>],name=<span class="string">&#x27;Christchurch&#x27;</span>)</span><br><span class="line">fig = go.Figure([line1,line2])</span><br><span class="line">fig.update_layout(</span><br><span class="line">    title=<span class="string">&#x27;New Zealand weather&#x27;</span>,</span><br><span class="line">    xaxis_title=<span class="string">&#x27;Date&#x27;</span>,</span><br><span class="line">    yaxis_title=<span class="string">&#x27;Weather&#x27;</span></span><br><span class="line">)</span><br><span class="line">fig.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/plotly/1.png"></p>
+<h3 id="散点图"><a href="#散点图" class="headerlink" title="散点图"></a>散点图</h3><p>数据准备</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iris = pd.read_csv(<span class="string">&quot;plotly-datasets/iris.csv&quot;</span>)</span><br><span class="line">iris.head()</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="right">SepalLength</th>
+<th align="right">SepalWidth</th>
+<th align="right">PetalLength</th>
+<th align="right">PetalWidth</th>
+<th align="right">Name</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="right">0</td>
+<td align="right">5.1</td>
+<td align="right">3.5</td>
+<td align="right">1.4</td>
+<td align="right">0.2</td>
+<td>Iris-setosa</td>
+</tr>
+<tr>
+<td align="right">1</td>
+<td align="right">4.9</td>
+<td align="right">3.0</td>
+<td align="right">1.4</td>
+<td align="right">0.2</td>
+<td>Iris-setosa</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td align="right">4.7</td>
+<td align="right">3.2</td>
+<td align="right">1.3</td>
+<td align="right">0.2</td>
+<td>Iris-setosa</td>
+</tr>
+<tr>
+<td align="right">3</td>
+<td align="right">4.6</td>
+<td align="right">3.1</td>
+<td align="right">1.5</td>
+<td align="right">0.2</td>
+<td>Iris-setosa</td>
+</tr>
+<tr>
+<td align="right">4</td>
+<td align="right">5.0</td>
+<td align="right">3.6</td>
+<td align="right">1.4</td>
+<td align="right">0.2</td>
+<td>Iris-setosa</td>
+</tr>
+</tbody></table>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">scatter = go.Scatter(x=iris[<span class="string">&#x27;SepalLength&#x27;</span>],y=iris[<span class="string">&#x27;SepalWidth&#x27;</span>],mode=<span class="string">&#x27;markers&#x27;</span>,marker=&#123;<span class="string">&#x27;size&#x27;</span>:<span class="number">10</span>&#125;,name=<span class="string">&#x27;散点类别&#x27;</span>)<span class="comment"># 默认为线连接</span></span><br><span class="line"><span class="comment"># mode=&#x27;markers+lines&#x27;表示为线与点的结合</span></span><br><span class="line">layout = go.Layout(</span><br><span class="line">    showlegend=<span class="literal">True</span>,</span><br><span class="line">    legend=<span class="built_in">dict</span>(x=<span class="number">0.9</span>,y=<span class="number">1</span>)</span><br><span class="line">)</span><br><span class="line">fig = go.Figure(scatter,layout)</span><br><span class="line">fig.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/plotly/2.png"></p>
+<p>对不同类别标记不同的颜色，而plotly不支持字符串形式的类别名，因此需要将类别转换为数字</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">iris.groupby(<span class="string">&#x27;Name&#x27;</span>).count().index</span><br><span class="line"></span><br><span class="line">name_to_color = &#123;</span><br><span class="line">    <span class="string">&#x27;Iris-setosa&#x27;</span>:<span class="number">0</span>,</span><br><span class="line">    <span class="string">&#x27;Iris-versicolor&#x27;</span>:<span class="number">1</span>,</span><br><span class="line">    <span class="string">&#x27;Iris-virginica&#x27;</span>:<span class="number">2</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">iris[<span class="string">&#x27;color&#x27;</span>] = iris[<span class="string">&#x27;Name&#x27;</span>].<span class="built_in">map</span>(name_to_color)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iris.head()</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="right">SepalLength</th>
+<th align="right">SepalWidth</th>
+<th align="right">PetalLength</th>
+<th align="right">PetalWidth</th>
+<th align="right">Name</th>
+<th align="right">color</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="right">0</td>
+<td align="right">5.1</td>
+<td align="right">3.5</td>
+<td align="right">1.4</td>
+<td align="right">0.2</td>
+<td align="right">Iris-setosa</td>
+<td>0</td>
+</tr>
+<tr>
+<td align="right">1</td>
+<td align="right">4.9</td>
+<td align="right">3.0</td>
+<td align="right">1.4</td>
+<td align="right">0.2</td>
+<td align="right">Iris-setosa</td>
+<td>0</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td align="right">4.7</td>
+<td align="right">3.2</td>
+<td align="right">1.3</td>
+<td align="right">0.2</td>
+<td align="right">Iris-setosa</td>
+<td>0</td>
+</tr>
+<tr>
+<td align="right">3</td>
+<td align="right">4.6</td>
+<td align="right">3.1</td>
+<td align="right">1.5</td>
+<td align="right">0.2</td>
+<td align="right">Iris-setosa</td>
+<td>0</td>
+</tr>
+<tr>
+<td align="right">4</td>
+<td align="right">5.0</td>
+<td align="right">3.6</td>
+<td align="right">1.4</td>
+<td align="right">0.2</td>
+<td align="right">Iris-setosa</td>
+<td>0</td>
+</tr>
+</tbody></table>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">scatter = go.Scatter(x=iris[<span class="string">&#x27;SepalLength&#x27;</span>],y=iris[<span class="string">&#x27;SepalWidth&#x27;</span>],mode=<span class="string">&#x27;markers&#x27;</span>,marker=&#123;<span class="string">&#x27;color&#x27;</span>:iris[<span class="string">&#x27;color&#x27;</span>]&#125;)<span class="comment"># 默认为线连接</span></span><br><span class="line">fig = go.Figure(scatter)</span><br><span class="line">fig.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/plotly/3.png"></p>
+<p>使用plotly.express实现散点图（express是用更简短的语句实现）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> plotly.express <span class="keyword">as</span> px</span><br><span class="line">fig = px.scatter(iris,x=<span class="string">&#x27;SepalLength&#x27;</span>,y=<span class="string">&#x27;SepalWidth&#x27;</span>,color=<span class="string">&#x27;Name&#x27;</span>)</span><br><span class="line">fig.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/plotly/4.png"></p>
+<p>使用scatter_matrix实现对多个组合散点图可视化</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fig = px.scatter_matrix(iris,dimensions=[<span class="string">&#x27;SepalLength&#x27;</span>,<span class="string">&#x27;SepalWidth&#x27;</span>,<span class="string">&#x27;PetalLength&#x27;</span>,<span class="string">&#x27;PetalWidth&#x27;</span>],color=<span class="string">&#x27;Name&#x27;</span>)</span><br><span class="line">fig.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/plotly/5.png"></p>
+<h3 id="3D散点图"><a href="#3D散点图" class="headerlink" title="3D散点图"></a>3D散点图</h3><p>数据准备</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">threedline = pd.read_csv(<span class="string">&#x27;plotly-datasets/3d-line1.csv&#x27;</span>)</span><br><span class="line">threedline.head()</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="right">x</th>
+<th align="right">y</th>
+<th align="right">z</th>
+<th align="right">color</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="right">0</td>
+<td align="right">100.000000</td>
+<td align="right">0.613222</td>
+<td align="right">0.734706</td>
+<td>0</td>
+</tr>
+<tr>
+<td align="right">1</td>
+<td align="right">99.238875</td>
+<td align="right">0.589852</td>
+<td align="right">0.781320</td>
+<td>0</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td align="right">99.559608</td>
+<td align="right">0.599743</td>
+<td align="right">0.762566</td>
+<td>0</td>
+</tr>
+<tr>
+<td align="right">3</td>
+<td align="right">97.931425</td>
+<td align="right">0.549296</td>
+<td align="right">0.859966</td>
+<td>0</td>
+</tr>
+<tr>
+<td align="right">4</td>
+<td align="right">96.837832</td>
+<td align="right">0.515613</td>
+<td align="right">0.927150</td>
+<td>0</td>
+</tr>
+</tbody></table>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">line = go.Scatter3d(x=threedline[<span class="string">&#x27;x&#x27;</span>],y=threedline[<span class="string">&#x27;y&#x27;</span>],z=threedline[<span class="string">&#x27;z&#x27;</span>],mode=<span class="string">&#x27;markers&#x27;</span>,marker=&#123;<span class="string">&#x27;size&#x27;</span>:<span class="number">3</span>,<span class="string">&#x27;color&#x27;</span>:<span class="string">&#x27;green&#x27;</span>&#125;)</span><br><span class="line">fig = go.Figure(line)</span><br><span class="line">fig.show()	</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/plotly/6.png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fig = px.scatter_3d(threedline,x=<span class="string">&#x27;x&#x27;</span>,y=<span class="string">&#x27;y&#x27;</span>,z=<span class="string">&#x27;z&#x27;</span>,color=<span class="string">&#x27;color&#x27;</span>)</span><br><span class="line">fig.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/plotly/7.png"></p>
+<h3 id="柱状图"><a href="#柱状图" class="headerlink" title="柱状图"></a>柱状图</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">bar = go.Bar(x=nz_weather[<span class="string">&#x27;DATE&#x27;</span>],y=nz_weather[<span class="string">&#x27;Auckland&#x27;</span>],text=nz_weather[<span class="string">&#x27;Auckland&#x27;</span>],textposition=<span class="string">&#x27;outside&#x27;</span>)</span><br><span class="line"><span class="comment"># text=nz_weather[&#x27;Auckland&#x27;],textposition=&#x27;outside&#x27; 是对具体的柱状体进行数值标注</span></span><br><span class="line">fig = go.Figure(bar)</span><br><span class="line">fig.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/plotly/8.png"></p>
+<h3 id="动态柱状图"><a href="#动态柱状图" class="headerlink" title="动态柱状图"></a>动态柱状图</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> plotly.express <span class="keyword">as</span> px</span><br><span class="line"><span class="keyword">from</span> vega_datasets <span class="keyword">import</span> data</span><br><span class="line">df = data.disasters()</span><br><span class="line">df = df[df.Year &gt; <span class="number">1990</span>]</span><br><span class="line"><span class="comment"># print(df)</span></span><br><span class="line">fig = px.bar(df,</span><br><span class="line">             y=<span class="string">&quot;Entity&quot;</span>,</span><br><span class="line">             x=<span class="string">&quot;Deaths&quot;</span>,</span><br><span class="line">             animation_frame=<span class="string">&quot;Year&quot;</span>,</span><br><span class="line">             orientation= <span class="string">&#x27;h&#x27;</span> ,</span><br><span class="line">             range_x=[<span class="number">0</span>, df.Deaths.<span class="built_in">max</span>()],</span><br><span class="line">             color=<span class="string">&quot;Entity&quot;</span>)</span><br><span class="line"><span class="comment"># improve aesthetics (size, grids etc.)</span></span><br><span class="line">fig.update_layout(width=<span class="number">1000</span>,</span><br><span class="line">                  height=<span class="number">800</span>,</span><br><span class="line">                  xaxis_showgrid=<span class="literal">False</span>,</span><br><span class="line">                  yaxis_showgrid=<span class="literal">False</span>,</span><br><span class="line">                  title_text=<span class="string">&#x27;Evolution of Natural Disasters&#x27;</span> ,</span><br><span class="line">                  showlegend=<span class="literal">False</span>)</span><br><span class="line">fig.update_xaxes(title_text= <span class="string">&#x27;Number of Deaths&#x27;</span> )</span><br><span class="line">fig.update_yaxes(title_text= <span class="string">&#x27;&#x27;</span> )</span><br><span class="line">fig.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/plotly/1.gif"></p>
+<h3 id="直方图"><a href="#直方图" class="headerlink" title="直方图"></a>直方图</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hist = go.Histogram(x=nz_weather[<span class="string">&#x27;Auckland&#x27;</span>],xbins=&#123;<span class="string">&#x27;size&#x27;</span>:<span class="number">10</span>&#125;)<span class="comment"># 每区间范围为10</span></span><br><span class="line">fig = go.Figure(hist)</span><br><span class="line">fig.update_layout(bargap=<span class="number">0.1</span>)<span class="comment"># 直方图之间加入间隔</span></span><br><span class="line">fig.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/plotly/9.png"></p>
+<h3 id="拼状图"><a href="#拼状图" class="headerlink" title="拼状图"></a>拼状图</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">labels = [<span class="string">&#x27;Oxygen&#x27;</span>,<span class="string">&#x27;Hydrogen&#x27;</span>,<span class="string">&#x27;Carbon_Dioxide&#x27;</span>,<span class="string">&#x27;Nitrogen&#x27;</span>]</span><br><span class="line">values = [<span class="number">4500</span>,<span class="number">2500</span>,<span class="number">1053</span>,<span class="number">500</span>]</span><br><span class="line">colors = [<span class="string">&#x27;#FEBFB3&#x27;</span>, <span class="string">&#x27;#E1396C&#x27;</span>, <span class="string">&#x27;#96D38C&#x27;</span>, <span class="string">&#x27;#D0F9B1&#x27;</span>]</span><br><span class="line"></span><br><span class="line">fig = go.Pie(labels=labels, values=values,</span><br><span class="line">             hoverinfo=<span class="string">&#x27;label+percent&#x27;</span>, textinfo=<span class="string">&#x27;value&#x27;</span>, </span><br><span class="line">             textfont=<span class="built_in">dict</span>(size=<span class="number">20</span>),</span><br><span class="line">             marker=<span class="built_in">dict</span>(colors=colors, </span><br><span class="line">                         line=<span class="built_in">dict</span>(color=<span class="string">&#x27;#000000&#x27;</span>, width=<span class="number">2</span>)))</span><br><span class="line"></span><br><span class="line">fig = go.Figure(trace)</span><br><span class="line">fig.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/plotly/10.png"></p>
+<h3 id="手抄"><a href="#手抄" class="headerlink" title="手抄"></a>手抄</h3><p><img src="/images/plotly/11.png"></p>
+<p><img src="/images/plotly/12.png"></p>
+<p>官网帮助文档：<a target="_blank" rel="noopener" href="https://plotly.com/python/#fundamentals">https://plotly.com/python/#fundamentals</a></p>
+<p>在线制作网站：<a target="_blank" rel="noopener" href="https://chart-studio.plotly.com/">https://chart-studio.plotly.com/</a></p>
+<h1 id="matplotlib"><a href="#matplotlib" class="headerlink" title="matplotlib"></a>matplotlib</h1><p>基础知识：</p>
+<p>axex: 设置坐标轴边界和表面的颜色、坐标刻度值大小和网格的显示</p>
+<p>backend: 设置目标暑促TkAgg和GTKAgg</p>
+<p>figure: 控制dpi、边界颜色、图形大小、和子区( subplot)设置</p>
+<p>font: 字体集（font family）、字体大小和样式设置</p>
+<p>grid: 设置网格颜色和线性</p>
+<p>legend: 设置图例和其中的文本的显示</p>
+<p>line: 设置线条（颜色、线型、宽度等）和标记</p>
+<p>patch: 是填充2D空间的图形对象，如多边形和圆。控制线宽、颜色和抗锯齿设置等。</p>
+<p>savefig: 可以对保存的图形进行单独设置。例如，设置渲染的文件的背景为白色。</p>
+<p>verbose: 设置matplotlib在执行期间信息输出，如silent、helpful、debug和debug-annoying。</p>
+<p>xticks和yticks: 为x,y轴的主刻度和次刻度设置颜色、大小、方向，以及标签大小。</p>
+<p>绘图过程涉及中文/负号：</p>
+<p>步骤一：打开设置文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import matplotlib</span><br><span class="line">matplotlib.matplotlib_fname()</span><br></pre></td></tr></table></figure>
+
+<p>会显示matplotlibrc文件的地址</p>
+<p>步骤二：修改matplotlibrc文件</p>
+<p>将文件中的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#font.family: sans-serif</span><br></pre></td></tr></table></figure>
+
+<p>去掉注释，修改为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">font.family: Microsoft YaHei</span><br></pre></td></tr></table></figure>
+
+<p>可显示为中文</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">plt.rcParams[&#39;font.sans-serif&#39;]&#x3D;[&#39;SimHei&#39;] #用来正常显示中文标签</span><br><span class="line"></span><br><span class="line">plt.rcParams[&#39;axes.unicode_minus&#39;]&#x3D;False #用来正常显示负号</span><br></pre></td></tr></table></figure>
+
+<p>图部分名称：</p>
+<p><img src="/images/pydraw/pltplot.png"></p>
+<h2 id="折线图-1"><a href="#折线图-1" class="headerlink" title="折线图"></a>折线图</h2><p>（1）导入库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">%matplotlib inline</span><br></pre></td></tr></table></figure>
+
+<p>（2）生成数据</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x= range(100)</span><br><span class="line">y= [i**2 <span class="keyword">for</span> i <span class="keyword">in</span> x]</span><br></pre></td></tr></table></figure>
+
+<p>（3）绘图</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">plt.plot(x, y, linewidth=1, label = <span class="string">&quot;test&quot;</span>, color=<span class="string">&#x27;red&#x27;</span>, linestyle=<span class="string">&#x27;:&#x27;</span>, marker=<span class="string">&#x27;|&#x27;</span>)</span><br><span class="line">plt.legend(loc=<span class="string">&#x27;upper left&#x27;</span>)<span class="comment">#图例位置</span></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/pydraw/plotdemo.png"></p>
+<p>其中：</p>
+<p>linestyle可选参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#39;-&#39;       solid line style</span><br><span class="line">&#39;--&#39;      dashed line style</span><br><span class="line">&#39;-.&#39;      dash-dot line style</span><br><span class="line">&#39;:&#39;       dotted line style</span><br></pre></td></tr></table></figure>
+
+<p>marker可选参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&#39;.&#39;       point marker</span><br><span class="line">&#39;,&#39;       pixel marker</span><br><span class="line">&#39;o&#39;       circle marker</span><br><span class="line">&#39;v&#39;       triangle_down marker</span><br><span class="line">&#39;^&#39;       triangle_up marker</span><br><span class="line">&#39;&lt;&#39;       triangle_left marker</span><br><span class="line">&#39;&gt;&#39;       triangle_right marker</span><br><span class="line">&#39;1&#39;       tri_down marker</span><br><span class="line">&#39;2&#39;       tri_up marker</span><br><span class="line">&#39;3&#39;       tri_left marker</span><br><span class="line">&#39;4&#39;       tri_right marker</span><br><span class="line">&#39;s&#39;       square marker</span><br><span class="line">&#39;p&#39;       pentagon marker</span><br><span class="line">&#39;*&#39;       star marker</span><br><span class="line">&#39;h&#39;       hexagon1 marker</span><br><span class="line">&#39;H&#39;       hexagon2 marker</span><br><span class="line">&#39;+&#39;       plus marker</span><br><span class="line">&#39;x&#39;       x marker</span><br><span class="line">&#39;D&#39;       diamond marker</span><br><span class="line">&#39;d&#39;       thin_diamond marker</span><br><span class="line">&#39;|&#39;       vline marker</span><br><span class="line">&#39;_&#39;       hline marker</span><br></pre></td></tr></table></figure>
+
+<p>颜色参考：</p>
+<p><img src="/images/pydraw/color.png"></p>
+<p>另一例子：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成数据集</span></span><br><span class="line">x = np.linspace(-3,3,50)</span><br><span class="line">y1 = 2*x+1</span><br><span class="line">y2 = x**2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置画布大小</span></span><br><span class="line">plt.figure(figsize=[8,8])</span><br><span class="line"><span class="comment"># 绘制点线图</span></span><br><span class="line">l1, = plt.plot(x,y2)</span><br><span class="line"><span class="comment"># color表示线图颜色，linewidth表示线图粗细，linestyle表示线图样式（可选：&#x27;-.&#x27; &#x27;:&#x27;）</span></span><br><span class="line">l2, = plt.plot(x,y1,color=<span class="string">&#x27;red&#x27;</span>,linewidth=1.0,linestyle=<span class="string">&#x27;--&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 限制坐标轴的范围</span></span><br><span class="line">plt.xlim((-1,2))</span><br><span class="line">plt.ylim((-2,3))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 为坐标轴重命名</span></span><br><span class="line">plt.xlabel(<span class="string">&#x27;I am x&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;I am y&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置字体格式（避免设置中文显示异常）</span></span><br><span class="line">plt.rcParams[<span class="string">&#x27;font.sans-serif&#x27;</span>] = [<span class="string">&#x27;SimHei&#x27;</span>]</span><br><span class="line"><span class="comment"># 避免负号显示为方块</span></span><br><span class="line">plt.rcParams[<span class="string">&#x27;axes.unicode_minus&#x27;</span>]=False</span><br><span class="line"><span class="comment"># 设置图表标题</span></span><br><span class="line">plt.title(<span class="string">&#x27;点线图&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置图例说明</span></span><br><span class="line">plt.legend(handles=[l1,l2,],labels=[<span class="string">&#x27;aaa&#x27;</span>,<span class="string">&#x27;bbb&#x27;</span>],loc=<span class="string">&#x27;upper left&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置新的坐标轴显示</span></span><br><span class="line">new_ticks = np.linspace(-1,2,5)</span><br><span class="line">plt.xticks(new_ticks)</span><br><span class="line"><span class="comment"># 设置坐标轴显示时使用r字体更好看，\ 表空格</span></span><br><span class="line">plt.yticks([-2,-1.8,-1,1.22,3],</span><br><span class="line">           [r<span class="string">&#x27;$very\ bad$&#x27;</span>,<span class="string">&#x27;$bad$&#x27;</span>,<span class="string">&#x27;$normal$&#x27;</span>,<span class="string">&#x27;$good$&#x27;</span>,<span class="string">&#x27;$very\ good$&#x27;</span>])</span><br><span class="line"><span class="comment"># 显示图表</span></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/pydraw/plotdemo2.png"></p>
+<p>子图例子：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">import matplotlib.pyplot as plt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置画布，默认第一块画布</span></span><br><span class="line">plt.figure()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在2×2中选取第一块区域</span></span><br><span class="line">plt.subplot(2,2,1)</span><br><span class="line"><span class="comment"># 绘制点线图[0,0]到[1,1]</span></span><br><span class="line">plt.plot([0,1],[0,1])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在2×2中选选取第二块区域</span></span><br><span class="line">plt.subplot(2,2,2)</span><br><span class="line"><span class="comment"># 绘制点线图[0,0]到[1,2]</span></span><br><span class="line">plt.plot([0,1],[0,2])</span><br><span class="line"></span><br><span class="line">plt.subplot(2,2,3)</span><br><span class="line">plt.plot([0,1],[0,3])</span><br><span class="line"></span><br><span class="line">plt.subplot(2,2,4)</span><br><span class="line">plt.plot([0,1],[0,4])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置第二块画布</span></span><br><span class="line">plt.figure(num=2)</span><br><span class="line"></span><br><span class="line">plt.subplot(2,1,1)</span><br><span class="line">plt.plot([0,1],[1,1])</span><br><span class="line"></span><br><span class="line">plt.subplot(2,3,4)</span><br><span class="line">plt.plot([0,1],[0,2])</span><br><span class="line"></span><br><span class="line">plt.subplot(2,3,5)</span><br><span class="line">plt.plot([0,1],[0,2])</span><br><span class="line"></span><br><span class="line">plt.subplot(2,3,6)</span><br><span class="line">plt.plot([0,1],[0,2])</span><br><span class="line"></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/pydraw/plotdemo3.png"></p>
+<p><img src="/images/pydraw/plotdemo4.png"></p>
+<h2 id="柱状图-1"><a href="#柱状图-1" class="headerlink" title="柱状图"></a>柱状图</h2><p>（1）导入库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">import matplotlib.pyplot as plt</span><br></pre></td></tr></table></figure>
+
+<p>（2）生成数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">population_ages &#x3D; np.random.rand(50)*50</span><br><span class="line">bins &#x3D; np.arange(len(population_ages))</span><br></pre></td></tr></table></figure>
+
+<p>（3）绘图</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 绘制直方图</span><br><span class="line"># histtype可选： &#123;‘bar’, ‘barstacked’, ‘step’, ‘stepfilled’&#125;</span><br><span class="line"># 其中默认为bar，目测barstacked同bar效果一致</span><br><span class="line">plt.hist(population_ages, bins, histtype&#x3D;&#39;bar&#39;, rwidth&#x3D;0.8)</span><br><span class="line"># 设置坐标轴名称</span><br><span class="line">plt.xlabel(&#39;x&#39;)</span><br><span class="line">plt.ylabel(&#39;y&#39;)</span><br><span class="line">plt.title(&#39;Hist Graph&#39;)#设置标题</span><br><span class="line">plt.legend()# 生成图例</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/pydraw/barplot.png"></p>
+<p>另一例子：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">n = 12</span><br><span class="line">X = np.arange(n)</span><br><span class="line"></span><br><span class="line"><span class="comment"># uniform: 均匀分布 且左闭右开</span></span><br><span class="line">Y1 = (1 - X / <span class="built_in">float</span>(n)) * np.random.uniform(0.5, 1.0, n)</span><br><span class="line">Y2 = (1 - X / <span class="built_in">float</span>(n)) * np.random.uniform(0.5, 1.0, n)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制条形条，设置表明颜色, 边缘颜色</span></span><br><span class="line">plt.bar(X, +Y1,facecolor=<span class="string">&#x27;#9999ff&#x27;</span>,edgecolor=<span class="string">&#x27;white&#x27;</span>)</span><br><span class="line">plt.bar(X, -Y2,facecolor=<span class="string">&#x27;#ff9999&#x27;</span>,edgecolor=<span class="string">&#x27;white&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置文字(数字)且确定位置</span></span><br><span class="line"><span class="keyword">for</span> x,y <span class="keyword">in</span> zip(X,Y1):</span><br><span class="line">    <span class="comment"># ha: horizontal alignmant</span></span><br><span class="line">    plt.text(x,y+0.15,<span class="string">&#x27;%.2f&#x27;</span>%y,ha=<span class="string">&#x27;center&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> x,y <span class="keyword">in</span> zip(X,Y2):</span><br><span class="line">    plt.text(x,-y-0.15,<span class="string">&#x27;-%.2f&#x27;</span>%y,ha=<span class="string">&#x27;center&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置字体格式（避免设置中文显示异常）</span></span><br><span class="line">plt.rcParams[<span class="string">&#x27;font.sans-serif&#x27;</span>] = [<span class="string">&#x27;SimHei&#x27;</span>]</span><br><span class="line"><span class="comment"># 避免负号显示为方块</span></span><br><span class="line">plt.rcParams[<span class="string">&#x27;axes.unicode_minus&#x27;</span>]=False</span><br><span class="line"><span class="comment"># 设置标题</span></span><br><span class="line">plt.title(<span class="string">&quot;条形图&quot;</span>)</span><br><span class="line">plt.xlim(-.5, n)</span><br><span class="line">plt.xticks(())</span><br><span class="line">plt.ylim(-1.25, 1.25)</span><br><span class="line">plt.yticks(())</span><br><span class="line"><span class="comment"># 显示图表</span></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/pydraw/barplot2.png"></p>
+<h2 id="饼图"><a href="#饼图" class="headerlink" title="饼图"></a>饼图</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置内容列表</span></span><br><span class="line">slices = [7,2,2,13]</span><br><span class="line"><span class="comment"># 设置对应内容名称</span></span><br><span class="line">activities = [<span class="string">&#x27;sleeping&#x27;</span>,<span class="string">&#x27;eating&#x27;</span>,<span class="string">&#x27;working&#x27;</span>,<span class="string">&#x27;playing&#x27;</span>]</span><br><span class="line"><span class="comment"># 设置对应颜色</span></span><br><span class="line">cols = [<span class="string">&#x27;c&#x27;</span>,<span class="string">&#x27;m&#x27;</span>,<span class="string">&#x27;r&#x27;</span>,<span class="string">&#x27;b&#x27;</span>]</span><br><span class="line"><span class="comment"># 绘制饼图</span></span><br><span class="line"><span class="comment"># startangle: 起始绘制角度,默认图是从x轴正方向逆时针画起,如设定=90则从y轴正方向画起</span></span><br><span class="line"><span class="comment"># shadow: 是否设置阴影效果</span></span><br><span class="line"><span class="comment"># explode: 每一块距离中心距离</span></span><br><span class="line"><span class="comment"># autopct: 设置百分号显示格式</span></span><br><span class="line">plt.pie(slices,</span><br><span class="line">        labels=activities,colors=cols,</span><br><span class="line">        startangle=90,shadow= True,</span><br><span class="line">        explode=(0,0.12,0,0),</span><br><span class="line">        autopct=<span class="string">&#x27;%1.2f%%&#x27;</span>)</span><br><span class="line"><span class="comment"># 设置标题</span></span><br><span class="line">plt.title(<span class="string">&#x27;Interesting Graph Check it out&#x27;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/pydraw/pieplot.png"></p>
+<h2 id="散点图-1"><a href="#散点图-1" class="headerlink" title="散点图"></a>散点图</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mean: 0 ; std: 1 ; num: n</span></span><br><span class="line">n = 1024</span><br><span class="line">X = np.random.normal(0,1,n)</span><br><span class="line">Y = np.random.normal(0,1,n)</span><br><span class="line"><span class="comment"># 设置散点的颜色</span></span><br><span class="line">T = np.arctan2(Y,X)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制散点图(s表示size，c表示color，alpha表示不透明度)</span></span><br><span class="line">plt.scatter(X,Y,s=30,c=T,alpha=0.5)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 限制坐标轴范围</span></span><br><span class="line">plt.xlim((-1.5,1.5))</span><br><span class="line">plt.ylim((-1.5,1.5))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 不显示坐标轴</span></span><br><span class="line">plt.xticks(())</span><br><span class="line">plt.yticks(())</span><br><span class="line"></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/pydraw/scatterplot.png"></p>
+<p>3D散点：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建数据集</span></span><br><span class="line">x = np.random.normal(0, 1, 100)</span><br><span class="line">y = np.random.normal(0, 1, 100)</span><br><span class="line">z = np.random.normal(0, 1, 100)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置画布</span></span><br><span class="line">fig = plt.figure()</span><br><span class="line"><span class="comment"># 建立三维坐标轴</span></span><br><span class="line">ax = Axes3D(fig)</span><br><span class="line"><span class="comment"># 绘制散点图</span></span><br><span class="line">ax.scatter(x, y, z)</span><br><span class="line"><span class="comment"># 显示图表</span></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/pydraw/scatterplot2.png"></p>
+<h2 id="等高线图"><a href="#等高线图" class="headerlink" title="等高线图"></a>等高线图</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 绘制等高线函数</span></span><br><span class="line">def f(x,y):</span><br><span class="line">    <span class="built_in">return</span> (1 - x / 2 + x**5 + y**3) * np.exp(-x**2 -y**2)</span><br><span class="line"></span><br><span class="line">n = 256</span><br><span class="line">x = np.linspace(-3, 3, n)</span><br><span class="line">y = np.linspace(-3, 3, n)</span><br><span class="line"><span class="comment"># 互相影响其输出形状的函数</span></span><br><span class="line">X,Y = np.meshgrid(x, y)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 其中第三个参数表示分为10个部分，默认为0表示最少分层两部分</span></span><br><span class="line">plt.contourf(X,Y,f(X,Y),8,alpha=0.8,cmap=plt.cm.hot)</span><br><span class="line"></span><br><span class="line">plt.xticks(())</span><br><span class="line">plt.yticks(())</span><br><span class="line"></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/pydraw/meshgrid.png"></p>
+<p>添加标签：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 绘制黑白类型的等高线</span></span><br><span class="line">C= plt.contour(X,Y,f(X,Y),8,alpha=0.8,colors=<span class="string">&#x27;black&#x27;</span>)</span><br><span class="line"><span class="comment"># 将其添加标签，使用内置显示和设置字体大小</span></span><br><span class="line">plt.clabel(C,inline=True,fontsize=10)</span><br></pre></td></tr></table></figure>
+
+<h2 id="3D平面图"><a href="#3D平面图" class="headerlink" title="3D平面图"></a>3D平面图</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置画布</span></span><br><span class="line">fig = plt.figure()</span><br><span class="line"><span class="comment"># 设置3D坐标轴</span></span><br><span class="line">ax = Axes3D(fig)</span><br><span class="line"><span class="comment"># 创建数据集</span></span><br><span class="line">X = np.arange(-4,4,0.25)</span><br><span class="line">Y = np.arange(-4,4,0.25)</span><br><span class="line">X,Y = np.meshgrid(X,Y)</span><br><span class="line">R = X+Y</span><br><span class="line">Z = np.sin(R)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制3D图</span></span><br><span class="line"><span class="comment"># rstride/cstride:表示步伐大小，其越小超平面过渡越细致</span></span><br><span class="line">ax.plot_surface(X,Y,Z,rstride=1,cstride=1,cmap=plt.get_cmap(<span class="string">&#x27;rainbow&#x27;</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置是否将Z轴投影到XY平面</span></span><br><span class="line"><span class="comment"># offset表示底部2D平面的y轴坐标面</span></span><br><span class="line"><span class="comment"># ax.contourf(X,Y,Z,zdir=&#x27;z&#x27;,offset=-2,cmap=&#x27;rainbow&#x27;)</span></span><br><span class="line"></span><br><span class="line">ax.set_zlim(-2,2)</span><br><span class="line"></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/pydraw/3dplot.png"></p>
+<h1 id="seaborn"><a href="#seaborn" class="headerlink" title="seaborn"></a>seaborn</h1><p>参考文档：<a target="_blank" rel="noopener" href="http://seaborn.pydata.org/index.html">http://seaborn.pydata.org/index.html</a></p>
+<h2 id="热力图"><a href="#热力图" class="headerlink" title="热力图"></a>热力图</h2><p>（1）导入库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">import seaborn as sns</span><br><span class="line">import matplotlib.pyplot as plt</span><br></pre></td></tr></table></figure>
+
+<p>（2）生成数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">np.random.seed(0)# 设置相同种子以生成相同的随机数</span><br><span class="line">sns.set()# 重置参数</span><br></pre></td></tr></table></figure>
+
+<p>（3）绘图</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">plt.figure(figsize&#x3D;(10, 8))# 设置画布大小</span><br><span class="line">uniform_data &#x3D; np.random.rand(10, 12)# 生成数属于[0, 1)区间</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/pydraw/heatmapdemo.png"></p>
+<p>（4）结合公开数据集绘图</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">flights &#x3D; sns.load_dataset(&quot;flights&quot;)# 加载数据</span><br><span class="line">flights &#x3D; flights.pivot(&quot;month&quot;, &quot;year&quot;, &quot;passengers&quot;) # 行为月份；列为年份；值为乘客数</span><br><span class="line">ax &#x3D; sns.heatmap(flights,annot&#x3D;True, fmt&#x3D;&quot;d&quot;,linewidths&#x3D;.5)#绘制及显示具体数值，格式化输出，线条间隔距离.5</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/pydraw/heatmapflight.png"></p>
+<p>若以上图片出现显示不全，原因在于matplotlib版本问题，安装3.1.0即可解决：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install matplotlib&#x3D;&#x3D;3.1.0</span><br></pre></td></tr></table></figure>
+
+<p>切换风格：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ax &#x3D; sns.heatmap(flights, cmap&#x3D;&quot;YlGnBu&quot;)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/pydraw/heatmapflight2.png"></p>
+<h2 id="联合分布图"><a href="#联合分布图" class="headerlink" title="联合分布图"></a>联合分布图</h2><p>（1）导入库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import tushare as ts</span><br><span class="line">import seabron as sns</span><br><span class="line">import matplotlib.pyplot as plt</span><br></pre></td></tr></table></figure>
+
+<p>（2）生成数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stockdata &#x3D; ts.get_k_data(&#39;000001&#39;)</span><br></pre></td></tr></table></figure>
+
+<p>（3）绘图</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sns.jointplot(&quot;open&quot;, &quot;close&quot;, stockdata)</span><br><span class="line">plt</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/pydraw/jointplot.png"></p>
+<p>其中可以添加回归属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sns.jointplot(&quot;open&quot;, &quot;close&quot;, stockdata, kind&#x3D;&#39;reg&#39;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="多变量图"><a href="#多变量图" class="headerlink" title="多变量图"></a>多变量图</h2><p>（1）导入库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">import seaborn as sns</span><br><span class="line">import pandas as pd</span><br><span class="line">from sklearn.datasets import load_iris</span><br></pre></td></tr></table></figure>
+
+<p>（2）生成数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.datasets import load_iris</span><br><span class="line">irisdata &#x3D; load_iris()</span><br><span class="line">labels &#x3D; list(irisdata.target)</span><br><span class="line">irisdata &#x3D; pd.DataFrame(data&#x3D;irisdata.data, columns&#x3D;irisdata.feature_names)</span><br><span class="line">irisdata[&#39;labels&#39;] &#x3D; labels</span><br></pre></td></tr></table></figure>
+
+<p>查看数据属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">irisdata.columns</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[&#39;sepal length (cm)&#39;, &#39;sepal width (cm)&#39;, &#39;petal length (cm)&#39;,&#39;petal width (cm)&#39;, &#39;labels&#39;]</span><br></pre></td></tr></table></figure>
+
+<p>（3）绘图</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sns.set()#使用默认配色</span><br><span class="line">sns.pairplot(irisdata,hue&#x3D;&quot;labels&quot;)#hue 选择分类列</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/pydraw/pairplot.png"></p>
+<p>设置调色板：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sns.pairplot(irisdata,hue&#x3D;&quot;labels&quot;, palette&#x3D;&quot;husl&quot;)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/pydraw/pairplot3.png"></p>
+<p>添加回归设置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sns.pairplot(irisdata,hue&#x3D;&quot;labels&quot;, palette&#x3D;&quot;husl&quot;,kind&#x3D;&quot;reg&quot;)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/pydraw/pairplot4.png"></p>
+<p>指定变量：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sns.pairplot(irisdata, vars&#x3D;[&quot;sepal length (cm)&quot;, &quot;sepal width (cm)&quot;],hue&#x3D;&quot;labels&quot;,palette&#x3D;&quot;husl&quot;)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/pydraw/pairplot2.png"></p>
+<h2 id="箱体图"><a href="#箱体图" class="headerlink" title="箱体图"></a>箱体图</h2><p>（1）导入库</p>
+<p>（2）使用iris数据</p>
+<p>（3）绘图</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sns.boxplot(x &#x3D; irisdata[&quot;labels&quot;],y &#x3D; irisdata[&quot;sepal length (cm)&quot;])</span><br><span class="line">plt</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/pydraw/boxplot.png"></p>
+<h1 id="pyechart"><a href="#pyechart" class="headerlink" title="pyechart"></a>pyechart</h1><p>参考文档：<a target="_blank" rel="noopener" href="https://pyecharts.org/#/zh-cn/quickstart">https://pyecharts.org/#/zh-cn/quickstart</a></p>
+<p>查看库版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import pyecharts</span><br><span class="line">print(pyecharts.__version__)</span><br></pre></td></tr></table></figure>
+
+<h2 id="柱状图-2"><a href="#柱状图-2" class="headerlink" title="柱状图"></a>柱状图</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">from pyecharts.charts import Bar</span><br><span class="line">bar &#x3D; Bar()</span><br><span class="line">bar.add_xaxis([&quot;衬衫&quot;, &quot;羊毛衫&quot;, &quot;雪纺衫&quot;, &quot;裤子&quot;, &quot;高跟鞋&quot;, &quot;袜子&quot;])</span><br><span class="line">bar.add_yaxis(&quot;商家A&quot;, [5, 20, 36, 10, 75, 90])</span><br><span class="line"># bar.render()</span><br><span class="line">bar.render_notebook()# 在Jupyter中直接显示</span><br></pre></td></tr></table></figure>
+
+<p>其中，render 会生成本地 HTML 文件，默认会在当前目录生成 render.html 文件，也可以传入路径参数，如 bar.render(“mycharts.html”)</p>
+<p>上述绘制方法也支持链式调用，同时可以使用options添加主副标题等操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">from pyecharts.charts import Bar</span><br><span class="line">from pyecharts import options as opts</span><br><span class="line">bar &#x3D; (</span><br><span class="line">    Bar()</span><br><span class="line">    .add_xaxis([&quot;衬衫&quot;, &quot;羊毛衫&quot;, &quot;雪纺衫&quot;, &quot;裤子&quot;, &quot;高跟鞋&quot;, &quot;袜子&quot;])</span><br><span class="line">    .add_yaxis(&quot;商家A&quot;, [5, 20, 36, 10, 75, 90])</span><br><span class="line">)</span><br><span class="line">bar.set_global_opts(title_opts&#x3D;opts.TitleOpts(title&#x3D;&quot;主标题&quot;, subtitle&#x3D;&quot;副标题&quot;))</span><br><span class="line">bar.render_notebook()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/pydraw/pyebar.png"></p>
+<p>多变量柱状图：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">from pyecharts.charts import Bar</span><br><span class="line">from pyecharts import options as opts</span><br><span class="line"></span><br><span class="line">bar &#x3D; (</span><br><span class="line">    Bar()</span><br><span class="line">    .add_xaxis([&quot;衬衫&quot;, &quot;毛衣&quot;, &quot;领带&quot;, &quot;裤子&quot;, &quot;风衣&quot;, &quot;高跟鞋&quot;, &quot;袜子&quot;])</span><br><span class="line">    .add_yaxis(&quot;商家A&quot;, [114, 55, 27, 101, 125, 27, 105])</span><br><span class="line">    .add_yaxis(&quot;商家B&quot;, [57, 134, 137, 129, 145, 60, 49])</span><br><span class="line">    .set_global_opts(title_opts&#x3D;opts.TitleOpts(title&#x3D;&quot;某商场销售情况&quot;))</span><br><span class="line">)</span><br><span class="line">bar.render_notebook()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/pydraw/pyebar2.png"></p>
+<p>多变量横向展示（从右往左）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">from pyecharts import options as opts</span><br><span class="line">from pyecharts.charts import Bar</span><br><span class="line"></span><br><span class="line">bar &#x3D; (</span><br><span class="line">        Bar()</span><br><span class="line">        .add_xaxis([&quot;衬衫&quot;, &quot;毛衣&quot;, &quot;领带&quot;, &quot;裤子&quot;, &quot;风衣&quot;, &quot;高跟鞋&quot;, &quot;袜子&quot;])</span><br><span class="line">        .add_yaxis(&quot;商家A&quot;, [114, 55, 27, 101, 125, 27, 105])</span><br><span class="line">        .add_yaxis(&quot;商家B&quot;, [57, 134, 137, 129, 145, 60, 49])</span><br><span class="line">        .reversal_axis()</span><br><span class="line">        .set_series_opts(label_opts&#x3D;opts.LabelOpts(position&#x3D;&quot;right&quot;))</span><br><span class="line">        .set_global_opts(title_opts&#x3D;opts.TitleOpts(title&#x3D;&quot;主标题&quot;))</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">bar.render_notebook()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/pydraw/pyebar3.png"></p>
+<h2 id="折线图-2"><a href="#折线图-2" class="headerlink" title="折线图"></a>折线图</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">import pyecharts.options as opts</span><br><span class="line">from pyecharts.charts import Line</span><br><span class="line">x_data &#x3D; [&quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;, &quot;Sat&quot;, &quot;Sun&quot;]</span><br><span class="line">y_data1 &#x3D; [820, 932, 901, 934, 1290, 1330, 1320]</span><br><span class="line">y_data2 &#x3D; [444, 24, 553, 222, 900, 113, 30]</span><br><span class="line"></span><br><span class="line">(</span><br><span class="line">    Line()</span><br><span class="line">    .add_xaxis(xaxis_data&#x3D;x_data)</span><br><span class="line">    .add_yaxis(</span><br><span class="line">        series_name&#x3D;&quot;d1&quot;,</span><br><span class="line">        y_axis&#x3D;y_data1,</span><br><span class="line">        symbol&#x3D;&quot;circle&quot;,# 顶点样式 &#39;emptyCircle&#39;, &#39;circle&#39;, &#39;rect&#39;, &#39;roundRect&#39;, &#39;triangle&#39;, &#39;diamond&#39;, &#39;pin&#39;, &#39;arrow&#39;, &#39;none&#39;   </span><br><span class="line">        symbol_size &#x3D;7,</span><br><span class="line">        is_symbol_show&#x3D;True,# 是否显示顶点</span><br><span class="line">        label_opts&#x3D;opts.LabelOpts(is_show&#x3D;False),</span><br><span class="line">    )</span><br><span class="line">    .add_yaxis(</span><br><span class="line">        series_name&#x3D;&quot;d2&quot;,</span><br><span class="line">        y_axis&#x3D;y_data2,</span><br><span class="line">        symbol&#x3D;&quot;emptyCircle&quot;,</span><br><span class="line">        is_symbol_show&#x3D;True,</span><br><span class="line">        label_opts&#x3D;opts.LabelOpts(is_show&#x3D;False),</span><br><span class="line">    )</span><br><span class="line">    .set_global_opts(</span><br><span class="line">        tooltip_opts&#x3D;opts.TooltipOpts(is_show&#x3D;False),</span><br><span class="line">        yaxis_opts&#x3D;opts.AxisOpts(</span><br><span class="line">            type_&#x3D;&quot;value&quot;,</span><br><span class="line">            axistick_opts&#x3D;opts.AxisTickOpts(is_show&#x3D;True),</span><br><span class="line">            splitline_opts&#x3D;opts.SplitLineOpts(is_show&#x3D;True),</span><br><span class="line">        ),</span><br><span class="line">        xaxis_opts&#x3D;opts.AxisOpts(type_&#x3D;&quot;category&quot;,),</span><br><span class="line">    )</span><br><span class="line">    .render_notebook()</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/pydraw/lineplot.png"></p>
+<h2 id="K线图"><a href="#K线图" class="headerlink" title="K线图"></a>K线图</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">from pyecharts import options as opts</span><br><span class="line">from pyecharts.charts import Kline</span><br><span class="line"></span><br><span class="line">data &#x3D; [</span><br><span class="line">    [2320.26, 2320.26, 2287.3, 2362.94],</span><br><span class="line">    [2300, 2291.3, 2288.26, 2308.38],</span><br><span class="line">    [2295.35, 2346.5, 2295.35, 2345.92],</span><br><span class="line">    [2347.22, 2358.98, 2337.35, 2363.8],</span><br><span class="line">    [2360.75, 2382.48, 2347.89, 2383.76],</span><br><span class="line">    [2383.43, 2385.42, 2371.23, 2391.82],</span><br><span class="line">    [2377.41, 2419.02, 2369.57, 2421.15],</span><br><span class="line">    [2425.92, 2428.15, 2417.58, 2440.38],</span><br><span class="line">    [2411, 2433.13, 2403.3, 2437.42],</span><br><span class="line">    [2432.68, 2334.48, 2427.7, 2441.73],</span><br><span class="line">    [2430.69, 2418.53, 2394.22, 2433.89],</span><br><span class="line">    [2416.62, 2432.4, 2414.4, 2443.03],</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def kline_base() -&gt; Kline:</span><br><span class="line">    c &#x3D; (</span><br><span class="line">        Kline()</span><br><span class="line">        .add_xaxis([&quot;2017&#x2F;7&#x2F;&#123;&#125;&quot;.format(i + 1) for i in range(12)])</span><br><span class="line">        .add_yaxis(&quot;kline&quot;, data)</span><br><span class="line">        .set_global_opts(</span><br><span class="line">            yaxis_opts&#x3D;opts.AxisOpts(is_scale&#x3D;True),</span><br><span class="line">            xaxis_opts&#x3D;opts.AxisOpts(is_scale&#x3D;True),</span><br><span class="line">            title_opts&#x3D;opts.TitleOpts(title&#x3D;&quot;Kline-基本示例&quot;),</span><br><span class="line">        )</span><br><span class="line">    )</span><br><span class="line">    return c</span><br><span class="line">kline_base().render_notebook()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/pydraw/klineplot.png"></p>
+<p>调整主题颜色：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">from pyecharts import options as opts</span><br><span class="line">from pyecharts.charts import Kline</span><br><span class="line"></span><br><span class="line">data &#x3D; [</span><br><span class="line">    [2320.26, 2320.26, 2287.3, 2362.94],</span><br><span class="line">    [2300, 2291.3, 2288.26, 2308.38],</span><br><span class="line">    [2295.35, 2346.5, 2295.35, 2345.92],</span><br><span class="line">    [2347.22, 2358.98, 2337.35, 2363.8],</span><br><span class="line">    [2360.75, 2382.48, 2347.89, 2383.76],</span><br><span class="line">    [2383.43, 2385.42, 2371.23, 2391.82],</span><br><span class="line">    [2377.41, 2419.02, 2369.57, 2421.15],</span><br><span class="line">    [2425.92, 2428.15, 2417.58, 2440.38],</span><br><span class="line">    [2411, 2433.13, 2403.3, 2437.42],</span><br><span class="line">    [2432.68, 2334.48, 2327.7, 2441.73],</span><br><span class="line">    [2430.69, 2418.53, 2394.22, 2433.89],</span><br><span class="line">    [2416.62, 2432.4, 2414.4, 2443.03],</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def kline_base() -&gt; Kline:</span><br><span class="line">    c &#x3D; (</span><br><span class="line">        Kline()</span><br><span class="line">        .add_xaxis([&quot;2017&#x2F;7&#x2F;&#123;&#125;&quot;.format(i + 1) for i in range(12)])</span><br><span class="line">        .add_yaxis(&quot;kline&quot;, data,</span><br><span class="line">                itemstyle_opts&#x3D;opts.ItemStyleOpts(</span><br><span class="line">                color&#x3D;&quot;#ec0000&quot;,</span><br><span class="line">                color0&#x3D;&quot;#00da3c&quot;,</span><br><span class="line">                border_color&#x3D;&quot;#8A0000&quot;,</span><br><span class="line">                border_color0&#x3D;&quot;#008F28&quot;,</span><br><span class="line">            ),)</span><br><span class="line">        .set_global_opts(</span><br><span class="line">            yaxis_opts&#x3D;opts.AxisOpts(is_scale&#x3D;True),</span><br><span class="line">            xaxis_opts&#x3D;opts.AxisOpts(is_scale&#x3D;True),</span><br><span class="line">            title_opts&#x3D;opts.TitleOpts(title&#x3D;&quot;Kline-基本示例&quot;),</span><br><span class="line">        )</span><br><span class="line">    )</span><br><span class="line">    return c</span><br><span class="line">kline_base().render_notebook()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/pydraw/klineplot2.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/09/17/Python%E7%94%BB%E5%9B%BE%E5%AE%9E%E8%B7%B5/" data-id="ckmzn8px00017j2tdcoxq7mg7" data-title="Python画图实践" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/09/17/%E7%88%AC%E8%99%AB%E5%AE%9E%E8%B7%B5%E2%80%94%E2%80%94Scrapy/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          爬虫实践——Scrapy
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/09/17/Python%20debugger%E2%80%94%E2%80%94PySnooper/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Python debugger——PySnooper</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Go/">Go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Machine-Learning/">Machine-Learning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Notes/">Notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Others/">Others</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tools/">Tools</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/idea/">idea</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/04/01/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94k8s/">日常笔记——k8s</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/01/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/01/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Python/">Python function / package</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/17/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%B9%B3%E5%8F%B0%E5%AE%9E%E8%B7%B5%E2%80%94%E2%80%94Google%20Colaboratory/">深度学习平台实践——Google Colaboratory</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/17/%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94SAC/">个人笔记——SAC</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>日常笔记——ML回归算法 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="概述：日常笔记——ML回归算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="日常笔记——ML回归算法">
+<meta property="og:url" content="http://example.com/2020/09/17/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ML%E5%9B%9E%E5%BD%92%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="概述：日常笔记——ML回归算法">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-09-17T15:21:12.805Z">
+<meta property="article:modified_time" content="2021-04-01T05:31:54.162Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-日常笔记——ML回归算法" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/09/17/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ML%E5%9B%9E%E5%BD%92%E7%AE%97%E6%B3%95/" class="article-date">
+  <time class="dt-published" datetime="2020-09-17T15:21:12.805Z" itemprop="datePublished">2020-09-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Machine-Learning/">Machine-Learning</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      日常笔记——ML回归算法
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>概述：日常笔记——ML回归算法</p>
+<span id="more"></span>
+
+<h1 id="1、线性回归"><a href="#1、线性回归" class="headerlink" title="1、线性回归"></a>1、线性回归</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 加载线性模型算法库</span></span><br><span class="line">from sklearn import linear_model </span><br><span class="line"><span class="comment"># 创建线性回归模型的对象 </span></span><br><span class="line">regr = linear_model.LinearRegression() </span><br><span class="line"><span class="comment"># 利用训练集训练线性模型 </span></span><br><span class="line">regr.fit(X_train, y_train) </span><br><span class="line"><span class="comment"># 使用测试集做预测 </span></span><br><span class="line">y_pred = regr.predict(X_test)</span><br></pre></td></tr></table></figure>
+
+<h1 id="2、岭回归"><a href="#2、岭回归" class="headerlink" title="2、岭回归"></a>2、岭回归</h1><p>对系数进行惩罚(L2范式)来解决普通最小二乘法</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#加载线性模型算法库 </span></span><br><span class="line">from sklearn.linear_model import Ridge </span><br><span class="line"><span class="comment"># 创建岭回归模型的对象 reg = Ridge(alpha=.5) </span></span><br><span class="line"><span class="comment"># 利用训练集训练岭回归模型 </span></span><br><span class="line">reg.fit([[0, 0], [0, 0], [1, 1]], [0, .1, 1]) </span><br><span class="line"><span class="comment">#输出各个系数 </span></span><br><span class="line">reg.coef_ reg.intercept_</span><br></pre></td></tr></table></figure>
+
+<h1 id="3、Lasso回归"><a href="#3、Lasso回归" class="headerlink" title="3、Lasso回归"></a>3、Lasso回归</h1><p>最小二乘法的基础上加入L1范式作为惩罚项</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#加载Lasso模型算法库 </span></span><br><span class="line">from sklearn.linear_model import Lasso </span><br><span class="line"><span class="comment"># 创建Lasso回归模型的对象 </span></span><br><span class="line">reg = Lasso(alpha=0.1) </span><br><span class="line"><span class="comment"># 利用训练集训练Lasso回归模型 </span></span><br><span class="line">reg.fit([[0, 0], [1, 1]], [0, 1]) </span><br><span class="line"><span class="string">&quot;&quot;</span><span class="string">&quot; Lasso(alpha=0.1, copy_X=True, fit_intercept=True, max_iter=1000, normalize=False, positive=False, precompute=False, random_state=None, selection=&#x27;cyclic&#x27;, tol=0.0001, warm_start=False) &quot;</span><span class="string">&quot;&quot;</span> </span><br><span class="line"><span class="comment"># 使用测试集做预测 </span></span><br><span class="line">reg.predict([[1, 1]])</span><br></pre></td></tr></table></figure>
+
+<h1 id="4、Elastic-Net回归"><a href="#4、Elastic-Net回归" class="headerlink" title="4、Elastic Net回归"></a>4、Elastic Net回归</h1><p>利用L1范式和L2范式共同作为惩罚项</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#加载ElasticNet模型算法库 </span></span><br><span class="line">from sklearn.linear_model import ElasticNet </span><br><span class="line"><span class="comment">#加载数据集 </span></span><br><span class="line">from sklearn.datasets import make_regression </span><br><span class="line">X, y = make_regression(n_features=2, random_state=0) </span><br><span class="line"><span class="comment">#创建ElasticNet回归模型的对象 </span></span><br><span class="line">regr = ElasticNet(random_state=0) </span><br><span class="line"><span class="comment"># 利用训练集训练ElasticNet回归模型 </span></span><br><span class="line">regr.fit(X, y) </span><br><span class="line"><span class="built_in">print</span>(regr.coef_) </span><br><span class="line"><span class="built_in">print</span>(regr.intercept_) </span><br><span class="line"><span class="built_in">print</span>(regr.predict([[0, 0]]))</span><br></pre></td></tr></table></figure>
+
+<h1 id="5、贝叶斯岭回归"><a href="#5、贝叶斯岭回归" class="headerlink" title="5、贝叶斯岭回归"></a>5、贝叶斯岭回归</h1><p>贝叶斯岭回归模型和岭回归类似。贝叶斯岭回归通过最大化边际对数似然来估计参数。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.linear_model import BayesianRidge </span><br><span class="line">X = [[0., 0.], [1., 1.], [2., 2.], [3., 3.]] </span><br><span class="line">Y = [0., 1., 2., 3.] </span><br><span class="line">reg = BayesianRidge() reg.fit(X, Y)</span><br></pre></td></tr></table></figure>
+
+<h1 id="6、SGD回归"><a href="#6、SGD回归" class="headerlink" title="6、SGD回归"></a>6、SGD回归</h1><p>上述的线性模型通过最小二乘法来优化损失函数，SGD回归也是一种线性回归，不同的是，它通过随机梯度下降最小化正则化经验损失。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np </span><br><span class="line">from sklearn import linear_model </span><br><span class="line">n_samples, n_features = 10, 5 </span><br><span class="line">np.random.seed(0) </span><br><span class="line">y = np.random.randn(n_samples) </span><br><span class="line">X = np.random.randn(n_samples, n_features) </span><br><span class="line">clf = linear_model.SGDRegressor(max_iter=1000, tol=1e-3) clf.fit(X, y)</span><br></pre></td></tr></table></figure>
+
+<h1 id="7、SVR"><a href="#7、SVR" class="headerlink" title="7、SVR"></a>7、SVR</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#加载SVR模型算法库 </span></span><br><span class="line">from sklearn.svm import SVR </span><br><span class="line"><span class="comment">#训练集 </span></span><br><span class="line">X = [[0, 0], [2, 2]] </span><br><span class="line">y = [0.5, 2.5] </span><br><span class="line"><span class="comment">#创建SVR回归模型的对象 </span></span><br><span class="line">clf = SVR() </span><br><span class="line"><span class="comment"># 利用训练集训练SVR回归模型 </span></span><br><span class="line">clf.fit(X, y) </span><br><span class="line"><span class="string">&quot;&quot;</span><span class="string">&quot; SVR(C=1.0, cache_size=200, coef0=0.0, degree=3, epsilon=0.1, gamma=&#x27;auto_deprecated&#x27;, kernel=&#x27;rbf&#x27;, max_iter=-1, shrinking=True, tol=0.001, verbose=False) &quot;</span><span class="string">&quot;&quot;</span> </span><br><span class="line">clf.predict([[1, 1]])</span><br></pre></td></tr></table></figure>
+
+<h1 id="8、KNN回归"><a href="#8、KNN回归" class="headerlink" title="8、KNN回归"></a>8、KNN回归</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">X = [[0], [1], [2], [3]] </span><br><span class="line">y = [0, 0, 1, 1] </span><br><span class="line">from sklearn.neighbors import KNeighborsRegressor </span><br><span class="line">neigh = KNeighborsRegressor(n_neighbors=2) </span><br><span class="line">neigh.fit(X, y) <span class="built_in">print</span>(neigh.predict([[1.5]]))</span><br></pre></td></tr></table></figure>
+
+<h1 id="9、决策树回归"><a href="#9、决策树回归" class="headerlink" title="9、决策树回归"></a>9、决策树回归</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.tree import DecisionTreeRegressor </span><br><span class="line">X = [[0, 0], [2, 2]] </span><br><span class="line">y = [0.5, 2.5] </span><br><span class="line">clf = DecisionTreeRegressor() </span><br><span class="line">clf = clf.fit(X, y) clf.predict([[1, 1]])</span><br></pre></td></tr></table></figure>
+
+<h1 id="10、神经网络"><a href="#10、神经网络" class="headerlink" title="10、神经网络"></a>10、神经网络</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.neural_network import MLPRegressor mlp=MLPRegressor() </span><br><span class="line">mlp.fit(X_train,y_train) </span><br><span class="line">y_pred = mlp.predict(X_test)</span><br></pre></td></tr></table></figure>
+
+<h1 id="11-RandomForest回归"><a href="#11-RandomForest回归" class="headerlink" title="11.RandomForest回归"></a>11.RandomForest回归</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.ensemble import RandomForestRegressor </span><br><span class="line">from sklearn.datasets import make_regression </span><br><span class="line">X, y = make_regression(n_features=4, n_informative=2, random_state=0, shuffle=False) </span><br><span class="line">regr = RandomForestRegressor(max_depth=2, random_state=0, n_estimators=100) </span><br><span class="line">regr.fit(X, y) </span><br><span class="line"><span class="built_in">print</span>(regr.feature_importances_) </span><br><span class="line"><span class="built_in">print</span>(regr.predict([[0, 0, 0, 0]]))</span><br></pre></td></tr></table></figure>
+
+<h1 id="12、XGBoost回归"><a href="#12、XGBoost回归" class="headerlink" title="12、XGBoost回归"></a>12、XGBoost回归</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import xgboost as xgb </span><br><span class="line">xgb_model = xgb.XGBRegressor(max_depth = 3, learning_rate = 0.1, n_estimators = 100, objective = <span class="string">&#x27;reg:linear&#x27;</span>, n_jobs = -1) </span><br><span class="line">xgb_model.fit(X_train, y_train, eval_set=[(X_train, y_train)], eval_metric=<span class="string">&#x27;logloss&#x27;</span>, verbose=100) y_pred = xgb_model.predict(X_test) <span class="built_in">print</span>(mean_squared_error(y_test, y_pred))</span><br></pre></td></tr></table></figure>
+
+<h1 id="13、LightGBM回归"><a href="#13、LightGBM回归" class="headerlink" title="13、LightGBM回归"></a>13、LightGBM回归</h1><p>LightGBM作为另一个使用基于树的学习算法的梯度增强框架。相比于XGBoost，LightGBM有如下优点，训练速度更快，效率更高效；低内存的使用量，优势：更快的训练效率，低内存使用</p>
+<p>更好的准确率；支持并行学习；可处理大规模数据</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import lightgbm as lgb </span><br><span class="line">gbm = lgb.LGBMRegressor(num_leaves=31, learning_rate=0.05, n_estimators=20) </span><br><span class="line">gbm.fit(X_train, y_train, eval_set=[(X_train, y_train)], eval_metric=<span class="string">&#x27;logloss&#x27;</span>, verbose=100) </span><br><span class="line">y_pred = gbm.predict(X_test) <span class="built_in">print</span>(mean_squared_error(y_test, y_pred))</span><br></pre></td></tr></table></figure>
+
+<h1 id="入门级比赛"><a href="#入门级比赛" class="headerlink" title="入门级比赛"></a>入门级比赛</h1><p><strong>Kaggle——房价预测</strong></p>
+<p>这个比赛作为最基础的回归问题之一，很适合入门机器学习的小伙伴们。</p>
+<p>网址：<a target="_blank" rel="noopener" href="https://www.kaggle.com/c/house-prices-advanced-regression-techniques">https://www.kaggle.com/c/house-prices-advanced-regression-techniques</a></p>
+<p>经典解决方案： </p>
+<p>XGBoost解决方案： <a target="_blank" rel="noopener" href="https://www.kaggle.com/dansbecker/xgboost">https://www.kaggle.com/dansbecker/xgboost</a></p>
+<p>Lasso解决方案： <a target="_blank" rel="noopener" href="https://www.kaggle.com/mymkyt/simple-lasso-public-score-0-12102">https://www.kaggle.com/mymkyt/simple-lasso-public-score-0-12102</a></p>
+<h1 id="进阶比赛"><a href="#进阶比赛" class="headerlink" title="进阶比赛"></a>进阶比赛</h1><p><strong>Kaggle——销售量预测</strong></p>
+<p>这个比赛作为经典的时间序列问题之一，目标是为了预测下个月每种产品和商店的总销售额。</p>
+<p>网址：<a target="_blank" rel="noopener" href="https://www.kaggle.com/c/competitive-data-science-predict-future-sales">https://www.kaggle.com/c/competitive-data-science-predict-future-sales</a></p>
+<p>经典解决方案：</p>
+<p>LightGBM: <a target="_blank" rel="noopener" href="https://www.kaggle.com/sanket30/predicting-sales-using-lightgbm">https://www.kaggle.com/sanket30/predicting-sales-using-lightgbm</a></p>
+<p>XGBoost: <a target="_blank" rel="noopener" href="https://www.kaggle.com/fabianaboldrin/eda-xgboost">https://www.kaggle.com/fabianaboldrin/eda-xgboost</a></p>
+<p>第一名解决方案：<a target="_blank" rel="noopener" href="https://www.kaggle.com/c/competitive-data-science-predict-future-sales/discussion/74835#latest-503740">https://www.kaggle.com/c/competitive-data-science-predict-future-sales/discussion/74835#latest-503740</a></p>
+<h1 id="TOP比赛方案"><a href="#TOP比赛方案" class="headerlink" title="TOP比赛方案"></a>TOP比赛方案</h1><p><strong>Kaggle——餐厅访客预测</strong></p>
+<p>网址：<a target="_blank" rel="noopener" href="https://www.kaggle.com/c/recruit-restaurant-visitor-forecasting">https://www.kaggle.com/c/recruit-restaurant-visitor-forecasting</a></p>
+<p>解决方案：</p>
+<p>1st 方案： <a target="_blank" rel="noopener" href="https://www.kaggle.com/plantsgo/solution-public-0-471-private-0-505">https://www.kaggle.com/plantsgo/solution-public-0-471-private-0-505</a></p>
+<p>7th 方案：<a target="_blank" rel="noopener" href="https://www.kaggle.com/c/recruit-restaurant-visitor-forecasting/discussion/49259#latest-284437">https://www.kaggle.com/c/recruit-restaurant-visitor-forecasting/discussion/49259#latest-284437</a></p>
+<p>8th 方案：<a target="_blank" rel="noopener" href="https://github.com/MaxHalford/kaggle-recruit-restaurant">https://github.com/MaxHalford/kaggle-recruit-restaurant</a></p>
+<p>12th 方案：<a target="_blank" rel="noopener" href="https://www.kaggle.com/c/recruit-restaurant-visitor-forecasting/discussion/49251#latest-282765">https://www.kaggle.com/c/recruit-restaurant-visitor-forecasting/discussion/49251#latest-282765</a></p>
+<p><strong>Kaggle——CorporaciónFavoritaGrocery销售预测</strong></p>
+<p>网址：<a target="_blank" rel="noopener" href="https://www.kaggle.com/c/favorita-grocery-sales-forecasting">https://www.kaggle.com/c/favorita-grocery-sales-forecasting</a></p>
+<p>解决方案：</p>
+<p>1st 方案： <a target="_blank" rel="noopener" href="https://www.kaggle.com/c/favorita-grocery-sales-forecasting/discussion/47582#latest-360306">https://www.kaggle.com/c/favorita-grocery-sales-forecasting/discussion/47582#latest-360306</a></p>
+<p>2st 方案：<a target="_blank" rel="noopener" href="https://www.kaggle.com/c/favorita-grocery-sales-forecasting/discussion/47568#latest-278474">https://www.kaggle.com/c/favorita-grocery-sales-forecasting/discussion/47568#latest-278474</a></p>
+<p>3st 方案：<a target="_blank" rel="noopener" href="https://www.kaggle.com/c/favorita-grocery-sales-forecasting/discussion/47560#latest-302253">https://www.kaggle.com/c/favorita-grocery-sales-forecasting/discussion/47560#latest-302253</a></p>
+<p>4st 方案：<a target="_blank" rel="noopener" href="https://www.kaggle.com/c/favorita-grocery-sales-forecasting/discussion/47529#latest-271077">https://www.kaggle.com/c/favorita-grocery-sales-forecasting/discussion/47529#latest-271077</a></p>
+<p>5st方案：<a target="_blank" rel="noopener" href="https://www.kaggle.com/c/favorita-grocery-sales-forecasting/discussion/47556#latest-270515">https://www.kaggle.com/c/favorita-grocery-sales-forecasting/discussion/47556#latest-270515</a></p>
+<p>6st方案：<a target="_blank" rel="noopener" href="https://www.kaggle.com/c/favorita-grocery-sales-forecasting/discussion/47575#latest-269568">https://www.kaggle.com/c/favorita-grocery-sales-forecasting/discussion/47575#latest-269568</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/09/17/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ML%E5%9B%9E%E5%BD%92%E7%AE%97%E6%B3%95/" data-id="ckmzn8pwo000fj2td6f1ca70m" data-title="日常笔记——ML回归算法" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/09/17/%E6%95%B0%E6%8D%AE%E6%8E%A2%E7%B4%A2%E7%AE%80%E6%98%93%E5%B7%A5%E5%85%B7%E2%80%94%E2%80%94easyeda/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          数据探索简易工具——easyeda
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/09/17/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94SQL/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">日常笔记——SQL</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Go/">Go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Machine-Learning/">Machine-Learning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Notes/">Notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Others/">Others</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tools/">Tools</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/idea/">idea</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/04/01/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94k8s/">日常笔记——k8s</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/01/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/01/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Python/">Python function / package</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/17/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%B9%B3%E5%8F%B0%E5%AE%9E%E8%B7%B5%E2%80%94%E2%80%94Google%20Colaboratory/">深度学习平台实践——Google Colaboratory</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/17/%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94SAC/">个人笔记——SAC</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
