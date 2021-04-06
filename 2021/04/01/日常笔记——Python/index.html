@@ -15,7 +15,7 @@
 <meta property="og:locale">
 <meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/fhujzoQe7TrGa4hyhWRYBIYJImp81lDuaYQNIb7icoqbV5qzqRrAIMGibNeWicsSBib8Lp5Sd7JCEiap1QMcKz8f07A/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
 <meta property="article:published_time" content="2021-04-01T02:53:58.727Z">
-<meta property="article:modified_time" content="2021-04-04T14:34:44.502Z">
+<meta property="article:modified_time" content="2021-04-06T02:41:15.671Z">
 <meta property="article:author" content="Jimmy Guo">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://mmbiz.qpic.cn/mmbiz_png/fhujzoQe7TrGa4hyhWRYBIYJImp81lDuaYQNIb7icoqbV5qzqRrAIMGibNeWicsSBib8Lp5Sd7JCEiap1QMcKz8f07A/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
@@ -63,12 +63,12 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Buscar"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Buscar"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
       </div>
     </div>
   </div>
@@ -357,11 +357,20 @@
 
 <h2 id="index-数组索引不存在"><a href="#index-数组索引不存在" class="headerlink" title="[index:]数组索引不存在"></a>[index:]数组索引不存在</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">b = a[<span class="number">10</span>:]  <span class="comment"># 输出 b = [],在获取列表切片时若begin index超过成员变量不会触发indexerror</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="-2"><a href="#-2" class="headerlink" title=""></a></h2>
+<h2 id="complex"><a href="#complex" class="headerlink" title="complex"></a>complex</h2><p>complex是复数类型，由实部和虚部组成，即<code>real</code>+<code>imag</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">complex</span>(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line"><span class="comment"># (1+2j)</span></span><br><span class="line"><span class="built_in">complex</span>(<span class="number">1</span>)</span><br><span class="line"><span class="comment"># (1+0j)</span></span><br><span class="line"><span class="built_in">complex</span>(<span class="string">&quot;1&quot;</span>)</span><br><span class="line"><span class="comment"># (1)</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="groupby-amp-itemgetter"><a href="#groupby-amp-itemgetter" class="headerlink" title="groupby &amp; itemgetter"></a>groupby &amp; itemgetter</h2><p>分组函数 <code>groupby</code></p>
+<p><code>itemgetter</code>获取字典<code>key</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> groupby</span><br><span class="line"><span class="keyword">from</span> operator <span class="keyword">import</span> itemgetter</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> operator <span class="keyword">import</span> itemgetter</span><br><span class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> groupby</span><br><span class="line">d1=&#123;<span class="string">&#x27;name&#x27;</span>:<span class="string">&#x27;zhangsan&#x27;</span>,<span class="string">&#x27;age&#x27;</span>:<span class="number">20</span>,<span class="string">&#x27;country&#x27;</span>:<span class="string">&#x27;China&#x27;</span>&#125;</span><br><span class="line">d2=&#123;<span class="string">&#x27;name&#x27;</span>:<span class="string">&#x27;wangwu&#x27;</span>,<span class="string">&#x27;age&#x27;</span>:<span class="number">19</span>,<span class="string">&#x27;country&#x27;</span>:<span class="string">&#x27;USA&#x27;</span>&#125;</span><br><span class="line">d3=&#123;<span class="string">&#x27;name&#x27;</span>:<span class="string">&#x27;lisi&#x27;</span>,<span class="string">&#x27;age&#x27;</span>:<span class="number">22</span>,<span class="string">&#x27;country&#x27;</span>:<span class="string">&#x27;JP&#x27;</span>&#125;</span><br><span class="line">d4=&#123;<span class="string">&#x27;name&#x27;</span>:<span class="string">&#x27;zhaoliu&#x27;</span>,<span class="string">&#x27;age&#x27;</span>:<span class="number">22</span>,<span class="string">&#x27;country&#x27;</span>:<span class="string">&#x27;USA&#x27;</span>&#125;</span><br><span class="line">d5=&#123;<span class="string">&#x27;name&#x27;</span>:<span class="string">&#x27;pengqi&#x27;</span>,<span class="string">&#x27;age&#x27;</span>:<span class="number">22</span>,<span class="string">&#x27;country&#x27;</span>:<span class="string">&#x27;USA&#x27;</span>&#125;</span><br><span class="line">d6=&#123;<span class="string">&#x27;name&#x27;</span>:<span class="string">&#x27;lijiu&#x27;</span>,<span class="string">&#x27;age&#x27;</span>:<span class="number">22</span>,<span class="string">&#x27;country&#x27;</span>:<span class="string">&#x27;China&#x27;</span>&#125;</span><br><span class="line">lst=[d1,d2,d3,d4,d5,d6]</span><br><span class="line"><span class="comment"># [&#123;&#x27;name&#x27;: &#x27;zhangsan&#x27;, &#x27;age&#x27;: 20, &#x27;country&#x27;: &#x27;China&#x27;&#125;,</span></span><br><span class="line"><span class="comment"># &#123;&#x27;name&#x27;: &#x27;wangwu&#x27;, &#x27;age&#x27;: 19, &#x27;country&#x27;: &#x27;USA&#x27;&#125;, </span></span><br><span class="line"><span class="comment"># &#123;&#x27;name&#x27;: &#x27;lisi&#x27;, &#x27;age&#x27;: 22, &#x27;country&#x27;: &#x27;JP&#x27;&#125;, </span></span><br><span class="line"><span class="comment"># &#123;&#x27;name&#x27;: &#x27;zhaoliu&#x27;, &#x27;age&#x27;: 22, &#x27;country&#x27;: &#x27;USA&#x27;&#125;, </span></span><br><span class="line"><span class="comment"># &#123;&#x27;name&#x27;: &#x27;pengqi&#x27;, &#x27;age&#x27;: 22, &#x27;country&#x27;: &#x27;USA&#x27;&#125;, </span></span><br><span class="line"><span class="comment"># &#123;&#x27;name&#x27;: &#x27;lijiu&#x27;, &#x27;age&#x27;: 22, &#x27;country&#x27;: &#x27;China&#x27;&#125;]</span></span><br><span class="line"></span><br><span class="line">lst.sort(key=itemgetter(<span class="string">&#x27;age&#x27;</span>)) <span class="comment">#需要先排序，然后才能groupby。lst排序后自身被改变</span></span><br><span class="line"><span class="built_in">print</span>(lst)</span><br><span class="line"><span class="comment"># [&#123;&#x27;name&#x27;: &#x27;wangwu&#x27;, &#x27;age&#x27;: 19, &#x27;country&#x27;: &#x27;USA&#x27;&#125;, </span></span><br><span class="line"><span class="comment"># &#123;&#x27;name&#x27;: &#x27;zhangsan&#x27;, &#x27;age&#x27;: 20, &#x27;country&#x27;: &#x27;China&#x27;&#125;, </span></span><br><span class="line"><span class="comment"># &#123;&#x27;name&#x27;: &#x27;lisi&#x27;, &#x27;age&#x27;: 22, &#x27;country&#x27;: &#x27;JP&#x27;&#125;, </span></span><br><span class="line"><span class="comment"># &#123;&#x27;name&#x27;: &#x27;zhaoliu&#x27;, &#x27;age&#x27;: 22, &#x27;country&#x27;: &#x27;USA&#x27;&#125;, </span></span><br><span class="line"><span class="comment"># &#123;&#x27;name&#x27;: &#x27;pengqi&#x27;, &#x27;age&#x27;: 22, &#x27;country&#x27;: &#x27;USA&#x27;&#125;, </span></span><br><span class="line"><span class="comment"># &#123;&#x27;name&#x27;: &#x27;lijiu&#x27;, &#x27;age&#x27;: 22, &#x27;country&#x27;: &#x27;China&#x27;&#125;]</span></span><br><span class="line"></span><br><span class="line">lstg = groupby(lst,itemgetter(<span class="string">&#x27;country&#x27;</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> key,group <span class="keyword">in</span> lstg:</span><br><span class="line">        <span class="built_in">print</span> (key,<span class="built_in">list</span>(g))  <span class="comment"># group是一个迭代器，包含了所有的分组列表</span></span><br><span class="line"><span class="comment"># 19 [&#123;&#x27;name&#x27;: &#x27;wangwu&#x27;, &#x27;age&#x27;: 19, &#x27;country&#x27;: &#x27;USA&#x27;&#125;]</span></span><br><span class="line"><span class="comment"># 20 [&#123;&#x27;name&#x27;: &#x27;zhangsan&#x27;, &#x27;age&#x27;: 20, &#x27;country&#x27;: &#x27;China&#x27;&#125;]</span></span><br><span class="line"><span class="comment"># 22 [&#123;&#x27;name&#x27;: &#x27;lisi&#x27;, &#x27;age&#x27;: 22, &#x27;country&#x27;: &#x27;JP&#x27;&#125;, &#123;&#x27;name&#x27;: &#x27;zhaoliu&#x27;, &#x27;age&#x27;: 22, &#x27;country&#x27;: &#x27;USA&#x27;&#125;, &#123;&#x27;name&#x27;: &#x27;pengqi&#x27;, &#x27;age&#x27;: 22, &#x27;country&#x27;: &#x27;USA&#x27;&#125;, &#123;&#x27;name&#x27;: &#x27;lijiu&#x27;, &#x27;age&#x27;: 22, &#x27;country&#x27;: &#x27;China&#x27;&#125;]</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/04/01/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Python/" data-id="ckmzn8px00018j2td8pv489sj" data-title="Python function / package" class="article-share-link">Teilen</a>
+      <a data-url="http://example.com/2021/04/01/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Python/" data-id="ckmzn8px00018j2td8pv489sj" data-title="Python function / package" class="article-share-link">Compartir</a>
       
       
       
@@ -372,7 +381,7 @@
 <nav id="article-nav">
   
     <a href="/2021/04/01/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Neuer</strong>
+      <strong class="article-nav-caption">Nuevo</strong>
       <div class="article-nav-title">
         
           Hello World
@@ -382,7 +391,7 @@
   
   
     <a href="/2021/03/31/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Elasticsearch/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Älter</strong>
+      <strong class="article-nav-caption">Viejo</strong>
       <div class="article-nav-title">日常笔记——Elasticsearch</div>
     </a>
   
@@ -398,7 +407,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Kategorien</h3>
+    <h3 class="widget-title">Categorías</h3>
     <div class="widget">
       <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Django/">Django</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go/">Go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Notes/">Notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Others/">Others</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Study/">Study</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Testing/">Testing</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tools/">Tools</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/cos/">cos</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/idea/">idea</a></li></ul>
     </div>
@@ -413,7 +422,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archiv</h3>
+    <h3 class="widget-title">Archivos</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li></ul>
     </div>
@@ -423,9 +432,13 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">letzter Beitrag</h3>
+    <h3 class="widget-title">Posts recientes</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/04/06/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Sentry/">日常笔记——Sentry</a>
+          </li>
         
           <li>
             <a href="/2021/04/02/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94urljoin/">日常笔记——urljoin</a>
@@ -443,10 +456,6 @@
             <a href="/2021/04/01/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Python/">Python function / package</a>
           </li>
         
-          <li>
-            <a href="/2021/03/31/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Elasticsearch/">日常笔记——Elasticsearch</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -461,7 +470,7 @@
     <div id="footer-info" class="inner">
       
       &copy; 2021 Jimmy Guo<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+      Construido por <a href="https://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>

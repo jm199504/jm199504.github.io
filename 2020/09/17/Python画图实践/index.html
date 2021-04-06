@@ -54,8 +54,11 @@
 <meta property="og:image" content="http://example.com/images/pydraw/lineplot.png">
 <meta property="og:image" content="http://example.com/images/pydraw/klineplot.png">
 <meta property="og:image" content="http://example.com/images/pydraw/klineplot2.png">
+<meta property="og:image" content="http://example.com/images/roc.png">
+<meta property="og:image" content="http://example.com/images/cm.png">
+<meta property="og:image" content="http://example.com/images/kf.png">
 <meta property="article:published_time" content="2020-09-17T15:21:12.797Z">
-<meta property="article:modified_time" content="2021-04-02T02:00:43.399Z">
+<meta property="article:modified_time" content="2021-04-06T06:26:09.122Z">
 <meta property="article:author" content="Jimmy Guo">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/plotly/1.png">
@@ -103,12 +106,12 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Buscar"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Buscar"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
       </div>
     </div>
   </div>
@@ -604,11 +607,20 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">from pyecharts import options as opts</span><br><span class="line">from pyecharts.charts import Kline</span><br><span class="line"></span><br><span class="line">data &#x3D; [</span><br><span class="line">    [2320.26, 2320.26, 2287.3, 2362.94],</span><br><span class="line">    [2300, 2291.3, 2288.26, 2308.38],</span><br><span class="line">    [2295.35, 2346.5, 2295.35, 2345.92],</span><br><span class="line">    [2347.22, 2358.98, 2337.35, 2363.8],</span><br><span class="line">    [2360.75, 2382.48, 2347.89, 2383.76],</span><br><span class="line">    [2383.43, 2385.42, 2371.23, 2391.82],</span><br><span class="line">    [2377.41, 2419.02, 2369.57, 2421.15],</span><br><span class="line">    [2425.92, 2428.15, 2417.58, 2440.38],</span><br><span class="line">    [2411, 2433.13, 2403.3, 2437.42],</span><br><span class="line">    [2432.68, 2334.48, 2327.7, 2441.73],</span><br><span class="line">    [2430.69, 2418.53, 2394.22, 2433.89],</span><br><span class="line">    [2416.62, 2432.4, 2414.4, 2443.03],</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def kline_base() -&gt; Kline:</span><br><span class="line">    c &#x3D; (</span><br><span class="line">        Kline()</span><br><span class="line">        .add_xaxis([&quot;2017&#x2F;7&#x2F;&#123;&#125;&quot;.format(i + 1) for i in range(12)])</span><br><span class="line">        .add_yaxis(&quot;kline&quot;, data,</span><br><span class="line">                itemstyle_opts&#x3D;opts.ItemStyleOpts(</span><br><span class="line">                color&#x3D;&quot;#ec0000&quot;,</span><br><span class="line">                color0&#x3D;&quot;#00da3c&quot;,</span><br><span class="line">                border_color&#x3D;&quot;#8A0000&quot;,</span><br><span class="line">                border_color0&#x3D;&quot;#008F28&quot;,</span><br><span class="line">            ),)</span><br><span class="line">        .set_global_opts(</span><br><span class="line">            yaxis_opts&#x3D;opts.AxisOpts(is_scale&#x3D;True),</span><br><span class="line">            xaxis_opts&#x3D;opts.AxisOpts(is_scale&#x3D;True),</span><br><span class="line">            title_opts&#x3D;opts.TitleOpts(title&#x3D;&quot;Kline-基本示例&quot;),</span><br><span class="line">        )</span><br><span class="line">    )</span><br><span class="line">    return c</span><br><span class="line">kline_base().render_notebook()</span><br></pre></td></tr></table></figure>
 
 <p><img src="/images/pydraw/klineplot2.png"></p>
+<h1 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h1><h2 id="绘制ROC"><a href="#绘制ROC" class="headerlink" title="绘制ROC"></a>绘制ROC</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_digits</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.naive_bayes <span class="keyword">import</span> GaussianNB</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> scikitplot <span class="keyword">as</span> skplt</span><br><span class="line">X, y = load_digits(return_X_y=<span class="literal">True</span>)</span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="number">0.33</span>)</span><br><span class="line">nb = GaussianNB()</span><br><span class="line">nb.fit(X_train, y_train)</span><br><span class="line">predicted_probas = nb.predict_proba(X_test)</span><br><span class="line">skplt.metrics.plot_roc(y_test, predicted_probas)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/roc.png"></p>
+<h2 id="绘制混淆矩阵"><a href="#绘制混淆矩阵" class="headerlink" title="绘制混淆矩阵"></a>绘制混淆矩阵</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestClassifier</span><br><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_digits <span class="keyword">as</span> load_data</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> cross_val_predict</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> scikitplot <span class="keyword">as</span> skplt</span><br><span class="line">X, y = load_data(return_X_y=<span class="literal">True</span>)</span><br><span class="line">classifier = RandomForestClassifier()</span><br><span class="line">predictions = cross_val_predict(classifier, X, y)</span><br><span class="line">plot = skplt.metrics.plot_confusion_matrix(y, predictions, normalize=<span class="literal">True</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/cm.png"></p>
+<h2 id="卡尔曼滤波"><a href="#卡尔曼滤波" class="headerlink" title="卡尔曼滤波"></a>卡尔曼滤波</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> pykalman <span class="keyword">import</span> KalmanFilter</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">kf = KalmanFilter(n_dim_obs=<span class="number">1</span>,</span><br><span class="line">                  n_dim_state=<span class="number">1</span>,</span><br><span class="line">                  initial_state_mean=<span class="number">23</span>,</span><br><span class="line">                  initial_state_covariance=<span class="number">5</span>,</span><br><span class="line">                  transition_matrices=[<span class="number">1</span>],</span><br><span class="line">                  observation_matrices=[<span class="number">1</span>],</span><br><span class="line">                  observation_covariance=<span class="number">4</span>,</span><br><span class="line">                  transition_covariance=np.eye(<span class="number">1</span>),</span><br><span class="line">                  transition_offsets=<span class="literal">None</span>)</span><br><span class="line"></span><br><span class="line">actual = [<span class="number">23</span>]*<span class="number">100</span></span><br><span class="line">sim = actual + np.random.normal(<span class="number">0</span>,<span class="number">1</span>,<span class="number">100</span>)</span><br><span class="line">state_means, state_covariance = kf.<span class="built_in">filter</span>(sim)</span><br><span class="line"></span><br><span class="line">plt.plot(actual,<span class="string">&#x27;r-&#x27;</span>)</span><br><span class="line">plt.plot(sim,<span class="string">&#x27;k-&#x27;</span>)</span><br><span class="line">plt.plot(state_means,<span class="string">&#x27;g-&#x27;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/kf.png"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/09/17/Python%E7%94%BB%E5%9B%BE%E5%AE%9E%E8%B7%B5/" data-id="ckmzn8px00017j2tdcoxq7mg7" data-title="Python画图实践" class="article-share-link">Teilen</a>
+      <a data-url="http://example.com/2020/09/17/Python%E7%94%BB%E5%9B%BE%E5%AE%9E%E8%B7%B5/" data-id="ckmzn8px00017j2tdcoxq7mg7" data-title="Python画图实践" class="article-share-link">Compartir</a>
       
       
       
@@ -619,7 +631,7 @@
 <nav id="article-nav">
   
     <a href="/2020/09/17/%E7%88%AC%E8%99%AB%E5%AE%9E%E8%B7%B5%E2%80%94%E2%80%94Scrapy/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Neuer</strong>
+      <strong class="article-nav-caption">Nuevo</strong>
       <div class="article-nav-title">
         
           爬虫实践——Scrapy
@@ -629,7 +641,7 @@
   
   
     <a href="/2020/09/17/Python%20debugger%E2%80%94%E2%80%94PySnooper/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Älter</strong>
+      <strong class="article-nav-caption">Viejo</strong>
       <div class="article-nav-title">Python debugger——PySnooper</div>
     </a>
   
@@ -645,7 +657,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Kategorien</h3>
+    <h3 class="widget-title">Categorías</h3>
     <div class="widget">
       <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Django/">Django</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go/">Go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Notes/">Notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Others/">Others</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Study/">Study</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Testing/">Testing</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tools/">Tools</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/cos/">cos</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/idea/">idea</a></li></ul>
     </div>
@@ -660,7 +672,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archiv</h3>
+    <h3 class="widget-title">Archivos</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li></ul>
     </div>
@@ -670,9 +682,13 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">letzter Beitrag</h3>
+    <h3 class="widget-title">Posts recientes</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/04/06/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Sentry/">日常笔记——Sentry</a>
+          </li>
         
           <li>
             <a href="/2021/04/02/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94urljoin/">日常笔记——urljoin</a>
@@ -690,10 +706,6 @@
             <a href="/2021/04/01/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Python/">Python function / package</a>
           </li>
         
-          <li>
-            <a href="/2021/03/31/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Elasticsearch/">日常笔记——Elasticsearch</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -708,7 +720,7 @@
     <div id="footer-info" class="inner">
       
       &copy; 2021 Jimmy Guo<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+      Construido por <a href="https://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
