@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>📒 gRPC python | Jimmy&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="概述：gRPC python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="📒 gRPC python">
+<meta property="og:url" content="http://example.com/2021/03/24/%F0%9F%93%92%20gRPC%20python/index.html">
+<meta property="og:site_name" content="Jimmy&#39;s blog">
+<meta property="og:description" content="概述：gRPC python">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-03-24T05:41:02.611Z">
+<meta property="article:modified_time" content="2021-04-08T11:20:43.876Z">
+<meta property="article:author" content="Jimmy Guo">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Jimmy's blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jimmy&#39;s blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-📒 gRPC python" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/24/%F0%9F%93%92%20gRPC%20python/" class="article-date">
+  <time class="dt-published" datetime="2021-03-24T05:41:02.611Z" itemprop="datePublished">2021-03-24</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Notes/">Notes</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      📒 gRPC python
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>概述：gRPC python</p>
+<span id="more"></span>
+
+<h2 id="1-gRPC"><a href="#1-gRPC" class="headerlink" title="1. gRPC"></a>1. gRPC</h2><p>RPC，是Remote Procedure Call的简称，即远程过程调用，允许程序调用另一个地址空间（通常是另一台机器上）的类方法或函数的一种服务，是一种架设在计算机网络之上并隐藏底层网络技术，可以像调用本地服务一样调用远端程序，在编码代价不高的情况下提升吞吐的能力。</p>
+<p>gRPC 是 Google 开源的基于 Protobuf 和 Http2.0 协议的通信框架，默认使用 <em>protocol buffers</em>协议，是 Google 开源的一套成熟的结构数据的序列化机制，当然也可以使用其他数据格式如 JSON，不过通常都使用<em>protocol buffers</em>这种灵活、高效的数据格式。大部分RPC都是基于socket实现的，可以比http请求来的高效。</p>
+<p>将方法调用以及调用参数，响应参数等在两个服务器之间进行传输，就需要将这些参数序列化，gRPC采用的是protocol buffer的语法(检查proto)，通过proto语法可以定义好要调用的方法、和参数以及响应格式，可以很方便地完成远程方法调用，而且非常利于扩展和更新参数。</p>
+<p>Protocol Buffer是Google的跨语言，跨平台，可扩展机制的，用于序列化结构化数据，类似于Json和XML数据交换格式，Protobuf相对与XML和Json的不同之处，它是一种二进制的数据格式，具有更高的传输，打包和解包效率，不依赖于语言和平台，具有简单，数据量小，快速等优点，可以使用prorobuf将内容序列化后保存在文件中，加载文件，反序列化后就可以直接使用，网络通信时用于协议编解码的工具库。</p>
+<p>gRPC客户端应用可像调用本地方法一样直接调用另一台机器上服务端应用的方法，容易创建分布式应用和服务。跟其他 RPC 系统类似，gRPC 也是基于以下理念：首先定义一个服务，定义能够被远程调用的方法（包含参数和返回类型）。在服务端实现这个方法，并运行一个 gRPC 服务器来处理客户端调用。在客户端拥有一个存根，这个存根就是长得像服务端一样的方法（但是没有具体实现），客户端通过这个存根调用服务端的方法。</p>
+<p>大致工作原理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gRPC stub(c++&#x2F;python&#x2F;...) &#x3D;&#x3D;&#x3D;&#x3D;&#x3D; proto request &#x3D;&#x3D;&#x3D;&gt;&gt; gRPC Server</span><br><span class="line">gRPC stub(c++&#x2F;python&#x2F;...) &lt;&lt;&#x3D;&#x3D;&#x3D; proto response &#x3D;&#x3D;&#x3D; gRPC Server</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-服务定义"><a href="#2-服务定义" class="headerlink" title="2. 服务定义"></a>2. 服务定义</h2><p>通过protobuf定义服务的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 定义 HelloService 的服务，service &amp; message 关键字可类比为 class</span><br><span class="line">service HelloService &#123;</span><br><span class="line">  &#x2F;&#x2F; 定义一个叫SayHello的方法，这个方法接受HelloRequest消息作为参数，返回HelloResponse消息</span><br><span class="line">  rpc SayHello (HelloRequest) returns (HelloResponse);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 定义HelloRequest消息</span><br><span class="line">message HelloRequest &#123;</span><br><span class="line">  required string greeting &#x3D; 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 定义HelloResponse消息</span><br><span class="line">message HelloResponse &#123;</span><br><span class="line">  required string reply &#x3D; 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>gRPC 允许你定义四类服务方法，以及客户端和服务端的交互方式：</p>
+<h3 id="21-单向RPC"><a href="#21-单向RPC" class="headerlink" title="21 单向RPC"></a>21 单向RPC</h3><p>即客户端发送一个请求给服务端，从服务端获取一个应答，就像一次普通的函数调用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rpc SayHello(HelloRequest) returns (HelloResponse)&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-服务端流式-RPC"><a href="#2-2-服务端流式-RPC" class="headerlink" title="2.2 服务端流式 RPC"></a>2.2 服务端流式 RPC</h3><p>即客户端发送一个请求给服务端，可获取一个数据流用来读取一系列消息。客户端从返回的数据流里一直读取直到没有更多消息为止。</p>
+<p>即客户端请求一次，服务端就可以持续返回消息给客户端。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rpc LotsOfReplies(HelloRequest) returns (stream HelloResponse)&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-客户端流式-RPC"><a href="#2-3-客户端流式-RPC" class="headerlink" title="2.3 客户端流式 RPC"></a>2.3 客户端流式 RPC</h3><p>即客户端用提供的一个数据流写入并发送一系列消息给服务端。一旦客户端完成消息写入，就等待服务端读取这些消息并返回应答。</p>
+<p>即请求一次，客户端就可以源源不断的往服务端发送消息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rpc LotsOfGreetings(stream HelloRequest) returns (HelloResponse) &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-4-双向流式-RPC"><a href="#2-4-双向流式-RPC" class="headerlink" title="2.4 双向流式 RPC"></a>2.4 双向流式 RPC</h3><p>即两边都可以分别通过一个读写数据流来发送一系列消息。这两个数据流操作是相互独立的，所以客户端和服务端能按其希望的任意顺序读写，例如：服务端可以在写应答前等待所有的客户端消息，或者它可以先读一个消息再写一个消息，或者是读写相结合的其他方式。每个数据流里消息的顺序会被保持。</p>
+<p>类似tcp通信，客户端和服务端可以互相发消息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rpc BidiHello(stream HelloRequest) returns (stream HelloResponse)&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-Install"><a href="#3-Install" class="headerlink" title="3. Install"></a>3. Install</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 可不指定具体版本</span></span><br><span class="line"><span class="comment"># 安装gRPC</span></span><br><span class="line">pip install grpcio==1.36.1</span><br><span class="line"><span class="comment"># 安装protobuf</span></span><br><span class="line">pip install protobuf==3.15.5</span><br><span class="line"><span class="comment"># 安装gRPC工具：包括protocol buffer编译器（protoc）和 python代码生成插件，python代码生成插件通过.proto服务定义文件，生成python的grpc服务端和客户端代码，即生成后可不再使用该库。</span></span><br><span class="line">pip install grpcio_tools==1.36.1</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-消息编译"><a href="#4-消息编译" class="headerlink" title="4. 消息编译"></a>4. 消息编译</h2><p>生成 gRPC 代码，以person.proto为例，在相应工作目录下执行以下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -m grpc_tools.protoc --python_out&#x3D;.  --grpc_python_out&#x3D;.  -I.  person.proto</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>python -m grpc_tools.protoc: 基于python模块(module) 运行protoc 编译器</p>
+</li>
+<li><p>–python_out=. : 编译生成处理 protobuf 相关的代码的路径(.表示当前目录)</p>
+</li>
+<li><p>–grpc_python_out=. : 编译生成处理 grpc 相关的代码的路径(.表示当前目录)</p>
+</li>
+<li><p>-I. [person.proto] : proto 协议文件的路径</p>
+</li>
+</ul>
+<p>生成<code>person_pb2.py</code>和<code>person_pb_grpc.py</code>：</p>
+<ul>
+<li>person_pb2.py: 用于与 protobuf 数据进行交互，根据proto文件定义的数据结构生成的数据结构文件</li>
+<li>person_pb2_grpc.py: 用于与 grpc 进行交互，定义了rpc方法的类以及类的请求参数和响应等，可直接进行python实例化调用</li>
+</ul>
+<p>补充消息编译各个语言的类库：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">--cpp_out&#x3D;OUT_DIR           指定代码生成目录，生成 C++ 代码</span><br><span class="line">--csharp_out&#x3D;OUT_DIR        指定代码生成目录，生成 C# 代码</span><br><span class="line">--java_out&#x3D;OUT_DIR          指定代码生成目录，生成 java 代码</span><br><span class="line">--js_out&#x3D;OUT_DIR            指定代码生成目录，生成 javascript 代码</span><br><span class="line">--objc_out&#x3D;OUT_DIR          指定代码生成目录，生成 Objective C 代码</span><br><span class="line">--php_out&#x3D;OUT_DIR           指定代码生成目录，生成 php 代码</span><br><span class="line">--python_out&#x3D;OUT_DIR        指定代码生成目录，生成 python 代码</span><br><span class="line">--ruby_out&#x3D;OUT_DIR          指定代码生成目录，生成 ruby 代码</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="5-ProtoBuf"><a href="#5-ProtoBuf" class="headerlink" title="5. ProtoBuf"></a>5. ProtoBuf</h2><h3 id="5-1-基础知识"><a href="#5-1-基础知识" class="headerlink" title="5.1 基础知识"></a>5.1 基础知识</h3><p>protocol buffers （ProtoBuf）是一种语言无关、平台无关、可扩展的序列化结构数据的方法，它可用于（数据）通信协议、数据存储等。</p>
+<p>Protocol Buffers 是一种灵活，高效，自动化机制的结构数据序列化方法－可类比 XML，但是比 XML 更小（3 ~ 10倍）、更快（20 ~ 100倍）、更为简单。</p>
+<p>json\xml都是基于文本格式，protobuf是二进制格式。</p>
+<p>你可以通过 ProtoBuf 定义数据结构，然后通过 ProtoBuf 工具生成各种语言版本的数据结构类库，用于操作 ProtoBuf 协议数据</p>
+<h3 id="5-2-数据类型"><a href="#5-2-数据类型" class="headerlink" title="5.2 数据类型"></a>5.2 数据类型</h3><ol>
+<li>复合数据类型包括：枚举和message类型，数组，MAP；</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; (1) 枚举消息类型</span><br><span class="line">&#x2F;&#x2F; 使用enum关键词定义,一个电话类型的枚举类型使用&#96;enum&#96;对字段值进行枚举，&#96;department&#96;值可能是&#96;DEFAULT, WEB, NEWS, CAMERS&#96;中的一个，enum值是使用可变编码方式的，对负数不够高效，因此不推荐在enum中使用负数。</span><br><span class="line">enum PhoneType </span><br><span class="line">&#123;</span><br><span class="line">    MOBILE &#x3D; 0; &#x2F;&#x2F;proto3版本中，首成员必须为0，成员不应有相同的值</span><br><span class="line">    HOME &#x3D; 1;</span><br><span class="line">    WORK &#x3D; 2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 定义一个电话消息</span><br><span class="line">message PhoneNumber</span><br><span class="line">&#123;</span><br><span class="line">    string number &#x3D; 1; &#x2F;&#x2F; 电话号码字段</span><br><span class="line">    PhoneType type &#x3D; 2; &#x2F;&#x2F; 电话类型字段</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; (2) 整数数组</span><br><span class="line">message Msg &#123;</span><br><span class="line">  &#x2F;&#x2F; 只要使用repeated标记类型定义，就表示数组类型。</span><br><span class="line">  repeated int32 arrays &#x3D; 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; (3) 字符串数组</span><br><span class="line">message Msg &#123;</span><br><span class="line">  repeated string names &#x3D; 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; (4) MAP</span><br><span class="line">&#x2F;&#x2F; map&lt;key_type, value_type&gt; map_field &#x3D; N;</span><br><span class="line">&#x2F;&#x2F; key_type可以是任何整数或字符串类型（除浮点类型和字节之外的任何标量类型,枚举不是有效的key_type)</span><br><span class="line">&#x2F;&#x2F; value_type 可以是除另一个映射之外的任何类型。</span><br><span class="line">&#x2F;&#x2F; Map 字段不能使用repeated关键字修饰。</span><br><span class="line">message Product</span><br><span class="line">&#123;</span><br><span class="line">    string name &#x3D; 1; &#x2F;&#x2F; 商品名</span><br><span class="line">    &#x2F;&#x2F; 定义一个k&#x2F;v类型，key是string类型，value也是string类型</span><br><span class="line">    map&lt;string, string&gt; attrs &#x3D; 2; &#x2F;&#x2F; 商品属性，键值对</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>标准数据类型包含：整型，浮点，字符串等</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="left">.proto Type</th>
+<th align="left">Notes</th>
+<th align="left">C++ Type</th>
+<th align="left">Java Type</th>
+<th align="left">Python Type[2]</th>
+<th align="left">Go Type</th>
+<th align="left">Ruby Type</th>
+<th align="left">C# Type</th>
+<th align="left">PHP Type</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">double</td>
+<td align="left"></td>
+<td align="left">double</td>
+<td align="left">double</td>
+<td align="left">float</td>
+<td align="left">float64</td>
+<td align="left">Float</td>
+<td align="left">double</td>
+<td align="left">float</td>
+</tr>
+<tr>
+<td align="left">float</td>
+<td align="left"></td>
+<td align="left">float</td>
+<td align="left">float</td>
+<td align="left">float</td>
+<td align="left">float32</td>
+<td align="left">Float</td>
+<td align="left">float</td>
+<td align="left">float</td>
+</tr>
+<tr>
+<td align="left">int32</td>
+<td align="left">使用变长编码，对于负值的效率很低，如果你的域有可能有负值，请使用sint64替代</td>
+<td align="left">int32</td>
+<td align="left">int</td>
+<td align="left">int</td>
+<td align="left">int32</td>
+<td align="left">Fixnum 或者 Bignum（根据需要）</td>
+<td align="left">int</td>
+<td align="left">integer</td>
+</tr>
+<tr>
+<td align="left">uint32</td>
+<td align="left">使用变长编码</td>
+<td align="left">uint32</td>
+<td align="left">int</td>
+<td align="left">int/long</td>
+<td align="left">uint32</td>
+<td align="left">Fixnum 或者 Bignum（根据需要）</td>
+<td align="left">uint</td>
+<td align="left">integer</td>
+</tr>
+<tr>
+<td align="left">uint64</td>
+<td align="left">使用变长编码</td>
+<td align="left">uint64</td>
+<td align="left">long</td>
+<td align="left">int/long</td>
+<td align="left">uint64</td>
+<td align="left">Bignum</td>
+<td align="left">ulong</td>
+<td align="left">integer/string</td>
+</tr>
+<tr>
+<td align="left">sint32</td>
+<td align="left">使用变长编码，这些编码在负值时比int32高效的多</td>
+<td align="left">int32</td>
+<td align="left">int</td>
+<td align="left">int</td>
+<td align="left">int32</td>
+<td align="left">Fixnum 或者 Bignum（根据需要）</td>
+<td align="left">int</td>
+<td align="left">integer</td>
+</tr>
+<tr>
+<td align="left">sint64</td>
+<td align="left">使用变长编码，有符号的整型值。编码时比通常的int64高效。</td>
+<td align="left">int64</td>
+<td align="left">long</td>
+<td align="left">int/long</td>
+<td align="left">int64</td>
+<td align="left">Bignum</td>
+<td align="left">long</td>
+<td align="left">integer/string</td>
+</tr>
+<tr>
+<td align="left">fixed32</td>
+<td align="left">总是4个字节，如果数值总是比总是比228大的话，这个类型会比uint32高效。</td>
+<td align="left">uint32</td>
+<td align="left">int</td>
+<td align="left">int</td>
+<td align="left">uint32</td>
+<td align="left">Fixnum 或者 Bignum（根据需要）</td>
+<td align="left">uint</td>
+<td align="left">integer</td>
+</tr>
+<tr>
+<td align="left">fixed64</td>
+<td align="left">总是8个字节，如果数值总是比总是比256大的话，这个类型会比uint64高效。</td>
+<td align="left">uint64</td>
+<td align="left">long</td>
+<td align="left">int/long</td>
+<td align="left">uint64</td>
+<td align="left">Bignum</td>
+<td align="left">ulong</td>
+<td align="left">integer/string</td>
+</tr>
+<tr>
+<td align="left">sfixed32</td>
+<td align="left">总是4个字节</td>
+<td align="left">int32</td>
+<td align="left">int</td>
+<td align="left">int</td>
+<td align="left">int32</td>
+<td align="left">Fixnum 或者 Bignum（根据需要）</td>
+<td align="left">int</td>
+<td align="left">integer</td>
+</tr>
+<tr>
+<td align="left">sfixed64</td>
+<td align="left">总是8个字节</td>
+<td align="left">int64</td>
+<td align="left">long</td>
+<td align="left">int/long</td>
+<td align="left">int64</td>
+<td align="left">Bignum</td>
+<td align="left">long</td>
+<td align="left">integer/string</td>
+</tr>
+<tr>
+<td align="left">bool</td>
+<td align="left"></td>
+<td align="left">bool</td>
+<td align="left">boolean</td>
+<td align="left">bool</td>
+<td align="left">bool</td>
+<td align="left">TrueClass/FalseClass</td>
+<td align="left">bool</td>
+<td align="left">boolean</td>
+</tr>
+<tr>
+<td align="left">string</td>
+<td align="left">一个字符串必须是UTF-8编码或者7-bit ASCII编码的文本。</td>
+<td align="left">string</td>
+<td align="left">String</td>
+<td align="left">str/unicode</td>
+<td align="left">string</td>
+<td align="left">String (UTF-8)</td>
+<td align="left">string</td>
+<td align="left">string</td>
+</tr>
+<tr>
+<td align="left">bytes</td>
+<td align="left">可能包含任意顺序的字节数据。</td>
+<td align="left">string</td>
+<td align="left">ByteString</td>
+<td align="left">str</td>
+<td align="left">[]byte</td>
+<td align="left">String (ASCII-8BIT)</td>
+<td align="left">ByteString</td>
+<td align="left">string</td>
+</tr>
+</tbody></table>
+<h3 id="5-3-语法"><a href="#5-3-语法" class="headerlink" title="5.3 语法"></a>5.3 语法</h3><ol>
+<li>指定protobuf的版本，proto3是最新的语法版本，默认 proto2</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">syntax &#x3D; &quot;proto3&quot;;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>消息定义包：防止不同消息类型有命名冲突，其它proto文件导入该proto文件的，Person消息类型时，使用 person.info.Person person = 1</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">package person.info;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>导入其它proto文件</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &quot;other.proto&quot;</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><p>定义数据结构/字段：每一个字段后有一个唯一数字（标识号），用于识别二进制格式消息的字段，且一旦使用无法更改</p>
+<p>注意：[1,15]之内的标识号在编码的时候会占用一个字节。[16,2047]之内的标识号则占用2个字节。所以应该为那些频繁出现的消息元素保留 [1,15]之内的标识号。切记：要为将来有可能添加的、频繁出现的字段预留一些标识号。</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">message Person &#123;</span><br><span class="line">  required string name &#x3D; 1;&#x2F;&#x2F; Your realname or nickname</span><br><span class="line">  optional string email &#x3D; 2 [default &#x3D; &quot;null&quot;];</span><br><span class="line">  float salary &#x3D; 3;</span><br><span class="line">  bool is_employed &#x3D; 4;</span><br><span class="line">  repeated Address address &#x3D; 5;</span><br><span class="line">	Department department &#x3D; 6;</span><br><span class="line">  other.Result result &#x3D; 7;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>保留标识号（Reserved），留给以后用</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">message Foo &#123;</span><br><span class="line">  reserved 2, 15, 9 to 11; &#x2F;&#x2F; 保留2，15，9到11这些标识号</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li><p>extensions 表示被保留为扩展用，其他人可在自己的.proto文件中添加新字段到Foo中，但是新字段的标识号在该范围内，即不需要编辑原文件，可直接导入使用，并为该消息类型声明新字段。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">message Foo &#123;</span><br><span class="line">  &#x2F;&#x2F; ...</span><br><span class="line">  extensions 100 to 199;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">extend Foo &#123;</span><br><span class="line">  optional int32 bar &#x3D; 126;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>使用<code>//</code>表示注释</p>
+</li>
+<li><p>消息嵌套</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; (1) 引用其他消息类型的用法</span><br><span class="line">&#x2F;&#x2F; 定义Result消息</span><br><span class="line">message Result &#123;</span><br><span class="line">  string url &#x3D; 1;</span><br><span class="line">  string title &#x3D; 2;</span><br><span class="line">  repeated string snippets &#x3D; 3; &#x2F;&#x2F; 字符串数组类型</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 定义SearchResponse消息</span><br><span class="line">message SearchResponse &#123;</span><br><span class="line">  &#x2F;&#x2F; 引用上面定义的Result消息类型，作为results字段的类型</span><br><span class="line">  repeated Result results &#x3D; 1; &#x2F;&#x2F; repeated关键词标记，说明results字段是一个数组</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; (2) 引用其他消息类型的用法 —— 显式消息嵌套</span><br><span class="line">message SearchResponse &#123;</span><br><span class="line">  &#x2F;&#x2F; 嵌套消息定义</span><br><span class="line">  message Result &#123;</span><br><span class="line">    string url &#x3D; 1;</span><br><span class="line">    string title &#x3D; 2;</span><br><span class="line">    repeated string snippets &#x3D; 3;</span><br><span class="line">  &#125;</span><br><span class="line">  &#x2F;&#x2F; 引用嵌套的消息定义</span><br><span class="line">  repeated Result results &#x3D; 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; (3) 跨文件的消息嵌套</span><br><span class="line">------------------result.proto--------------------</span><br><span class="line">syntax &#x3D; &quot;proto3&quot;;</span><br><span class="line">&#x2F;&#x2F; Result消息定义</span><br><span class="line">message Result &#123;</span><br><span class="line">  string url &#x3D; 1;</span><br><span class="line">  string title &#x3D; 2;</span><br><span class="line">  repeated string snippets &#x3D; 3; &#x2F;&#x2F; 字符串数组类型</span><br><span class="line">&#125;</span><br><span class="line">--------------------------------------------------</span><br><span class="line">--------------search_response.proto---------------</span><br><span class="line">syntax &#x3D; &quot;proto3&quot;;</span><br><span class="line">&#x2F;&#x2F; 导入Result消息定义</span><br><span class="line">import &quot;result.proto&quot;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 定义SearchResponse消息</span><br><span class="line">message SearchResponse &#123;</span><br><span class="line">  &#x2F;&#x2F; 使用导入的Result消息</span><br><span class="line">  repeated Result results &#x3D; 1; </span><br><span class="line">&#125;</span><br><span class="line">--------------------------------------------------</span><br></pre></td></tr></table></figure>
+
+<ol start="8">
+<li><p>方法</p>
+<p>service 表示服务，例如<code>Search</code>中<code>SearchRequest</code>表示请求数据字段，<code>SearchResponse</code>表示返回数据字段，编译好可进行远程调用，可实现跨平台跨语言。</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">service SearchService &#123;</span><br><span class="line">  rpc Search (SearchRequest) returns (SearchResponse);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="8">
+<li>字段规则</li>
+</ol>
+<ul>
+<li>required：通常消息中必须含有1个这种字段，即必填项；</li>
+<li>optional：消息格式中该字段可以有0个或1个值（不超过1个），即可选项。</li>
+<li>repeated：该字段可重复多次（包括0次），重复的值的顺序会被保留，类似于列表。</li>
+</ul>
+<h2 id="6-protobuf类型转换"><a href="#6-protobuf类型转换" class="headerlink" title="6. protobuf类型转换"></a>6. protobuf类型转换</h2><h3 id="6-1-Protobuf-gt-Python-Json"><a href="#6-1-Protobuf-gt-Python-Json" class="headerlink" title="6.1 Protobuf -&gt; Python Json"></a>6.1 Protobuf -&gt; Python Json</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from google.protobuf.json_format import MessageToJson</span><br><span class="line"></span><br><span class="line">jsonObj &#x3D; MessageToJson(protobuf_obj)</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-2-Protobuf-gt-Python-Dict"><a href="#6-2-Protobuf-gt-Python-Dict" class="headerlink" title="6.2 Protobuf -&gt; Python Dict"></a>6.2 Protobuf -&gt; Python Dict</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from google.protobuf.json_format import MessageToDict</span><br><span class="line"></span><br><span class="line">dict_obj &#x3D; MessageToDict(org)</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-重试机制"><a href="#7-重试机制" class="headerlink" title="7. 重试机制"></a>7. 重试机制</h2><h3 id="7-1-配置"><a href="#7-1-配置" class="headerlink" title="7.1 配置"></a>7.1 配置</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 参考网站（英文）：https://github.com/grpc/proposal/blob/master/A6-client-retries.md#retry-policy-capabilities</span></span><br><span class="line"><span class="comment"># 参考网站（中文）：https://blog.csdn.net/DAGU131/article/details/106122895</span></span><br><span class="line"><span class="comment"># 最多执行四个RPC尝试（一个原始RPC，三个重试），仅返回状态码是UNAVAILABLE才重试RPC</span></span><br><span class="line"><span class="comment"># maxAttempts 指定最大的RPC尝试次数，包括原始请求，必须是大于 1 的整数，对于大于5的值会被视为5</span></span><br><span class="line"><span class="comment"># 第一次重试间隔是 random(0, initialBackoff)</span></span><br><span class="line"><span class="comment"># 第 n 次的重试间隔为 random(0, min( initialBackoff*backoffMultiplier**(n-1) , maxBackoff))</span></span><br><span class="line"><span class="comment"># 状态码必须是有效的 gPRC 状态码，可以是整数形式，并且不区分大小写 ([14], [“UNAVAILABLE”]</span></span><br><span class="line">service_default_config = json.dumps(</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="string">&quot;methodConfig&quot;</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="string">&quot;retryPolicy&quot;</span>: &#123;</span><br><span class="line">          <span class="string">&quot;maxAttempts&quot;</span>: <span class="number">3</span>,  </span><br><span class="line">          <span class="string">&quot;initialBackoff&quot;</span>: <span class="string">&quot;0.1s&quot;</span>,</span><br><span class="line">          <span class="string">&quot;maxBackoff&quot;</span>: <span class="string">&quot;1s&quot;</span>,</span><br><span class="line">          <span class="string">&quot;backoffMultiplier&quot;</span>: <span class="number">1</span>,  </span><br><span class="line">          <span class="string">&quot;retryableStatusCodes&quot;</span>: [</span><br><span class="line">            <span class="string">&quot;UNAVAILABLE&quot;</span>,</span><br><span class="line">          ],  </span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">)</span><br><span class="line">options = [(<span class="string">&#x27;grpc.service_config&#x27;</span>, service_default_config)]</span><br><span class="line">self.channel = grpc.insecure_channel(target=endpoint, options=self.options)</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-2-手动实现"><a href="#7-2-手动实现" class="headerlink" title="7.2 手动实现"></a>7.2 手动实现</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 自定义重试间隔 retry_interval 以及重试次数 retry_times</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">call</span>(<span class="params">self, service, func, data</span>):</span></span><br><span class="line">				<span class="comment"># ...</span></span><br><span class="line">        retry_count = <span class="number">0</span></span><br><span class="line">        <span class="keyword">while</span> retry_count &lt; self.retry_times:</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                <span class="keyword">return</span> func_handler(func_input, timeout=self.timeout)</span><br><span class="line">            <span class="keyword">except</span> Exception <span class="keyword">as</span> exc:  <span class="comment"># pylint: disable=broad-except</span></span><br><span class="line">                <span class="comment"># ...</span></span><br><span class="line">            retry_count += <span class="number">1</span></span><br><span class="line">            time.sleep(self.retry_interval)</span><br><span class="line">        <span class="keyword">raise</span> GrpcException</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-状态码"><a href="#8-状态码" class="headerlink" title="8. 状态码"></a>8. 状态码</h2><p><a target="_blank" rel="noopener" href="https://grpc.github.io/grpc/core/md_doc_statuscodes.html">参考网站</a></p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Number</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OK</td>
+<td>0</td>
+<td>Not an error; returned on success.</td>
+</tr>
+<tr>
+<td>CANCELLED</td>
+<td>1</td>
+<td>The operation was cancelled, typically by the caller.</td>
+</tr>
+<tr>
+<td>UNKNOWN</td>
+<td>2</td>
+<td>Unknown error. For example, this error may be returned when a <code>Status</code> value received from another address space belongs to an error space that is not known in this address space. Also errors raised by APIs that do not return enough error information may be converted to this error.</td>
+</tr>
+<tr>
+<td>INVALID_ARGUMENT</td>
+<td>3</td>
+<td>The client specified an invalid argument. Note that this differs from <code>FAILED_PRECONDITION</code>. <code>INVALID_ARGUMENT</code> indicates arguments that are problematic regardless of the state of the system (e.g., a malformed file name).</td>
+</tr>
+<tr>
+<td>DEADLINE_EXCEEDED</td>
+<td>4</td>
+<td>The deadline expired before the operation could complete. For operations that change the state of the system, this error may be returned even if the operation has completed successfully. For example, a successful response from a server could have been delayed long</td>
+</tr>
+<tr>
+<td>NOT_FOUND</td>
+<td>5</td>
+<td>Some requested entity (e.g., file or directory) was not found. Note to server developers: if a request is denied for an entire class of users, such as gradual feature rollout or undocumented allowlist, <code>NOT_FOUND</code> may be used. If a request is denied for some users within a class of users, such as user-based access control, <code>PERMISSION_DENIED</code> must be used.</td>
+</tr>
+<tr>
+<td>ALREADY_EXISTS</td>
+<td>6</td>
+<td>The entity that a client attempted to create (e.g., file or directory) already exists.</td>
+</tr>
+<tr>
+<td>PERMISSION_DENIED</td>
+<td>7</td>
+<td>The caller does not have permission to execute the specified operation. <code>PERMISSION_DENIED</code> must not be used for rejections caused by exhausting some resource (use <code>RESOURCE_EXHAUSTED</code> instead for those errors). <code>PERMISSION_DENIED</code> must not be used if the caller can not be identified (use <code>UNAUTHENTICATED</code> instead for those errors). This error code does not imply the request is valid or the requested entity exists or satisfies other pre-conditions.</td>
+</tr>
+<tr>
+<td>RESOURCE_EXHAUSTED</td>
+<td>8</td>
+<td>Some resource has been exhausted, perhaps a per-user quota, or perhaps the entire file system is out of space.</td>
+</tr>
+<tr>
+<td>FAILED_PRECONDITION</td>
+<td>9</td>
+<td>The operation was rejected because the system is not in a state required for the operation’s execution. For example, the directory to be deleted is non-empty, an rmdir operation is applied to a non-directory, etc. Service implementors can use the following guidelines to decide between <code>FAILED_PRECONDITION</code>, <code>ABORTED</code>, and <code>UNAVAILABLE</code>: (a) Use <code>UNAVAILABLE</code> if the client can retry just the failing call. (b) Use <code>ABORTED</code> if the client should retry at a higher level (e.g., when a client-specified test-and-set fails, indicating the client should restart a read-modify-write sequence). (c) Use <code>FAILED_PRECONDITION</code> if the client should not retry until the system state has been explicitly fixed. E.g., if an “rmdir” fails because the directory is non-empty, <code>FAILED_PRECONDITION</code> should be returned since the client should not retry unless the files are deleted from the directory.</td>
+</tr>
+<tr>
+<td>ABORTED</td>
+<td>10</td>
+<td>The operation was aborted, typically due to a concurrency issue such as a sequencer check failure or transaction abort. See the guidelines above for deciding between <code>FAILED_PRECONDITION</code>, <code>ABORTED</code>, and <code>UNAVAILABLE</code>.</td>
+</tr>
+<tr>
+<td>OUT_OF_RANGE</td>
+<td>11</td>
+<td>The operation was attempted past the valid range. E.g., seeking or reading past end-of-file. Unlike <code>INVALID_ARGUMENT</code>, this error indicates a problem that may be fixed if the system state changes. For example, a 32-bit file system will generate <code>INVALID_ARGUMENT</code> if asked to read at an offset that is not in the range [0,2^32-1], but it will generate <code>OUT_OF_RANGE</code> if asked to read from an offset past the current file size. There is a fair bit of overlap between <code>FAILED_PRECONDITION</code> and <code>OUT_OF_RANGE</code>. We recommend using <code>OUT_OF_RANGE</code> (the more specific error) when it applies so that callers who are iterating through a space can easily look for an <code>OUT_OF_RANGE</code> error to detect when they are done.</td>
+</tr>
+<tr>
+<td>UNIMPLEMENTED</td>
+<td>12</td>
+<td>The operation is not implemented or is not supported/enabled in this service.</td>
+</tr>
+<tr>
+<td>INTERNAL</td>
+<td>13</td>
+<td>Internal errors. This means that some invariants expected by the underlying system have been broken. This error code is reserved for serious errors.</td>
+</tr>
+<tr>
+<td>UNAVAILABLE</td>
+<td>14</td>
+<td>The service is currently unavailable. This is most likely a transient condition, which can be corrected by retrying with a backoff. Note that it is not always safe to retry non-idempotent operations.</td>
+</tr>
+<tr>
+<td>DATA_LOSS</td>
+<td>15</td>
+<td>Unrecoverable data loss or corruption.</td>
+</tr>
+<tr>
+<td>UNAUTHENTICATED</td>
+<td>16</td>
+<td>The request does not have valid authentication credentials for the operation.</td>
+</tr>
+</tbody></table>
+<h2 id="9-参考文档"><a href="#9-参考文档" class="headerlink" title="9. 参考文档"></a>9. 参考文档</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://colobu.com/2015/01/07/Protobuf-language-guide/">Protobuf语法指南</a></li>
+<li><a target="_blank" rel="noopener" href="https://developers.google.com/protocol-buffers/docs/proto3">protoc3官网</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.grpc.io/docs/languages/python/quickstart/">gRPC文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.tizi365.com/archives/391.html">Tizi365 gRPC文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://developers.google.com/protocol-buffers/docs/proto3">protocol buffers</a></li>
+</ul>
+<h2 id="10-参考项目"><a href="#10-参考项目" class="headerlink" title="10. 参考项目"></a>10. 参考项目</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将grpc代码clone到本地</span></span><br><span class="line">git <span class="built_in">clone</span> -b v1.23.0 https://github.com/grpc/grpc</span><br><span class="line"><span class="comment"># 切换到python的helloworld例子目录。</span></span><br><span class="line"><span class="built_in">cd</span> grpc/examples/python/helloworld</span><br></pre></td></tr></table></figure>
+
+<p>首先运行服务端</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python greeter_server.py</span><br></pre></td></tr></table></figure>
+
+<p>打开另外一个命令窗口，运行客户端</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python greeter_client.py</span><br></pre></td></tr></table></figure>
+
+<p>运行应用程序：根据proto文件，生成新的python类库，但是我们还没实现新定义的rpc方法，下面介绍服务端和客户端如果升级代码。</p>
+<p>更新服务端代码：在同样目录打开greeter_server.py文件，实现类似如下代码。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Greeter</span>(<span class="params">helloworld_pb2_grpc.GreeterServicer</span>):</span></span><br><span class="line">  <span class="comment"># 实现SayHello方法</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">SayHello</span>(<span class="params">self, request, context</span>):</span></span><br><span class="line">    <span class="keyword">return</span> helloworld_pb2.HelloReply(message=<span class="string">&#x27;Hello, %s!&#x27;</span> % request.name)</span><br><span class="line">  <span class="comment"># 实现SayHelloAgain方法</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">SayHelloAgain</span>(<span class="params">self, request, context</span>):</span></span><br><span class="line">    <span class="keyword">return</span> helloworld_pb2.HelloReply(message=<span class="string">&#x27;Hello again, %s!&#x27;</span> % request.name)</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>更新客户端代码：在同样的目录打开greeter_client.py文件，实现代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span>():</span></span><br><span class="line">  <span class="comment"># 配置grpc服务端地址</span></span><br><span class="line">  channel = grpc.insecure_channel(<span class="string">&#x27;localhost:50051&#x27;</span>)</span><br><span class="line">  stub = helloworld_pb2_grpc.GreeterStub(channel)</span><br><span class="line">  <span class="comment"># 请求服务端的SayHello方法</span></span><br><span class="line">  response = stub.SayHello(helloworld_pb2.HelloRequest(name=<span class="string">&#x27;you&#x27;</span>))</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&quot;Greeter client received: &quot;</span> + response.message)</span><br><span class="line">  <span class="comment"># 请求服务端的SayHelloAgain方法</span></span><br><span class="line">  response = stub.SayHelloAgain(helloworld_pb2.HelloRequest(name=<span class="string">&#x27;you&#x27;</span>))</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&quot;Greeter client received: &quot;</span> + response.message)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/24/%F0%9F%93%92%20gRPC%20python/" data-id="ckn8shw500000hbtdggv6afc1" data-title="📒 gRPC python" class="article-share-link">Teilen</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/03/24/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94unittest/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          日常笔记——unittest
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/03/24/Tencent%20cloud%20COS%E5%AD%98%E5%82%A8%E5%AE%9E%E8%B7%B5/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">Tencent cloud COS实践.md</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Django/">Django</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go/">Go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Notes/">Notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Others/">Others</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tools/">Tools</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/idea/">idea</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/">nosql</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/04/07/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ES%20&%20Kibana%20&%20Logstash/">日常笔记——ES &amp; Kibana &amp; Logstash</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/06/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Sentry/">日常笔记——Sentry</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/01/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94k8s/">日常笔记——k8s</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/01/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Python/">日常笔记——Python</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/31/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Elasticsearch/">日常笔记——Elasticsearch</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 Jimmy Guo<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
