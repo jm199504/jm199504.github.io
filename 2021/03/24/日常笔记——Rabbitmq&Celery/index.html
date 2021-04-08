@@ -17,10 +17,8 @@
 <meta property="og:image" content="https://img-blog.csdn.net/20170512105615019">
 <meta property="og:image" content="https://img-blog.csdn.net/20170512103945228">
 <meta property="og:image" content="https://img-blog.csdn.net/20170512111129762">
-<meta property="og:image" content="http://example.com/Users/junmingguo/Downloads/vosamo.github.io-master/img/celery.png">
-<meta property="og:image" content="https://img-blog.csdn.net/20161213105123227">
 <meta property="article:published_time" content="2021-03-24T09:09:39.082Z">
-<meta property="article:modified_time" content="2021-04-08T11:46:54.337Z">
+<meta property="article:modified_time" content="2021-04-08T14:22:27.318Z">
 <meta property="article:author" content="Jimmy Guo">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://support.smartbear.com/readyapi/docs/_images/testing/amqp-about.png">
@@ -206,19 +204,60 @@
 <p>解决方案：执行命令清理再编译：<code>sudo make distclean &amp;&amp; sudo make &amp;&amp; sudo make test</code></p>
 <p>（2）问题：安装Redis的编译过程出现问题<code>“Failed opening the RDB file dump.rdb (in server root dir /usr/local/redis-6.0.5) for saving: Permission denied”</code>，说明未赋予权限，需要对所安装的redis目录给予777权限：</p>
 <p>解决方案：<code>sudo chmod -R 0777 redis-6.0.5</code></p>
-<h1 id="二、Celery"><a href="#二、Celery" class="headerlink" title="二、Celery"></a>二、Celery</h1><h2 id="1-模块架构"><a href="#1-模块架构" class="headerlink" title="1.模块架构"></a>1.模块架构</h2><p><img src="/Users/junmingguo/Downloads/vosamo.github.io-master/img/celery.png" alt="celery"></p>
-<p><img src="https://img-blog.csdn.net/20161213105123227" alt="Celery_framework"></p>
+<h1 id="二、Celery"><a href="#二、Celery" class="headerlink" title="二、Celery"></a>二、Celery</h1><h2 id="1-模块架构"><a href="#1-模块架构" class="headerlink" title="1.模块架构"></a>1.模块架构</h2><table>
+<thead>
+<tr>
+<th>M1</th>
+<th></th>
+<th>M2</th>
+<th></th>
+<th>M3</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Async Task 异步任务<br/>Producer 任务发布者</td>
+<td>发送➡️</td>
+<td></td>
+<td>⬅️监控</td>
+<td>Worker 任务消费者</td>
+</tr>
+<tr>
+<td>Celery Beat 任务调度/定时任务</td>
+<td>发送➡️</td>
+<td>Broker消息代理</td>
+<td>⬅️监控</td>
+<td>Worker 任务消费者</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>⬇️ 存储</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Backend 结果存储</td>
+</tr>
+</tbody></table>
 <p>Celery模块：</p>
+<ul>
+<li>定时任务/任务调度 Celery Beat</li>
+</ul>
+<p>读取配置文件的内容，周期性地将配置中到期需要执行的任务发送给任务队列。</p>
 <ul>
 <li>任务模块 Task</li>
 </ul>
-<p>包含异步任务和定时任务。其中，异步任务通常在业务逻辑中被触发并发往任务队列，而定时任务由 Celery Beat 进程周期性地将任务发往任务队列。</p>
+<p>包含异步任务和定时任务，其中异步任务通常在业务逻辑中被触发并发往任务队列，而定时任务由 Celery Beat 进程周期性地将任务发往任务队列，通常由Producer（任务生产者）产生任务交给任务队列。</p>
 <ul>
-<li>消息中间件 Broker</li>
+<li>消息中间件 / 消息代理 Broker</li>
 </ul>
 <p>Broker，即为任务调度队列，接收任务生产者发来的消息（即任务），将任务存入队列。Celery 本身不提供队列服务，官方推荐使用 RabbitMQ 和 Redis 等。</p>
 <ul>
-<li>任务执行单元 Worker</li>
+<li>任务执行单元/ 任务消费者 Worker</li>
 </ul>
 <p>Worker 是执行任务的处理单元，它实时监控消息队列，获取队列中调度的任务，并执行它。</p>
 <ul>
@@ -236,7 +275,7 @@
 <h3 id="（2）创建celery应用"><a href="#（2）创建celery应用" class="headerlink" title="（2）创建celery应用"></a>（2）创建celery应用</h3><p><code>tasks.py</code></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> celery <span class="keyword">import</span> Celery</span><br><span class="line"></span><br><span class="line">app = Celery(<span class="string">&#x27;task_name&#x27;</span>, broker=<span class="string">&#x27;amqp://guest:guest@127.0.0.1:5672&#x27;</span>)  <span class="comment"># 第一个参数为当前模块名称，第二个参数为中间件参数——指定你使用的消息中间件URL</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.task</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span>(<span class="params">x, y</span>):</span></span><br><span class="line">    <span class="keyword">return</span> x + y</span><br></pre></td></tr></table></figure>
 
-<h3 id="（3）启动worker"><a href="#（3）启动worker" class="headerlink" title="（3）启动worker"></a>（3）启动worker</h3><p>🗒：<code>tasks</code>为工程名</p>
+<h3 id="（3）启动worker"><a href="#（3）启动worker" class="headerlink" title="（3）启动worker"></a>（3）启动worker</h3><p><code>tasks</code>为工程名</p>
 <figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">celery -A tasks worker --loglevel=INFO [-Q QUEUE_NAME]</span><br></pre></td></tr></table></figure>
 
 <h3 id="（4）调用application"><a href="#（4）调用application" class="headerlink" title="（4）调用application"></a>（4）调用application</h3><p>触发消息提交至队列</p>
@@ -420,7 +459,7 @@
       <ul>
         
           <li>
-            <a href="/2021/04/07/EKL/">(no title)</a>
+            <a href="/2021/04/07/EKL/">EKL</a>
           </li>
         
           <li>
