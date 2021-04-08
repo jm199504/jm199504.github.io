@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   
   
-  <title>日常笔记——DL调参 | Jimmy&#39;s blog</title>
+  <title>📒 DL调参 | Jimmy&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="概述：日常笔记——DL调参">
+  <meta name="description" content="概述：📒 DL调参">
 <meta property="og:type" content="article">
-<meta property="og:title" content="日常笔记——DL调参">
-<meta property="og:url" content="http://example.com/2020/09/17/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94DL%E8%B0%83%E5%8F%82/index.html">
+<meta property="og:title" content="📒 DL调参">
+<meta property="og:url" content="http://example.com/2020/09/17/%F0%9F%93%92%20DL%E8%B0%83%E5%8F%82/index.html">
 <meta property="og:site_name" content="Jimmy&#39;s blog">
-<meta property="og:description" content="概述：日常笔记——DL调参">
+<meta property="og:description" content="概述：📒 DL调参">
 <meta property="og:locale">
 <meta property="article:published_time" content="2020-09-17T15:21:12.806Z">
-<meta property="article:modified_time" content="2021-04-01T05:32:24.723Z">
+<meta property="article:modified_time" content="2021-04-08T11:28:43.985Z">
 <meta property="article:author" content="Jimmy Guo">
 <meta name="twitter:card" content="summary">
   
@@ -63,19 +63,19 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
       </div>
     </div>
   </div>
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-日常笔记——DL调参" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-📒 DL调参" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2020/09/17/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94DL%E8%B0%83%E5%8F%82/" class="article-date">
+    <a href="/2020/09/17/%F0%9F%93%92%20DL%E8%B0%83%E5%8F%82/" class="article-date">
   <time class="dt-published" datetime="2020-09-17T15:21:12.806Z" itemprop="datePublished">2020-09-17</time>
 </a>
     
@@ -91,7 +91,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      日常笔记——DL调参
+      📒 DL调参
     </h1>
   
 
@@ -99,10 +99,11 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>概述：日常笔记——DL调参</p>
+        <p>概述：📒 DL调参</p>
 <span id="more"></span>
 
-<h2 id="1-参数初始化-加快收敛速度"><a href="#1-参数初始化-加快收敛速度" class="headerlink" title="1.参数初始化(加快收敛速度)"></a>1.参数初始化(加快收敛速度)</h2><h3 id="（1）uniform均匀分布初始化"><a href="#（1）uniform均匀分布初始化" class="headerlink" title="（1）uniform均匀分布初始化"></a>（1）uniform均匀分布初始化</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">w = np.random.uniform(low=-scale, high=scale, size=[n_in,n_out])</span><br></pre></td></tr></table></figure>
+<p>[TOC]</p>
+<h2 id="1-参数初始化-加快收敛速度"><a href="#1-参数初始化-加快收敛速度" class="headerlink" title="1.参数初始化(加快收敛速度)"></a>1.参数初始化(加快收敛速度)</h2><h3 id="1-1-uniform均匀分布初始化"><a href="#1-1-uniform均匀分布初始化" class="headerlink" title="1.1 uniform均匀分布初始化"></a>1.1 uniform均匀分布初始化</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">w = np.random.uniform(low=-scale, high=scale, size=[n_in,n_out])</span><br></pre></td></tr></table></figure>
 
 <p>Xavier Glorot初始化</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">适用于普通激活函数(tanh,sigmoid)：scale = np.sqrt(3/n)</span><br></pre></td></tr></table></figure>
@@ -110,7 +111,7 @@
 <p>Kaiming He初始化</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">适用于ReLU：scale = np.sqrt(6/n)</span><br></pre></td></tr></table></figure>
 
-<h3 id="（2）normal高斯分布初始化："><a href="#（2）normal高斯分布初始化：" class="headerlink" title="（2）normal高斯分布初始化："></a>（2）normal高斯分布初始化：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">w = np.random.randn(n_in,n_out) * stdev <span class="comment"># stdev为高斯分布的标准差，均值设为0</span></span><br></pre></td></tr></table></figure>
+<h3 id="1-2-normal高斯分布初始化："><a href="#1-2-normal高斯分布初始化：" class="headerlink" title="1.2 normal高斯分布初始化："></a>1.2 normal高斯分布初始化：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">w = np.random.randn(n_in,n_out) * stdev <span class="comment"># stdev为高斯分布的标准差，均值设为0</span></span><br></pre></td></tr></table></figure>
 
 <p>Xavier Glorot初始化</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">适用于普通激活函数 (tanh,sigmoid)：stdev = np.sqrt(n)</span><br></pre></td></tr></table></figure>
@@ -122,18 +123,18 @@
 <p>Xavier Glorot: <a target="_blank" rel="noopener" href="http://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf">http://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf</a></p>
 <p>Kaiming He:<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1502.01852">https://arxiv.org/abs/1502.01852</a></p>
 <p>Andrew M. Saxe（适用于RNN）：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1312.6120">https://arxiv.org/abs/1312.6120</a></p>
-<h2 id="2-数据预处理"><a href="#2-数据预处理" class="headerlink" title="2.数据预处理"></a>2.数据预处理</h2><h3 id="（1）去中心化"><a href="#（1）去中心化" class="headerlink" title="（1）去中心化"></a>（1）去中心化</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X -= np.mean(X, axis = 0) <span class="comment"># zero-center</span></span><br></pre></td></tr></table></figure>
+<h2 id="2-数据预处理"><a href="#2-数据预处理" class="headerlink" title="2.数据预处理"></a>2.数据预处理</h2><h3 id="2-1-去中心化"><a href="#2-1-去中心化" class="headerlink" title="2.1 去中心化"></a>2.1 去中心化</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X -= np.mean(X, axis = 0) <span class="comment"># zero-center</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="（2）归一化"><a href="#（2）归一化" class="headerlink" title="（2）归一化"></a>（2）归一化</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X /= np.std(X, axis = 0) <span class="comment"># normalize(最值归一化、标准归一化)</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-2-归一化"><a href="#2-2-归一化" class="headerlink" title="2.2 归一化"></a>2.2 归一化</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X /= np.std(X, axis = 0) <span class="comment"># normalize(最值归一化、标准归一化)</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="3-训练技巧"><a href="#3-训练技巧" class="headerlink" title="3.训练技巧"></a>3.训练技巧</h2><h3 id="（1）梯度裁剪：限制最大梯度"><a href="#（1）梯度裁剪：限制最大梯度" class="headerlink" title="（1）梯度裁剪：限制最大梯度"></a>（1）梯度裁剪：限制最大梯度</h3><p>value = sqrt(w1^2+w2^2….),如果value超过了阈值,就算一个衰减系系数,让value的值等于阈值: 5,10,15，不然容易导致训练一段时间以后 loss 突然变成 Nan</p>
-<h3 id="（2）Dropout：防止过拟合"><a href="#（2）Dropout：防止过拟合" class="headerlink" title="（2）Dropout：防止过拟合"></a>（2）Dropout：防止过拟合</h3><p>一般设为0.5,小数据使用dropout+sgd效果提升明显，dropout的位置比较有讲究, 对于RNN,建议放到输入-&gt;RNN与RNN-&gt;输出的位置</p>
+<h2 id="3-训练技巧"><a href="#3-训练技巧" class="headerlink" title="3.训练技巧"></a>3.训练技巧</h2><h3 id="3-1-梯度裁剪：限制最大梯度"><a href="#3-1-梯度裁剪：限制最大梯度" class="headerlink" title="3.1 梯度裁剪：限制最大梯度"></a>3.1 梯度裁剪：限制最大梯度</h3><p>value = sqrt(w1^2+w2^2….),如果value超过了阈值,就算一个衰减系系数,让value的值等于阈值: 5,10,15，不然容易导致训练一段时间以后 loss 突然变成 Nan</p>
+<h3 id="3-2-Dropout：防止过拟合"><a href="#3-2-Dropout：防止过拟合" class="headerlink" title="3.2 Dropout：防止过拟合"></a>3.2 Dropout：防止过拟合</h3><p>一般设为0.5,小数据使用dropout+sgd效果提升明显，dropout的位置比较有讲究, 对于RNN,建议放到输入-&gt;RNN与RNN-&gt;输出的位置</p>
 <p>RNN如何用dropout参考文献：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1409.2329">https://arxiv.org/abs/1409.2329</a></p>
-<h3 id="（3）优化器"><a href="#（3）优化器" class="headerlink" title="（3）优化器"></a>（3）优化器</h3><p>sgd适用于小数据集，收敛速度慢而效果较好，建议从1.0或者0.1的学习率开始，若验证集cost没有下降则减半学习率；</p>
+<h3 id="3-3-优化器"><a href="#3-3-优化器" class="headerlink" title="3.3 优化器"></a>3.3 优化器</h3><p>sgd适用于小数据集，收敛速度慢而效果较好，建议从1.0或者0.1的学习率开始，若验证集cost没有下降则减半学习率；</p>
 <p>adadelta一般在分类问题上效果比较好；</p>
 <p>adam在生成问题上效果比较好；</p>
-<h3 id="（4）RNN的神经元数量和batchSize"><a href="#（4）RNN的神经元数量和batchSize" class="headerlink" title="（4）RNN的神经元数量和batchSize"></a>（4）RNN的神经元数量和batchSize</h3><p>建议均从128开始上下调整</p>
-<h3 id="（5）LSTM的遗忘门的偏置用1-0或更大值初始化"><a href="#（5）LSTM的遗忘门的偏置用1-0或更大值初始化" class="headerlink" title="（5）LSTM的遗忘门的偏置用1.0或更大值初始化"></a>（5）LSTM的遗忘门的偏置用1.0或更大值初始化</h3><p>参考文献：<a target="_blank" rel="noopener" href="http://proceedings.mlr.press/v37/jozefowicz15.pdf">http://proceedings.mlr.press/v37/jozefowicz15.pdf</a></p>
+<h3 id="3-4-RNN的神经元数量和batchSize"><a href="#3-4-RNN的神经元数量和batchSize" class="headerlink" title="3.4 RNN的神经元数量和batchSize"></a>3.4 RNN的神经元数量和batchSize</h3><p>建议均从128开始上下调整</p>
+<h3 id="3-5-LSTM的遗忘门的偏置用1-0或更大值初始化"><a href="#3-5-LSTM的遗忘门的偏置用1-0或更大值初始化" class="headerlink" title="3.5 LSTM的遗忘门的偏置用1.0或更大值初始化"></a>3.5 LSTM的遗忘门的偏置用1.0或更大值初始化</h3><p>参考文献：<a target="_blank" rel="noopener" href="http://proceedings.mlr.press/v37/jozefowicz15.pdf">http://proceedings.mlr.press/v37/jozefowicz15.pdf</a></p>
 <h2 id="4-推荐路线"><a href="#4-推荐路线" class="headerlink" title="4.推荐路线"></a>4.推荐路线</h2><p>（1）ReLu+BatchNormalization</p>
 <p>（2）DropOut一般在softmax前使用即可，提升效果不大</p>
 <p>（3）降低学习率</p>
@@ -145,15 +146,15 @@
 <p>（9）Datashuffle</p>
 <p>（10）L1/L2正则化</p>
 <p>（11）Ensemble</p>
-<h2 id="5-自动调参方法："><a href="#5-自动调参方法：" class="headerlink" title="5.自动调参方法："></a>5.<strong>自动调参方法：</strong></h2><h3 id="（1）Grid-Search：网格搜索"><a href="#（1）Grid-Search：网格搜索" class="headerlink" title="（1）Grid Search：网格搜索"></a>（1）Grid Search：网格搜索</h3><p>在所有候选的参数选择中，通过循环遍历，尝试每一种可能性，表现最好的参数就是最终的结果。其原理就像是在数组里找最大值。缺点是太费时间了，特别像神经网络，一般尝试不了太多的参数组合。</p>
-<h3 id="（2）Random-Search"><a href="#（2）Random-Search" class="headerlink" title="（2）Random Search"></a>（2）Random Search</h3><p>经验上，Random Search比Gird Search更有效。实际操作的时候，一般也是先用Gird Search的方法，得到所有候选参数，然后每次从中随机选择进行训练。另外Random Search往往会和由粗到细的调参策略结合使用，即在效果比较好的参数附近进行更加精细的搜索。</p>
-<h3 id="（3）Bayesian-Optimization：贝叶斯优化"><a href="#（3）Bayesian-Optimization：贝叶斯优化" class="headerlink" title="（3）Bayesian Optimization：贝叶斯优化"></a>（3）Bayesian Optimization：贝叶斯优化</h3><p>考虑到了不同参数对应的    实验结果值，因此更节省时间，贝叶斯调参比Grid Search迭代次数少，  速度快；而且其针对非凸问题依然稳健。</p>
-<h1 id="6-罗列网络部分可选性"><a href="#6-罗列网络部分可选性" class="headerlink" title="6.罗列网络部分可选性"></a>6.罗列网络部分可选性</h1><h2 id="6-1-激活函数Activation"><a href="#6-1-激活函数Activation" class="headerlink" title="6.1 激活函数Activation"></a>6.1 激活函数Activation</h2><p>中间层的激活函数一般选择 relu 函数</p>
+<h2 id="5-自动调参方法："><a href="#5-自动调参方法：" class="headerlink" title="5.自动调参方法："></a>5.<strong>自动调参方法：</strong></h2><h3 id="5-1-Grid-Search：网格搜索"><a href="#5-1-Grid-Search：网格搜索" class="headerlink" title="5.1 Grid Search：网格搜索"></a>5.1 Grid Search：网格搜索</h3><p>在所有候选的参数选择中，通过循环遍历，尝试每一种可能性，表现最好的参数就是最终的结果。其原理就像是在数组里找最大值。缺点是太费时间了，特别像神经网络，一般尝试不了太多的参数组合。</p>
+<h3 id="5-2-Random-Search"><a href="#5-2-Random-Search" class="headerlink" title="5.2 Random Search"></a>5.2 Random Search</h3><p>经验上，Random Search比Gird Search更有效。实际操作的时候，一般也是先用Gird Search的方法，得到所有候选参数，然后每次从中随机选择进行训练。另外Random Search往往会和由粗到细的调参策略结合使用，即在效果比较好的参数附近进行更加精细的搜索。</p>
+<h3 id="5-3-Bayesian-Optimization：贝叶斯优化"><a href="#5-3-Bayesian-Optimization：贝叶斯优化" class="headerlink" title="5.3 Bayesian Optimization：贝叶斯优化"></a>5.3 Bayesian Optimization：贝叶斯优化</h3><p>考虑到了不同参数对应的    实验结果值，因此更节省时间，贝叶斯调参比Grid Search迭代次数少，  速度快；而且其针对非凸问题依然稳健。</p>
+<h2 id="6-罗列网络部分可选性"><a href="#6-罗列网络部分可选性" class="headerlink" title="6.罗列网络部分可选性"></a>6.罗列网络部分可选性</h2><h3 id="6-1-激活函数Activation"><a href="#6-1-激活函数Activation" class="headerlink" title="6.1 激活函数Activation"></a>6.1 激活函数Activation</h3><p>中间层的激活函数一般选择 relu 函数</p>
 <p>二分类问题时，最后一层一般采用 sigmoid 激活函数</p>
 <p>多分类问题时，最后一层一般采用 softmax 函数</p>
 <p>常见的激活函数：</p>
 <p>softmax；elu；selu；softplus；softsign；relu；tanh；sigmoid；hard_sigmoid；linear</p>
-<h2 id="6-2优化器Optimizer"><a href="#6-2优化器Optimizer" class="headerlink" title="6.2优化器Optimizer"></a>6.2优化器Optimizer</h2><p>Adam：结合RMSProp与动量 momentum</p>
+<h3 id="6-2优化器Optimizer"><a href="#6-2优化器Optimizer" class="headerlink" title="6.2优化器Optimizer"></a>6.2优化器Optimizer</h3><p>Adam：结合RMSProp与动量 momentum</p>
 <ul>
 <li>lr: float &gt;= 0. 学习率。</li>
 <li>beta_1: float, 0 &lt; beta &lt; 1. 通常接近于 1。</li>
@@ -203,7 +204,7 @@
 <li>beta_1/beta_2: floats, 0 &lt; beta &lt; 1. 通常接近于 1。</li>
 <li>epsilon: float &gt;= 0. 模糊因子. 若为 None, 默认为 K.epsilon()。</li>
 </ul>
-<h2 id="6-3-损失函数-代价函数Loss"><a href="#6-3-损失函数-代价函数Loss" class="headerlink" title="6.3 损失函数/代价函数Loss"></a>6.3 损失函数/代价函数Loss</h2><p>​    mean_squared_error(mse):均方误差</p>
+<h3 id="6-3-损失函数-代价函数Loss"><a href="#6-3-损失函数-代价函数Loss" class="headerlink" title="6.3 损失函数/代价函数Loss"></a>6.3 损失函数/代价函数Loss</h3><p>​    mean_squared_error(mse):均方误差</p>
 <p>​    mean_absolute_error(mae):平均绝对误差</p>
 <p>​    mean_absolute_percentage_error(mape):平均绝对百分误差</p>
 <p>​    mean_squared_logarithmic_error(msle):平均对数平方误差</p>
@@ -220,7 +221,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/09/17/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94DL%E8%B0%83%E5%8F%82/" data-id="ckmzn8pwm000cj2tdb8yr4whk" data-title="日常笔记——DL调参" class="article-share-link">Teilen</a>
+      <a data-url="http://example.com/2020/09/17/%F0%9F%93%92%20DL%E8%B0%83%E5%8F%82/" data-id="ckn8srpw10000xxtdbalbdo6c" data-title="📒 DL调参" class="article-share-link">Share</a>
       
       
       
@@ -231,7 +232,7 @@
 <nav id="article-nav">
   
     <a href="/2020/09/17/idea%E5%AE%9E%E8%B7%B5%E2%80%94%E2%80%94%E5%BE%AE%E4%BF%A1%E5%A5%BD%E5%8F%8B%E6%89%B9%E9%87%8F%E5%8F%91%E9%80%81%E5%AE%9A%E5%88%B6%E7%A5%9D%E7%A6%8F/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Neuer</strong>
+      <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
           idea实践——微信好友批量发送定制祝福
@@ -241,7 +242,7 @@
   
   
     <a href="/2020/09/17/%E6%95%B0%E6%8D%AE%E6%8E%A2%E7%B4%A2%E7%AE%80%E6%98%93%E5%B7%A5%E5%85%B7%E2%80%94%E2%80%94easyeda/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Älter</strong>
+      <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">数据探索简易工具——easyeda</div>
     </a>
   
@@ -257,7 +258,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Kategorien</h3>
+    <h3 class="widget-title">Categories</h3>
     <div class="widget">
       <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Django/">Django</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go/">Go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Notes/">Notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Others/">Others</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tools/">Tools</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/idea/">idea</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/">nosql</a></li></ul>
     </div>
@@ -272,7 +273,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archiv</h3>
+    <h3 class="widget-title">Archives</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li></ul>
     </div>
@@ -282,7 +283,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">letzter Beitrag</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
         
