@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   
   
-  <title>日常笔记——gRPC | Jimmy&#39;s blog</title>
+  <title>📒 日常笔记——gRPC | Jimmy&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="概述：日常笔记——gRPC">
 <meta property="og:type" content="article">
-<meta property="og:title" content="日常笔记——gRPC">
+<meta property="og:title" content="📒 日常笔记——gRPC">
 <meta property="og:url" content="http://example.com/2021/03/24/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94gRPC/index.html">
 <meta property="og:site_name" content="Jimmy&#39;s blog">
 <meta property="og:description" content="概述：日常笔记——gRPC">
@@ -16,7 +16,7 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200717180146751.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2RyZWFtX3N1Y2Nlc3Nvcg==,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https://github.com/grpc/proposal/raw/master/A6_graphics/basic_retry.png">
 <meta property="article:published_time" content="2021-03-24T05:41:02.611Z">
-<meta property="article:modified_time" content="2021-04-08T05:37:16.322Z">
+<meta property="article:modified_time" content="2021-04-08T05:41:05.057Z">
 <meta property="article:author" content="Jimmy Guo">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200717180146751.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2RyZWFtX3N1Y2Nlc3Nvcg==,size_16,color_FFFFFF,t_70">
@@ -94,7 +94,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      日常笔记——gRPC
+      📒 日常笔记——gRPC
     </h1>
   
 
@@ -105,7 +105,7 @@
         <p>概述：日常笔记——gRPC</p>
 <span id="more"></span>
 
-<h2 id="关于gRPC"><a href="#关于gRPC" class="headerlink" title="关于gRPC"></a>关于gRPC</h2><p>RPC，是Remote Procedure Call的简称，即远程过程调用，允许程序调用另一个地址空间（通常是另一台机器上）的类方法或函数的一种服务，是一种架设在计算机网络之上并隐藏底层网络技术，可以像调用本地服务一样调用远端程序，在编码代价不高的情况下提升吞吐的能力。</p>
+<h2 id="1-gRPC"><a href="#1-gRPC" class="headerlink" title="1. gRPC"></a>1. gRPC</h2><p>RPC，是Remote Procedure Call的简称，即远程过程调用，允许程序调用另一个地址空间（通常是另一台机器上）的类方法或函数的一种服务，是一种架设在计算机网络之上并隐藏底层网络技术，可以像调用本地服务一样调用远端程序，在编码代价不高的情况下提升吞吐的能力。</p>
 <p>gRPC 是 Google 开源的基于 Protobuf 和 Http2.0 协议的通信框架，默认使用 <em>protocol buffers</em>协议，是 Google 开源的一套成熟的结构数据的序列化机制，当然也可以使用其他数据格式如 JSON，不过通常都使用<em>protocol buffers</em>这种灵活、高效的数据格式。大部分RPC都是基于socket实现的，可以比http请求来的高效。</p>
 <p>将方法调用以及调用参数，响应参数等在两个服务器之间进行传输，就需要将这些参数序列化，gRPC采用的是protocol buffer的语法(检查proto)，通过proto语法可以定义好要调用的方法、和参数以及响应格式，可以很方便地完成远程方法调用，而且非常利于扩展和更新参数。</p>
 <p>Protocol Buffer是Google的跨语言，跨平台，可扩展机制的，用于序列化结构化数据，类似于Json和XML数据交换格式，Protobuf相对与XML和Json的不同之处，它是一种二进制的数据格式，具有更高的传输，打包和解包效率，不依赖于语言和平台，具有简单，数据量小，快速等优点，可以使用prorobuf将内容序列化后保存在文件中，加载文件，反序列化后就可以直接使用，网络通信时用于协议编解码的工具库。</p>
@@ -113,7 +113,7 @@
 <p>grpc工作原理：</p>
 <p>grpc stub(c++/python/…) —proto request —&gt; gRPC Server</p>
 <p>gRPC Server —proto response –&gt; grpc stub(c++/python/…)</p>
-<h2 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">pip uninstall grpcio</span><br><span class="line">pip uninstall protobuf</span><br><span class="line">pip uninstall grpcio_tools    # python下的protoc编译器</span><br><span class="line"></span><br><span class="line">grpcio&#x3D;&#x3D;1.36.1</span><br><span class="line">protobuf&#x3D;&#x3D;3.15.5</span><br><span class="line">grpcio_tools&#x3D;&#x3D;1.36.1</span><br></pre></td></tr></table></figure>
+<h2 id="2-Install"><a href="#2-Install" class="headerlink" title="2. Install"></a>2. Install</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">pip uninstall grpcio</span><br><span class="line">pip uninstall protobuf</span><br><span class="line">pip uninstall grpcio_tools    # python下的protoc编译器</span><br><span class="line"></span><br><span class="line">grpcio&#x3D;&#x3D;1.36.1</span><br><span class="line">protobuf&#x3D;&#x3D;3.15.5</span><br><span class="line">grpcio_tools&#x3D;&#x3D;1.36.1</span><br></pre></td></tr></table></figure>
 
 <h2 id="编写person-proto文件"><a href="#编写person-proto文件" class="headerlink" title="编写person.proto文件"></a>编写person.proto文件</h2><p>注意以.proto结尾，定义消息类型</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">syntax &#x3D; &quot;proto3&quot;;</span><br><span class="line">package person.info;</span><br><span class="line"></span><br><span class="line">import &quot;other.proto&quot;</span><br><span class="line"></span><br><span class="line">enum Department &#123;</span><br><span class="line">	UNKNOWN &#x3D; 0;</span><br><span class="line">  	WEB &#x3D; 1;</span><br><span class="line">  	NEWS &#x3D; 2;</span><br><span class="line">  	CAMERS &#x3D; 3;</span><br><span class="line">&#125;</span><br><span class="line">message Person &#123;</span><br><span class="line">  required string name &#x3D; 1;&#x2F;&#x2F; Your realname or nickname</span><br><span class="line">  optional string email &#x3D; 3 [default &#x3D; &quot;null&quot;];</span><br><span class="line">  float salary &#x3D; 4;</span><br><span class="line">  bool is_employed &#x3D; 5;</span><br><span class="line">  repeated Address address &#x3D; 6;</span><br><span class="line">	Department department &#x3D; 7;</span><br><span class="line">  other.Result result &#x3D; 8;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message Address &#123;</span><br><span class="line">	string provide &#x3D; 1;</span><br><span class="line">	string city &#x3D; 2;</span><br><span class="line">	string street &#x3D; 3;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message SearchRequest &#123;</span><br><span class="line">  required string query &#x3D; 1;</span><br><span class="line">  optional int32 page_number &#x3D; 2;</span><br><span class="line">  optional int32 result_per_page &#x3D; 3;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">service SearchService &#123;</span><br><span class="line">  rpc Search (SearchRequest) returns (SearchResponse);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">&#x2F;&#x2F;other.proto文件</span><br><span class="line">&#x2F;&#x2F;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line"></span><br><span class="line">message Result &#123;</span><br><span class="line">	string content &#x3D; 1;</span><br><span class="line">	bool status &#x3D; 2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message ZZZ &#123;</span><br><span class="line">  &#x2F;&#x2F; ...</span><br><span class="line">  extensions 100 to 199;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -270,7 +270,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/24/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94gRPC/" data-id="ckn0fva3m0004hltd3xay4af4" data-title="日常笔记——gRPC" class="article-share-link">Teilen</a>
+      <a data-url="http://example.com/2021/03/24/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94gRPC/" data-id="ckn0fva3m0004hltd3xay4af4" data-title="📒 日常笔记——gRPC" class="article-share-link">Teilen</a>
       
       
       
