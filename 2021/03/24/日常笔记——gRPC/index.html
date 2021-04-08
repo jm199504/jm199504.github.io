@@ -4,19 +4,19 @@
   <meta charset="utf-8">
   
   
-  <title>日常笔记——gRPC | Jimmy&#39;s blog</title>
+  <title>日常笔记——grpc | Jimmy&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="概述：日常笔记——gRPC">
+  <meta name="description" content="概述：日常笔记——grpc">
 <meta property="og:type" content="article">
-<meta property="og:title" content="日常笔记——gRPC">
+<meta property="og:title" content="日常笔记——grpc">
 <meta property="og:url" content="http://example.com/2021/03/24/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94gRPC/index.html">
 <meta property="og:site_name" content="Jimmy&#39;s blog">
-<meta property="og:description" content="概述：日常笔记——gRPC">
+<meta property="og:description" content="概述：日常笔记——grpc">
 <meta property="og:locale">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200717180146751.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2RyZWFtX3N1Y2Nlc3Nvcg==,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https://github.com/grpc/proposal/raw/master/A6_graphics/basic_retry.png">
 <meta property="article:published_time" content="2021-03-24T05:41:02.611Z">
-<meta property="article:modified_time" content="2021-04-02T06:15:08.246Z">
+<meta property="article:modified_time" content="2021-04-08T05:23:03.470Z">
 <meta property="article:author" content="Jimmy Guo">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200717180146751.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2RyZWFtX3N1Y2Nlc3Nvcg==,size_16,color_FFFFFF,t_70">
@@ -94,7 +94,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      日常笔记——gRPC
+      日常笔记——grpc
     </h1>
   
 
@@ -102,10 +102,10 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>概述：日常笔记——gRPC</p>
+        <p>概述：日常笔记——grpc</p>
 <span id="more"></span>
 
-<h1 id="gRPC"><a href="#gRPC" class="headerlink" title="gRPC"></a>gRPC</h1><h2 id="RPC服务定义"><a href="#RPC服务定义" class="headerlink" title="RPC服务定义"></a>RPC服务定义</h2><p>RPC，是Remote Procedure Call的简称，翻译成中文就是远程过程调用。RPC就是允许程序调用另一个地址空间（通常是另一台机器上）的类方法或函数的一种服务。<br>它是一种架设在计算机网络之上并隐藏底层网络技术，可以像调用本地服务一样调用远端程序，在编码代价不高的情况下提升吞吐的能力。</p>
+<h1 id="grpc"><a href="#grpc" class="headerlink" title="grpc"></a>grpc</h1><h2 id="RPC服务定义"><a href="#RPC服务定义" class="headerlink" title="RPC服务定义"></a>RPC服务定义</h2><p>RPC，是Remote Procedure Call的简称，翻译成中文就是远程过程调用。RPC就是允许程序调用另一个地址空间（通常是另一台机器上）的类方法或函数的一种服务。<br>它是一种架设在计算机网络之上并隐藏底层网络技术，可以像调用本地服务一样调用远端程序，在编码代价不高的情况下提升吞吐的能力。</p>
 <h2 id="RPC服务优势"><a href="#RPC服务优势" class="headerlink" title="RPC服务优势"></a>RPC服务优势</h2><p>单台机器运行服务的方案已经不足以支撑越来越多的网络请求负载，分布式方案开始兴起，一个业务场景可以被拆分在多个机器上运行，每个机器分别只完成一个或几个的业务模块。为了能让其他机器使用某台机器中的业务模块方法，就有了RPC服务，它是基于一种专门实现远程方法调用的协议上完成的服务。现如今很多主流语言都支持RPC服务，常用的有Java的Dubbo、Go的net/rpc &amp; RPCX、谷歌的gRPC等。</p>
 <h2 id="关于gRPC"><a href="#关于gRPC" class="headerlink" title="关于gRPC"></a>关于gRPC</h2><p>gRPC 是 Google 开源的基于 Protobuf 和 Http2.0 协议的通信框架。大部分RPC都是基于socket实现的，可以比http请求来的高效。gRPC是谷歌开发并开源的一款实现RPC服务的高性能框架，它是基于http2.0协议的，目前已经支持C、C++、Java、Node.js、Python、Ruby、Objective-C、PHP和C#等等语言。要将方法调用以及调用参数，响应参数等在两个服务器之间进行传输，就需要将这些参数序列化，gRPC采用的是protocol buffer的语法(检查proto)，通过proto语法可以定义好要调用的方法、和参数以及响应格式，可以很方便地完成远程方法调用，而且非常利于扩展和更新参数。</p>
 <p>Protocol Buffer是Google的跨语言，跨平台，可扩展机制的，用于序列化结构化数据，类似于Json和XML数据交换格式，Protobuf相对与XML和Json的不同之处，它是一种二进制的数据格式，具有更高的传输，打包和解包效率，不依赖于语言和平台，具有简单，数据量小，快速等优点，可以使用prorobuf将内容序列化后保存在文件中，加载文件，反序列化后就可以直接使用，网络通信时用于协议编解码的工具库。</p>
@@ -266,7 +266,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/24/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94gRPC/" data-id="ckn0fva3m0004hltd3xay4af4" data-title="日常笔记——gRPC" class="article-share-link">Teilen</a>
+      <a data-url="http://example.com/2021/03/24/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94gRPC/" data-id="ckn0fva3m0004hltd3xay4af4" data-title="日常笔记——grpc" class="article-share-link">Teilen</a>
       
       
       
@@ -333,7 +333,7 @@
       <ul>
         
           <li>
-            <a href="/2021/04/07/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ES%20&%20Kibana%20&KQL/">日常笔记——ES &amp; Kibana &amp;KQL</a>
+            <a href="/2021/04/07/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ES%20&%20Kibana%20&%20Logstash/">日常笔记——ES &amp; Kibana &amp; Logstash</a>
           </li>
         
           <li>
