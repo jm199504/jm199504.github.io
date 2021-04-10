@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Coverage | Jimmy&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="概述：本地单元测试统计工具——Coverage">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Coverage">
+<meta property="og:url" content="http://example.com/2021/03/25/Coverage/index.html">
+<meta property="og:site_name" content="Jimmy&#39;s blog">
+<meta property="og:description" content="概述：本地单元测试统计工具——Coverage">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-03-25T11:31:49.086Z">
+<meta property="article:modified_time" content="2021-04-10T03:11:14.120Z">
+<meta property="article:author" content="Jimmy Guo">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Jimmy's blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jimmy&#39;s blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Coverage" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/25/Coverage/" class="article-date">
+  <time class="dt-published" datetime="2021-03-25T11:31:49.086Z" itemprop="datePublished">2021-03-25</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Notes/">Notes</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Coverage
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>概述：本地单元测试统计工具——Coverage</p>
+<span id="more"></span>
+
+<p>[TOC]</p>
+<h2 id="Coverage"><a href="#Coverage" class="headerlink" title="Coverage"></a>Coverage</h2><p>Coverage是Python的一种统计测试覆盖率的包，<a target="_blank" rel="noopener" href="https://coverage.readthedocs.io/en/coverage-5.0.3/index.html">官网链接</a>。</p>
+<h2 id="1-install"><a href="#1-install" class="headerlink" title="1.install"></a>1.install</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install coverage</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-执行代码覆盖率统计"><a href="#2-执行代码覆盖率统计" class="headerlink" title="2.执行代码覆盖率统计"></a>2.执行代码覆盖率统计</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">coverage run test.py arg1 arg2</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-生成报告"><a href="#3-生成报告" class="headerlink" title="3.生成报告"></a>3.生成报告</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">coverage report</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-生成网页报告"><a href="#4-生成网页报告" class="headerlink" title="4.生成网页报告"></a>4.生成网页报告</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">coverage html -d covhtml</span><br><span class="line"># 其中-d表示指定文件夹covhtml</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-直接使用代码"><a href="#5-直接使用代码" class="headerlink" title="5.直接使用代码"></a>5.直接使用代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> coverage</span><br><span class="line">cov = coverage.coverage(source = [<span class="string">&#x27;totest&#x27;</span>])  <span class="comment"># source指定要执行统计的文件, 仅统计totest.py的覆盖率</span></span><br><span class="line">cov.start()</span><br><span class="line"><span class="comment">#coding</span></span><br><span class="line">cov.stop()</span><br><span class="line">cov.report()</span><br><span class="line">cov.html_report(directory=<span class="string">&#x27;covhtml&#x27;</span>)  <span class="comment"># directory指定生成html的路径</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="6-配置文件"><a href="#6-配置文件" class="headerlink" title="6.配置文件"></a>6.配置文件</h2><p>在当前目录下新建<code>.coveragerc</code>文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[run]</span><br><span class="line">branch &#x3D; True</span><br><span class="line">source &#x3D; .</span><br><span class="line"></span><br><span class="line">[report]</span><br><span class="line">show_missing &#x3D; True</span><br></pre></td></tr></table></figure>
+
+<p>配置文件遵循<code>ini</code>文件语法，使用<code>#</code>或者<code>;</code>添加注释，<code>[section]</code>代表一个配置块，例如<code>[run]</code>是一个配置块，其中<code>branch=True</code>表示是否统计条件语句的分支覆盖情况，例如统计<code>if</code>语句下True和False的两种情况；<code>source=.</code>表示指定需要统计的源代码目录，例如<code>.</code>表示当前目录；<code>show_missing=True</code>表示生成的统计报告中是否显示未覆盖的代码行号。</p>
+<h2 id="7-Django运行Coverage"><a href="#7-Django运行Coverage" class="headerlink" title="7.Django运行Coverage"></a>7.Django运行Coverage</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">coverage run manage.py test</span><br><span class="line"></span><br><span class="line">cov.html_report(directory&#x3D;&#39;covhtml&#39;)  # directory指定生成html的路径</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-示例"><a href="#8-示例" class="headerlink" title="8.示例"></a>8.示例</h2><p>![image-20210325200010126](/Users/junmingguo/Library/Application Support/typora-user-images/image-20210325200010126.png)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/25/Coverage/" data-id="cknbeav190000nltd9uk0hglk" data-title="Coverage" class="article-share-link">Teilen</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/04/01/Python/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          Python
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/03/24/Rabbitmq&Celery/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">Rabbitmq &amp; Celery</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Django/">Django</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Django-DRF/">Django & DRF</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go/">Go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Notes/">Notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Practice/">Practice</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Private/">Private</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/sql/">sql</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/04/10/Django/">Django &amp; DRF</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/07/EKL/">EKL</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/06/Sentry/">Sentry</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/01/k8s/">k8s</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/01/Python/">Python</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 Jimmy Guo<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

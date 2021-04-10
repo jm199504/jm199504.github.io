@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>k8s | Jimmy&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="概述：k8s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="k8s">
+<meta property="og:url" content="http://example.com/2021/04/01/k8s/index.html">
+<meta property="og:site_name" content="Jimmy&#39;s blog">
+<meta property="og:description" content="概述：k8s">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-04-01T10:32:52.244Z">
+<meta property="article:modified_time" content="2021-04-10T03:07:50.169Z">
+<meta property="article:author" content="Jimmy Guo">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Jimmy's blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jimmy&#39;s blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-k8s" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/01/k8s/" class="article-date">
+  <time class="dt-published" datetime="2021-04-01T10:32:52.244Z" itemprop="datePublished">2021-04-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Notes/">Notes</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      k8s
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>概述：k8s</p>
+<span id="more"></span>
+
+<h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><ol>
+<li><p>Kubernetes 集群包含：</p>
+<ul>
+<li><p><code>1 * Master</code></p>
+</li>
+<li><p><code>N * Node</code></p>
+</li>
+</ul>
+</li>
+<li><p>Kubernetes 中部署的最小单位是 pod</p>
+</li>
+<li><p>一个 pod 中可以包含一个或多个 Docker 容器，通常只有一个容器</p>
+</li>
+<li><p>Master节点：</p>
+<ul>
+<li>API Server：处理API操作，所有组件都会与API Server连接，组件之间不通常不独立连接，可水平扩展的组件</li>
+<li>Scheduler：调度器，完成调度操作，把一个用户提交的放置于合适的节点，可进行热备</li>
+<li>Controller Manager：控制器，对集群、状态的管理，比如自动对容器修复、自动水平扩张，可进行热备，面向用户的 API 服务、负责维护集群状态</li>
+<li>etcd：分布式存储系统，API Server的所需要的元信息都存储在etcd</li>
+</ul>
+</li>
+<li><p>Node节点：</p>
+<ul>
+<li>Pod：运行一个或者多个容器，真正运行这些pod的组件是kubelet</li>
+<li>Kubelet：通过api server接收pod运行所需的状态，提交到Container runtime组件中，在os真正创建容器需要的环境[监视指派到它所在Node上的Pod，包括创建、修改、监控、删除]</li>
+<li>Container Runtime：</li>
+<li>Storage Plugin：完成存储操作</li>
+<li>Network Plugin：完成网络操作，提供service network搭网组网，真正完成service组网的组件是kube-proxy,是利用ip table能力来组件kube network</li>
+<li>Kube-proxy：为Pod对象提供代理</li>
+</ul>
+</li>
+<li><p>Kubernets 分层架构</p>
+</li>
+</ol>
+<ul>
+<li><p>Ecosystem</p>
+</li>
+<li><p>Interface layer: client libraries and tools</p>
+</li>
+<li><p>governance layer: automation and policy enforcement</p>
+</li>
+<li><p>Application layer: deployment and routing</p>
+</li>
+<li><p>Nucleus: api and execution</p>
+</li>
+<li><p>(Container runtime, network plugin,volume plugin, image registry, cloud provider, identity provider)</p>
+</li>
+</ul>
+<p>- 核心层：Kubernetes最核心的功能，对外提供API构建高层的应用，对内提供插件式应用执行环境</p>
+<p>- 应用层：部署（无状态应用、有状态应用、批处理任务、集群应用等）和路由（服务发现、DNS解析等）</p>
+<p>- 管理层：系统度量（如基础设施、容器和网络的度量），自动化（如自动扩展、动态Provision等）以及策略管理（RBAC、Quota、PSP、NetworkPolicy等）</p>
+<p>- 接口层：kubectl命令行工具、客户端SDK以及集群联邦</p>
+<p>- 生态系统：在接口层之上的庞大容器集群管理调度的生态系统，可以划分为两个范</p>
+<p>Kubernetes外部：日志、监控、配置管理、CI、CD、Workflow、FaaS、OTS应用、ChatOps等Kubernetes外部：日志、监控、配置管理、CI、CD、Workflow、FaaS、OTS应用、ChatOps等<br>Kubernetes内部：CRI、CNI、CVI、镜像仓库、Cloud Provider、集群自身的配置和管理等</p>
+<ul>
+<li><p>kubelet： kubelet负责管理pods和它们上面的容器，images镜像、volumes、etc。</p>
+</li>
+<li><p>kube-proxy：每一个节点也运行一个简单的网络代理和负载均衡</p>
+</li>
+<li><p>etcd：所有master的持续状态都存在etcd的一个实例中。这可以很好地存储配置数据</p>
+</li>
+<li><p>Scheduler：调度器把未调度的pod通过binding api绑定到节点上。调度器是可插拔的，并且我们期待支持多集群的调度，未来甚至希望可以支持用户自定义的调度器。</p>
+</li>
+</ul>
+<ol start="7">
+<li><p>工作负载 Workload</p>
+<table>
+<thead>
+<tr>
+<th align="left">类型</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Deployment</td>
+<td align="left">声明了 Pod 的模板和控制 Pod 的运行策略，适用于部署无状态的应用程序。您可以根据业务需求，对 Deployment 中运行的 Pod 的副本数、调度策略、更新策略等进行声明。</td>
+</tr>
+<tr>
+<td align="left">StatefulSet</td>
+<td align="left">主要用于管理有状态的应用，创建的 Pod 拥有根据规范创建的持久型标识符。Pod 迁移或销毁重启后，标识符仍会保留。在需要持久化存储时，您可以通过标识符对存储卷进行一一对应。如果应用程序不需要持久的标识符，建议您使用 Deployment 部署应用程序。</td>
+</tr>
+<tr>
+<td align="left">固定 Pod IP 类型 StatefulSet</td>
+<td align="left">腾讯云容器服务提供扩展 StatefulSet 固定 IP 的能力，该类型的 StatefulSet 创建的 Pod 将通过弹性网卡分配真实的私有网络内的 IP 地址。腾讯云容器服务 VPC-CNI 的插件负责 IP 分配，当 Pod 重启或迁移，可实现 IP 地址不变。</td>
+</tr>
+<tr>
+<td align="left">DaemonSet</td>
+<td align="left">主要用于部署常驻集群内的后台程序，例如节点的日志采集。DaemonSet 保证在所有或部分节点上均运行指定的 Pod。新节点添加到集群内时，也会有自动部署 Pod。节点被移除集群后，Pod 将自动回收。</td>
+</tr>
+<tr>
+<td align="left">Job</td>
+<td align="left">Job 控制器会创建 1 - N 个 Pod，这些 Pod 按照运行规则运行，直至运行结束。</td>
+</tr>
+<tr>
+<td align="left">CronJob</td>
+<td align="left">根据指定的预定计划周期性地运行一个 Job。</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>配置项</p>
+<ul>
+<li><strong>ConfigMap</strong>：key-value 类型的键值对，通过 ConfigMap 您可以将配置和运行的镜像进行解耦，使得应用程序有更强的移植性。</li>
+<li><strong>Secret</strong>：key-value 类型的键值对，用于存储密码、令牌、密钥等敏感信息，降低直接对外暴露的风险。</li>
+</ul>
+</li>
+<li><p>存储卷</p>
+<p>存储卷（Volume）的核心只是一个目录，其中可能包含一些数据，Pod 中的容器可以访问该目录。存储卷的生命周期与 Pod 相同，并且长于该 Pod 下运行的容器，通常会在容器重启时保留数据。</p>
+</li>
+<li><p>PersistentVolume（PV）</p>
+<p>集群内的存储资源。例如，节点是集群的资源。PV 独立于 Pod 的生命周期，根据不同的 StorageClass 类型创建不同类型的 PV。</p>
+</li>
+<li><p>PersistentVolumeClaim（PVC）</p>
+</li>
+</ol>
+<p>   集群内的存储请求。例如，PV 是 Pod 使用节点资源，PVC 则声明使用 PV 资源。当 PV 资源不足时，PVC 也可以动态创建 PV。</p>
+<ol start="11">
+<li>StorageClass</li>
+</ol>
+<p>   描述存储的类型，集群管理员可以为集群定义不同的存储类别，容器服务当前仅支持私有网络，不支持基础网络。</p>
+<ol start="12">
+<li>Volume</li>
+</ol>
+<ul>
+<li>声明在Pod中容器可访问的文件目录；</li>
+<li>可以被挂载在Pod中一个或者多个容器指定路径下；</li>
+</ul>
+<ol start="13">
+<li>Deployment</li>
+</ol>
+<ul>
+<li>定义一组pod的副本数目、版本等</li>
+<li>通过控制器（Controller）维持pod的数目：自动恢复失败的pod</li>
+<li>通过控制器以指定的策略控制版本：滚动升级、重新生成、会滚等</li>
+</ul>
+<ol start="14">
+<li>Service</li>
+</ol>
+<ul>
+<li>提供访问一个或者多个Pod实例的稳定访问地址（可以避免用户访问具体Pod对应各自的IP address，对于外部用户而言仅了解单个IP address，当某个Pod崩后可自动切换至另一Pod）</li>
+<li>支持多种访问方式实现<ul>
+<li>ClusterIP</li>
+<li>NodePort</li>
+<li>LoadBalancer</li>
+</ul>
+</li>
+</ul>
+<ol start="15">
+<li>Namespaces</li>
+</ol>
+<ul>
+<li>一个集群内部的逻辑隔离机制（鉴权、资源额度）</li>
+<li>每一个资源（比如pod、deployment、service）都属于一个namespace</li>
+<li>同一个namespace中资源命名唯一</li>
+<li>不同namespace资源可重名</li>
+</ul>
+<ol start="16">
+<li>API - Label</li>
+</ol>
+<ul>
+<li>一组key：value</li>
+<li>可以被selector所查询，比如select color=red</li>
+<li>资源集合默认表达形式：例如service对应的一组pod</li>
+</ul>
+<ol start="17">
+<li><code>kubelet</code>：在集群中的每个节点上用来启动 pod 和容器等。</li>
+<li><code>kubectl</code>：用来与集群通信的命令行工具。</li>
+<li></li>
+</ol>
+<h2 id="docker实践"><a href="#docker实践" class="headerlink" title="docker实践"></a>docker实践</h2><ol>
+<li>编写Dockerfile</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">FROM nginx</span><br><span class="line">COPY html&#x2F;* &#x2F;html</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>构建Docker镜像</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t docker-demo:0.1 .</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>查看Docker镜像</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker image ls</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>运行Docker镜像</li>
+</ol>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name docker-demo -d -p <span class="number">8080</span><span class="symbol">:</span><span class="number">80</span> docker-<span class="symbol">demo:</span><span class="number">0.1</span></span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>查看容器运行状态</li>
+</ol>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container ps</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>容器清理</li>
+</ol>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker container stop docker-demo</span><br><span class="line">docker container rm docker-demo</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="安装-Kubernetes"><a href="#安装-Kubernetes" class="headerlink" title="安装 Kubernetes"></a>安装 Kubernetes</h2><ol>
+<li>kubectl k8s的命令后客户端</li>
+<li>本地运行k8s环境的minikube</li>
+<li>给minikube使用的虚拟化引擎xhyve</li>
+</ol>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">brew install kubectl</span><br><span class="line">brew cask install minikube</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果需要使用xhyve作为虚拟化引擎</span></span><br><span class="line">brew install docker-machine-driver-xhyve</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>minikube的默认虚拟化引擎是virtualbox，xhyve 是一个更轻量、性能更好的替代，安装后需要把所有者改为 <code>root:wheel</code>，并把 setuid 权限打开</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 如果需要使用xhyve作为虚拟化引擎</span></span><br><span class="line">sudo chown root:wheel /usr/<span class="built_in">local</span>/opt/docker-machine-driver-xhyve/bin/docker-machine-driver-xhyve</span><br><span class="line">sudo chmod u+s /usr/<span class="built_in">local</span>/opt/docker-machine-driver-xhyve/bin/docker-machine-driver-xhyve</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>启动 Minikube</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">minikube start</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果需要使用xhyve作为虚拟化引擎</span></span><br><span class="line">minikube start --vm-driver xhyve</span><br></pre></td></tr></table></figure>
+
+<p>如果你在第一次启动 Minikube 时遇到错误或被中断，后面重试仍然失败时，可以尝试运行 <code>minikube delete</code> 把集群删除，重新来过。</p>
+<ol start="6">
+<li>Minikube 启动时会自动配置 kubectl，把它指向 Minikube 提供的 Kubernetes API 服务。可以用下面的命令确认：</li>
+</ol>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kubectl config current-context</span><br><span class="line">minikube</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/04/01/k8s/" data-id="cknbeav1u0009nltdc999eu9j" data-title="k8s" class="article-share-link">Teilen</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/04/06/Sentry/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          Sentry
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/04/01/Python/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">Python</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Django/">Django</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Django-DRF/">Django & DRF</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go/">Go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Notes/">Notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Practice/">Practice</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Private/">Private</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/sql/">sql</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/04/10/Django/">Django &amp; DRF</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/07/EKL/">EKL</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/06/Sentry/">Sentry</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/01/k8s/">k8s</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/01/Python/">Python</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 Jimmy Guo<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
